@@ -9,12 +9,12 @@
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
-      background: #fff; /* Fond blanc */
-      color: #222; /* Texte foncé */
+      background: #fff;
+      color: #222;
     }
     header {
       background: rgba(255,255,255,0.95);
-      padding: 20px 20px; /* Réduit pour coller le logo à gauche */
+      padding: 20px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -30,9 +30,13 @@
       letter-spacing: 2px;
       margin: 0;
     }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
     nav a {
       color: #222;
-      margin: 0 15px;
       text-decoration: none;
       font-weight: 500;
       transition: 0.3s;
@@ -40,6 +44,39 @@
     nav a:hover {
       color: #d4af37;
     }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle div {
+      width: 25px;
+      height: 3px;
+      background: #222;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        width: 200px;
+        border: 1px solid #eee;
+        padding: 10px;
+        display: none;
+      }
+      nav.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
     .hero {
       height: 100vh;
       background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
@@ -148,11 +185,16 @@
 <body>
   <!-- Header -->
   <header>
-    <div style="display:flex; align-items:center; gap:10px;"> <!-- Gap réduit -->
-      <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix" style="width:73px; height:auto;"> <!-- Logo agrandi -->
+    <div style="display:flex; align-items:center; gap:10px;">
+      <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix" style="width:100px; height:auto;">
       <h1>RENOLIX</h1>
     </div>
-    <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav id="nav-links">
       <a href="index.html">Accueil</a>
       <a href="services.html">Services</a>
       <a href="realisations.html">Réalisations</a>
@@ -225,5 +267,11 @@
       <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="https://wa.me/213XXXXXXXXX">WhatsApp</a>
     </p>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav-links').classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
