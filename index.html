@@ -25,13 +25,17 @@ header {
 .logo-container img{width:50px;height:auto;}
 .header-center{justify-self:center;}
 .header-center h1{margin:0;color:#d4af37;font-size:22px;letter-spacing:1px;}
-.right-side{justify-self:end;display:flex;align-items:center;gap:15px;}
+.right-side{
+  justify-self:end;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding-right:15px; /* espace ajouté pour éviter que le bouton colle au bord */
+}
 /* NAV */
 nav {display:flex;gap:15px;align-items:center;}
 nav a{color:#222;text-decoration:none;font-weight:500;transition:.3s;}
 nav a:hover{color:#d4af37;}
-/* 🔑 ALIGNEMENT MENU AVEC LOGO */
-#nav-links {padding-left:20px;}
 /* MENU TOGGLE */
 .menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:5px;}
 .menu-toggle div{width:25px;height:3px;background:#222;margin:4px 0;transition:0.3s;}
