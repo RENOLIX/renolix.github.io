@@ -9,31 +9,39 @@
 body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
 /* HEADER */
 header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:5px 20px;
-  height:60px;
-  position:fixed;
-  width:100%;
-  top:0;
-  z-index:1000;
-  background:rgba(255,255,255,0.95);
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 .logo-container {display:flex;align-items:center;}
 .logo-container img{width:50px;height:auto;}
+/* NOM CENTRÉ */
 .header-center {
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }
-.header-center h1{margin:0;color:#d4af37;font-size:22px;letter-spacing:1px;}
+.header-center h1 {
+  margin: 0;
+  color: #d4af37;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
 .menu {
-  display:flex;
-  align-items:center;
-  padding-right:25px; /* espace pour que le hamburger ne colle pas */
+  display: flex;
+  align-items: center;
+  padding-right: 25px; /* espace du bord droit */
 }
+/* NAV */
 nav {display:flex;gap:15px;align-items:center;}
 nav a{color:#222;text-decoration:none;font-weight:500;transition:.3s;}
 nav a:hover{color:#d4af37;}
