@@ -16,7 +16,7 @@
     /* HEADER */
     header {
       background: rgba(255,255,255,0.95);
-      padding: 10px 20px; /* hauteur réduite */
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -25,17 +25,17 @@
       top: 0;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      height: 60px; /* hauteur fixe plus petite */
+      height: 60px;
     }
 
     header h1 {
       color: #d4af37;
-      font-size: 24px; /* légèrement réduit */
+      font-size: 24px;
       letter-spacing: 1px;
       margin: 0;
     }
 
-    header .logo-container {
+    .logo-container {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -81,7 +81,7 @@
     @media (max-width: 768px) {
       nav {
         position: absolute;
-        top: 60px; /* juste en dessous de la barre */
+        top: 60px;
         right: 10px;
         background: white;
         flex-direction: column;
@@ -216,6 +216,7 @@
   </style>
 </head>
 <body>
+
   <!-- HEADER -->
   <header>
     <div class="logo-container">
@@ -295,4 +296,18 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>&copy; 2025 RENOLIX. Tous
+    <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
+    <p>
+      <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="https://wa.me/213XXXXXXXXX">WhatsApp</a>
+    </p>
+  </footer>
+
+  <!-- JS MENU -->
+  <script>
+    function toggleMenu() {
+      document.getElementById('nav-links').classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>
