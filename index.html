@@ -16,16 +16,16 @@ body {
 /* Header */
 header {
   background: rgba(255,255,255,0.95);
-  padding: 10px 20px; /* Réduit la hauteur */
+  padding: 5px 20px; /* réduit la hauteur */
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  height: 60px; /* Hauteur fixe plus petite */
+  height: 60px;
 }
 .header-left {
   display: flex;
@@ -33,17 +33,17 @@ header {
   gap: 10px;
 }
 .header-left img {
-  width: 60px; /* Logo un peu plus petit */
+  width: 60px; /* logo légèrement plus petit */
   height: auto;
 }
 header h1 {
   color: #d4af37;
-  font-size: 24px; /* Réduit un peu */
+  font-size: 24px;
   margin: 0;
-  letter-spacing: 2px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  letter-spacing: 2px;
 }
 
 /* Navigation */
@@ -98,6 +98,8 @@ nav a:hover {
 </style>
 </head>
 <body>
+
+<!-- Header -->
 <header>
   <div class="header-left">
     <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
@@ -125,6 +127,62 @@ nav a:hover {
     <a href="contact.html" class="btn">Demander un devis</a>
   </div>
 </section>
+
+<!-- Services -->
+<section>
+  <h2 style="text-align:center; color:#d4af37; margin-bottom:40px;">Nos Services</h2>
+  <div class="services">
+    <div class="service-card">
+      <h3>Placo & Cloisons</h3>
+      <p>Création d’espaces modernes avec des finitions haut de gamme.</p>
+    </div>
+    <div class="service-card">
+      <h3>Électricité</h3>
+      <p>Installations sûres et élégantes avec un design raffiné.</p>
+    </div>
+    <div class="service-card">
+      <h3>Peinture & Finitions</h3>
+      <p>Des murs impeccables, sobres et élégants pour vos intérieurs.</p>
+    </div>
+    <div class="service-card">
+      <h3>Cuisines & Dressing</h3>
+      <p>Conception sur mesure alliant praticité et élégance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pourquoi nous choisir -->
+<section class="why">
+  <h2>Pourquoi choisir RENOLIX ?</h2>
+  <p>✔ Qualité supérieure des matériaux</p>
+  <p>✔ Finitions parfaites</p>
+  <p>✔ Respect des délais</p>
+  <p>✔ Accompagnement personnalisé</p>
+</section>
+
+<!-- Réalisations -->
+<section>
+  <h2 style="text-align:center; color:#d4af37; margin-bottom:40px;">Nos Réalisations</h2>
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1600585152925-2323047c5f7d?auto=format&fit=crop&w=800&q=80" alt="Projet 1">
+    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118d?auto=format&fit=crop&w=800&q=80" alt="Projet 2">
+    <img src="https://images.unsplash.com/photo-1600573472598-30eec6a4e4d0?auto=format&fit=crop&w=800&q=80" alt="Projet 3">
+  </div>
+</section>
+
+<!-- CTA Final -->
+<section style="text-align:center; padding:60px 20px; background:#f9f9f9;">
+  <h2 style="color:#d4af37; margin-bottom:20px;">Prêt à transformer votre intérieur ?</h2>
+  <a href="contact.html" class="btn">Contactez-nous maintenant</a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
+  <p>
+    <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="https://wa.me/213XXXXXXXXX">WhatsApp</a>
+  </p>
+</footer>
 
 <script>
 function toggleMenu() {
