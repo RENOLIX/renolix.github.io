@@ -12,9 +12,11 @@
       background: #fff;
       color: #222;
     }
+
+    /* HEADER */
     header {
       background: rgba(255,255,255,0.95);
-      padding: 20px 20px;
+      padding: 10px 20px; /* hauteur réduite */
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -23,32 +25,51 @@
       top: 0;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 60px; /* hauteur fixe plus petite */
     }
+
     header h1 {
       color: #d4af37;
-      font-size: 28px;
-      letter-spacing: 2px;
+      font-size: 24px; /* légèrement réduit */
+      letter-spacing: 1px;
       margin: 0;
     }
+
+    header .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-container img {
+      width: 60px;
+      height: auto;
+    }
+
     nav {
       display: flex;
       align-items: center;
       gap: 15px;
     }
+
     nav a {
       color: #222;
       text-decoration: none;
       font-weight: 500;
       transition: 0.3s;
     }
+
     nav a:hover {
       color: #d4af37;
     }
+
     .menu-toggle {
       display: none;
       flex-direction: column;
       cursor: pointer;
+      padding: 5px;
     }
+
     .menu-toggle div {
       width: 25px;
       height: 3px;
@@ -60,14 +81,15 @@
     @media (max-width: 768px) {
       nav {
         position: absolute;
-        top: 70px;
-        right: 0;
+        top: 60px; /* juste en dessous de la barre */
+        right: 10px;
         background: white;
         flex-direction: column;
-        width: 200px;
+        width: 180px;
         border: 1px solid #eee;
         padding: 10px;
         display: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
       }
       nav.active {
         display: flex;
@@ -77,6 +99,7 @@
       }
     }
 
+    /* HERO */
     .hero {
       height: 100vh;
       background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
@@ -99,59 +122,67 @@
       max-width: 700px;
     }
     .hero-content h2 {
-      font-size: 52px;
+      font-size: 48px;
       color: #d4af37;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       text-transform: uppercase;
     }
     .hero-content p {
-      font-size: 20px;
-      margin-bottom: 30px;
+      font-size: 18px;
+      margin-bottom: 25px;
     }
+
     .btn {
       display: inline-block;
-      padding: 14px 30px;
+      padding: 12px 28px;
       background: linear-gradient(90deg, #d4af37, #b8860b);
       color: #fff;
       font-weight: bold;
-      border-radius: 40px;
+      border-radius: 30px;
       text-decoration: none;
       transition: 0.3s;
     }
     .btn:hover {
-      box-shadow: 0 0 20px #d4af37;
+      box-shadow: 0 0 15px #d4af37;
     }
+
     section {
       padding: 80px 10%;
     }
+
+    /* SERVICES */
     .services {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
+      gap: 25px;
     }
     .service-card {
       background: #fff;
-      padding: 30px;
+      padding: 25px;
       border-radius: 15px;
       text-align: center;
       transition: 0.3s;
       border: 1px solid #eee;
     }
     .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      transform: translateY(-8px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
     }
     .service-card h3 {
       color: #d4af37;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
+
+    /* WHY */
     .why {
       text-align: center;
     }
     .why h2 {
       color: #d4af37;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
+
+    /* GALLERY */
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -167,9 +198,11 @@
     .gallery img:hover {
       transform: scale(1.05);
     }
+
+    /* FOOTER */
     footer {
       background: #f9f9f9;
-      padding: 30px;
+      padding: 25px;
       text-align: center;
       color: #555;
       font-size: 14px;
@@ -183,10 +216,10 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- HEADER -->
   <header>
-    <div style="display:flex; align-items:center; gap:10px;">
-      <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix" style="width:100px; height:auto;">
+    <div class="logo-container">
+      <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
       <h1>RENOLIX</h1>
     </div>
     <div class="menu-toggle" onclick="toggleMenu()">
@@ -203,7 +236,7 @@
     </nav>
   </header>
 
-  <!-- Hero -->
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
       <h2>Rénovation intérieure de luxe</h2>
@@ -212,9 +245,9 @@
     </div>
   </section>
 
-  <!-- Services -->
+  <!-- SERVICES -->
   <section>
-    <h2 style="text-align:center; color:#d4af37; margin-bottom:40px;">Nos Services</h2>
+    <h2 style="text-align:center; color:#d4af37; margin-bottom:35px;">Nos Services</h2>
     <div class="services">
       <div class="service-card">
         <h3>Placo & Cloisons</h3>
@@ -235,7 +268,7 @@
     </div>
   </section>
 
-  <!-- Pourquoi nous choisir -->
+  <!-- WHY -->
   <section class="why">
     <h2>Pourquoi choisir RENOLIX ?</h2>
     <p>✔ Qualité supérieure des matériaux</p>
@@ -244,9 +277,9 @@
     <p>✔ Accompagnement personnalisé</p>
   </section>
 
-  <!-- Réalisations -->
+  <!-- GALLERY -->
   <section>
-    <h2 style="text-align:center; color:#d4af37; margin-bottom:40px;">Nos Réalisations</h2>
+    <h2 style="text-align:center; color:#d4af37; margin-bottom:35px;">Nos Réalisations</h2>
     <div class="gallery">
       <img src="https://images.unsplash.com/photo-1600585152925-2323047c5f7d?auto=format&fit=crop&w=800&q=80" alt="Projet 1">
       <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118d?auto=format&fit=crop&w=800&q=80" alt="Projet 2">
@@ -254,24 +287,12 @@
     </div>
   </section>
 
-  <!-- CTA Final -->
-  <section style="text-align:center; padding:60px 20px; background:#f9f9f9;">
-    <h2 style="color:#d4af37; margin-bottom:20px;">Prêt à transformer votre intérieur ?</h2>
+  <!-- CTA -->
+  <section style="text-align:center; padding:50px 20px; background:#f9f9f9;">
+    <h2 style="color:#d4af37; margin-bottom:15px;">Prêt à transformer votre intérieur ?</h2>
     <a href="contact.html" class="btn">Contactez-nous maintenant</a>
   </section>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer>
-    <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
-    <p>
-      <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="https://wa.me/213XXXXXXXXX">WhatsApp</a>
-    </p>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('nav-links').classList.toggle('active');
-    }
-  </script>
-</body>
-</html>
+    <p>&copy; 2025 RENOLIX. Tous
