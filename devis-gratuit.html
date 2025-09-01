@@ -62,30 +62,33 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 
 /* --- FORMULAIRE LUXE --- */
 .form-container {
-  max-width: 1400px; /* largeur élargie */
+  max-width: 1400px;
   margin: 0 auto;
   background: #fff;
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.15);
   border: 2px solid #d4af37;
+  text-align: left; /* tout aligné à gauche */
 }
 .form-container label {
   display:block;
   margin-bottom:8px;
   font-weight:600;
   color:#333;
+  text-align:left;
 }
 .form-container input, 
 .form-container select, 
 .form-container textarea {
-  width:100%;
+  width:95%; /* réduit pour être plus proche de la gauche */
   padding:12px 15px;
   margin-bottom:20px;
   border:1px solid #ccc;
   border-radius:12px;
   font-size:15px;
   transition: all 0.3s ease;
+  margin-left:0; /* collé à gauche */
 }
 .form-container input:focus,
 .form-container select:focus,
@@ -99,7 +102,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   min-height:100px;
 }
 .form-container button {
-  width:100%;
+  width:95%;
   padding:15px;
   border:none;
   border-radius:15px;
@@ -110,6 +113,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   cursor:pointer;
   transition:0.4s;
   box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  margin-left:0;
 }
 .form-container button:hover {
   transform: scale(1.05);
@@ -162,7 +166,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
       <input type="email" name="Email" required>
 
       <label>Numéro de téléphone</label>
-      <div style="display:flex; gap:10px;">
+      <div style="display:flex; gap:10px; width:95%;">
         <input type="text" value="+213" disabled style="width:80px; text-align:center; font-weight:bold; background:#f9f9f9;">
         <input type="tel" name="Téléphone" placeholder="Ex: 542093648" required style="flex:1;">
       </div>
