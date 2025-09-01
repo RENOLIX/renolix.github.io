@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RENOLIX - À propos</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;line-height:1.7;}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.logo-container {display:flex;align-items:center;}
+.logo-container img{width:50px;height:auto;}
+.header-center {position: absolute; left: 47%; letter-spacing: 2px; transform: translateX(-50%); text-align: center;}
+.header-center a { text-decoration: none; }
+.header-center h1 {
+  margin:0;font-size:28.5px;font-family:'Playfair Display', serif;font-weight:700;
+  background: linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);
+  background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation: luxuryShine 2.2s linear infinite;
+}
+@keyframes luxuryShine {0% {background-position:200% 0;}100% {background-position:-200% 0;}}
+.menu { display: flex; align-items: center; padding-right: 25px; }
+nav { display:flex; gap:15px; align-items:center; }
+nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+nav a:hover { color:#d4af37; }
+.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
+.menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
+@media(max-width:768px){
+  nav {
+    position:absolute; top:60px; right:10px; width:220px; flex-direction:column; display:none;
+    padding:15px 20px; background: rgba(255,255,255,0.3); backdrop-filter: blur(12px);
+    border: 2px solid #d4af37; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 1050;
+    transition: all 0.4s ease;
+  }
+  nav.active {display:flex; flex-direction:column;}
+  nav a { margin:5px 0; padding:10px 15px; font-weight: 600; color:#222; text-transform: uppercase;
+          letter-spacing: 1px; border-radius: 10px; transition: all 0.3s ease; }
+  nav a:hover { background: linear-gradient(90deg,#d4af37,#ffd700); color:#fff; 
+               box-shadow: 0 0 10px #ffd700, 0 0 20px #d4af37; }
+  .submenu { display:none; flex-direction:column; padding-left:15px; margin-top:5px; border-left:2px solid #d4af37; }
+  .submenu a { padding:8px 15px; font-weight: 500; border-radius: 8px; transition: all 0.3s ease; }
+  .submenu a:hover { background: linear-gradient(90deg,#ffd700,#d4af37); color:#222; 
+                     box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37; }
+  .menu-toggle {display:flex;}
+}
+section { padding:60px 10%; max-width:1100px; margin:auto;}
+h2 { color:#d4af37; text-align:center; margin-bottom:25px; font-size:32px; font-family:'Playfair Display',serif;}
+.apropos-section {margin-bottom:60px;}
+.apropos-section h3 {font-size:24px; margin-bottom:15px; color:#000; font-weight:700;}
+.apropos-section p {font-size:16px; color:#444; text-align:justify;}
+footer { background:#f9f9f9; padding:25px; text-align:center; color:#555; font-size:14px; border-top:1px solid #eee; }
+footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
+  </div>
+    <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
+  <div class="menu">
+    <nav id="nav-links">
+      <a href="index.html">Accueil</a>
+      <div>
+        <a href="#" id="realisations-btn">Réalisations ▼</a>
+        <div class="submenu" id="realisations-submenu">
+          <a href="placo-platre.html">Placo & Plâtre</a>
+          <a href="dalle-de-sol.html">Dalle de sol</a>
+          <a href="Plomberie.html">Plomberie</a>
+          <a href="électricité.html">Électricité</a>
+          <a href="cuisine-&-dressing.html">Cuisine & Dressing</a>
+        </div>
+      </div>
+      <a href="à-propos.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </div>
+</header>
+
+<section style="margin-top:80px;">
+  <h2>À propos de RENOLIX</h2>
+
+  <div class="apropos-section">
+    <h3>Notre Vision</h3>
+    <p>
+      RENOLIX n’est pas une simple entreprise de rénovation, c’est une vision. Une vision qui consiste à transformer les espaces de vie en véritables œuvres d’art modernes et intemporelles. 
+      Nous croyons que chaque intérieur mérite une identité unique, une atmosphère qui reflète la personnalité de ses habitants et un confort pensé dans les moindres détails. 
+      Nous plaçons l’innovation, le design et l’élégance au centre de toutes nos créations, pour offrir une expérience haut de gamme qui dépasse la simple rénovation.
+    </p>
+  </div>
+
+  <div class="apropos-section">
+    <h3>Notre Expertise</h3>
+    <p>
+      Avec une équipe d’artisans passionnés, d’architectes d’intérieur et de techniciens hautement qualifiés, RENOLIX maîtrise l’art de conjuguer esthétisme et fonctionnalité. 
+      Chaque projet est pensé comme une pièce sur mesure, où le choix des matériaux, la précision des finitions et l’attention portée aux détails garantissent une qualité irréprochable. 
+      Du placo sophistiqué aux cuisines modernes, en passant par l’électricité et la plomberie intégrées intelligemment, nous apportons une expertise complète et luxueuse à vos projets.
+    </p>
+  </div>
+
+  <div class="apropos-section">
+    <h3>Notre Engagement</h3>
+    <p>
+      Chez RENOLIX, nous nous engageons à offrir plus qu’un simple service : une promesse. La promesse de délais respectés, de transparence totale et d’une satisfaction absolue. 
+      Chaque client est au cœur de notre démarche, car nous savons qu’une maison rénovée n’est pas qu’un projet, mais un rêve qui se réalise. 
+      Nous façonnons des intérieurs qui inspirent, qui durent et qui élèvent le quotidien à un niveau supérieur. RENOLIX, c’est l’art de sublimer vos espaces et d’élever votre confort.
+    </p>
+  </div>
+
+</section>
+
+<footer>
+  <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
+  <p>
+    <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank">Instagram</a> |
+    <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank">Facebook</a> |
+    <a href="https://wa.me/213542093648" target="_blank">WhatsApp</a>
+  </p>
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('nav-links').classList.toggle('active');
+}
+document.getElementById('realisations-btn').addEventListener('click', function(e){
+  e.preventDefault();
+  let submenu = document.getElementById('realisations-submenu');
+  if(submenu.style.display === "flex"){
+    submenu.style.display = "none";
+  } else {
+    submenu.style.display = "flex";
+    submenu.style.flexDirection = "column";
+  }
+});
+</script>
+
+</body>
+</html>
