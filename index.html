@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RENOLIX - Rénovation de luxe</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
 /* HEADER */
@@ -26,15 +26,18 @@ header {
 /* NOM CENTRÉ (légèrement à gauche) */
 .header-center {
   position: absolute;
-  left: 46%; /* ajustement du centrage */
+  left: 46%;
   transform: translateX(-50%);
   text-align: center;
 }
 .header-center h1 {
   margin: 0;
-  color: #d4af37;
   font-size: 22px;
   letter-spacing: 1px;
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(90deg, #d4af37, #000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .menu {
   display: flex;
