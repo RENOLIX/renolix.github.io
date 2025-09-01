@@ -165,8 +165,9 @@ nav a:hover { color:#d4af37; }
 /* SECTIONS */
 section { padding:40px 10%; }
 .services, .about-renolix { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; }
-.service-card, .about-card { background:#fff; padding:25px; border-radius:15px; text-align:center; transition:.3s; border:1px solid #eee; box-shadow:0 8px 18px rgba(0,0,0,0.15); }
+.service-card, .about-card { background:#fff; padding:25px; border-radius:15px; text-align:center; transition:.3s; border:1px solid #eee; box-shadow:0 8px 18px rgba(0,0,0,0.15); cursor:pointer; }
 .service-card:hover, .about-card:hover { transform:translateY(-8px); box-shadow:0 12px 25px rgba(0,0,0,0.2); }
+.service-card img { width:100%; height:180px; object-fit:cover; border-radius:10px; margin-bottom:15px; }
 .service-card h3, .about-card h3 { color:#d4af37; margin-bottom:12px; }
 h2 { margin-bottom:20px; }
 .why { text-align:center; }
@@ -184,7 +185,6 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <div class="logo-container">
     <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
   </div>
-  <!-- TITRE CLIQUABLE VERS L'ACCUEIL -->
   <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
 
   <div class="menu">
@@ -193,12 +193,12 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
       <div>
         <a href="#" id="realisations-btn">Réalisations ▼</a>
         <div class="submenu" id="realisations-submenu">
-          <a href="placo-platre.html">Placo & Plâtre</a>
-          <a href="Peinture.html">Peinture</a>
+          <a href="placo.html">Placo & Plâtre</a>
+          <a href="peinture.html">Peinture</a>
           <a href="dalle-de-sol.html">Dalle de sol</a>
-          <a href="Plomberie.html">Plomberie</a>
-          <a href="électricité.html">Électricité</a>
-          <a href="cuisine-&-dressing.html">Cuisine & Dressing</a>
+          <a href="plomberie.html">Plomberie</a>
+          <a href="electricite.html">Électricité</a>
+          <a href="cuisine-dressing.html">Cuisine & Dressing</a>
         </div>
       </div>
       <a href="à-propos.html">À propos</a>
@@ -229,12 +229,36 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 <section>
   <h2 style="text-align:center;color:#d4af37;">Nos Services</h2>
   <div class="services">
-    <div class="service-card"><h3>Placo & Cloisons</h3><p>Création d’espaces modernes avec des finitions haut de gamme.</p></div>
-    <div class="service-card"><h3>Dalle de sol & Faïence</h3><p>Pose de sols élégants et durables pour tous types d’intérieurs.</p></div>
-    <div class="service-card"><h3>Plomberie</h3><p>Installations fiables et soignées pour un confort optimal.</p></div>
-    <div class="service-card"><h3>Électricité</h3><p>Installations sûres et élégantes avec un design raffiné.</p></div>
-    <div class="service-card"><h3>Peinture & Finitions</h3><p>Des murs impeccables, sobres et élégants pour vos intérieurs.</p></div>
-    <div class="service-card"><h3>Cuisines & Dressing</h3><p>Conception sur mesure alliant praticité et élégance.</p></div>
+    <div class="service-card" onclick="window.location.href='placo.html'">
+      <img src="https://i.ibb.co/V7mZB1b/vue-de-face-homme-travaillant-et-portant-des-equipements-de-protection.jpg" alt="Placo & Cloisons">
+      <h3>Placo & Cloisons</h3>
+      <p>Création d’espaces modernes avec des finitions haut de gamme.</p>
+    </div>
+    <div class="service-card" onclick="window.location.href='peinture.html'">
+      <img src="https://i.ibb.co/jkgNpwP7/plein-coup-homme-versant-de-la-peinture.jpg" alt="Peinture & Finitions">
+      <h3>Peinture & Finitions</h3>
+      <p>Des murs impeccables, sobres et élégants pour vos intérieurs.</p>
+    </div>
+    <div class="service-card" onclick="window.location.href='dalle-de-sol.html'">
+      <img src="https://i.ibb.co/r2v1BgRL/pose-de-carreaux-de-ceramique-mortier-a-la-truelle-sur-un-sol-en-beton-en-vue-de-la-pose-de-carreaux.jpg" alt="Dalle de sol & Faïence">
+      <h3>Dalle de sol & Faïence</h3>
+      <p>Pose de sols élégants et durables pour tous types d’intérieurs.</p>
+    </div>
+    <div class="service-card" onclick="window.location.href='Plomberie.html'">
+      <img src="https://i.ibb.co/hxrRDNJd/travailleur-d-entretien-de-service-reparant.jpg" alt="Plomberie">
+      <h3>Plomberie</h3>
+      <p>Installations fiables et soignées pour un confort optimal.</p>
+    </div>
+    <div class="service-card" onclick="window.location.href='electricite.html'">
+      <img src="https://i.ibb.co/bRLHLs9w/un-electricien-qui-travaille-dans-un-central-electrique-avec-des-fusibles.jpg" alt="Électricité">
+      <h3>Électricité</h3>
+      <p>Installations sûres et élégantes avec un design raffiné.</p>
+    </div>
+    <div class="service-card" onclick="window.location.href='cuisine-dressing.html'">
+      <img src="https://i.ibb.co/7dyRW82x/point-de-vue-d-un-jeune-homme-a-tout-faire-a-l-aide-d-une-perceuse-electrique-pour-fixer-une-porte-d.jpg" alt="Cuisines & Dressing">
+      <h3>Cuisines & Dressing</h3>
+      <p>Conception sur mesure alliant praticité et élégance.</p>
+    </div>
   </div>
 </section>
 
@@ -274,7 +298,6 @@ function toggleMenu(){
   document.getElementById('nav-links').classList.toggle('active');
 }
 
-// Sous-menu Réalisations au clic
 document.getElementById('realisations-btn').addEventListener('click', function(e){
   e.preventDefault();
   let submenu = document.getElementById('realisations-submenu');
