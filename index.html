@@ -90,27 +90,84 @@ nav a:hover { color:#d4af37; }
 
 /* HERO */
 .hero {
-  height:100vh;
+  height:80vh;
   background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
-  display:flex; align-items:center; justify-content:center; text-align:center; color:white; position:relative;
+  display:flex; 
+  flex-direction:column; 
+  justify-content:space-between;
+  align-items:center;
+  text-align:center; 
+  color:white; 
+  position:relative;
+  padding:20px;
+  overflow:hidden;
 }
+
+/* NUAGE NOIR FLUO DERRIERE LE TEXTE */
+.hero::before {
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:80%;
+  height:100px;
+  background: rgba(0,0,0,0.6);
+  filter: blur(35px);
+  transform: translate(-50%, -50%);
+  z-index:2;
+  border-radius:50%;
+}
+
+/* OVERLAY NOIR SUR L'IMAGE POUR ASSOMBRIR */
 .hero::after {
   content:"";
-  position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4);
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.55);
+  z-index:1;
 }
-.hero-content { position:relative; z-index:1; max-width:700px; }
-.hero-content h2 { font-size:48px; color:#d4af37; margin-bottom:15px; text-transform:uppercase; }
-.hero-content p { font-size:18px; margin-bottom:25px; }
+
+.hero-content {
+  position:relative; 
+  z-index:3; 
+  max-width:700px;
+  margin-top:70px;
+}
+
+.hero-content h2 {
+  font-size: 40px;
+  color: #d4af37;
+  margin-bottom: 60px; 
+  text-transform: uppercase;
+}
+
+.hero-content p {
+  position:relative;
+  z-index:3;
+  font-size: 16px;
+  margin-top: 5px; 
+  margin-bottom: 25px; 
+  color:#fff;
+}
+
+.hero-btn {
+  position:relative;
+  z-index:3;
+  margin-bottom:90px;
+}
 .btn { display:inline-block; padding:12px 28px; background:linear-gradient(90deg,#d4af37,#b8860b); color:#fff; font-weight:bold; border-radius:30px; text-decoration:none; transition:.3s; }
 .btn:hover { box-shadow:0 0 15px #d4af37; }
 
 /* SECTIONS */
-section { padding:40px 10%; } /* réduit de 80px à 40px pour toutes les sections */
+section { padding:40px 10%; }
 .services, .about-renolix { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; }
 .service-card, .about-card { background:#fff; padding:25px; border-radius:15px; text-align:center; transition:.3s; border:1px solid #eee; box-shadow:0 8px 18px rgba(0,0,0,0.15); }
 .service-card:hover, .about-card:hover { transform:translateY(-8px); box-shadow:0 12px 25px rgba(0,0,0,0.2); }
 .service-card h3, .about-card h3 { color:#d4af37; margin-bottom:12px; }
-h2 { margin-bottom:20px; } /* réduit l'espace sous les titres */
+h2 { margin-bottom:20px; }
 .why { text-align:center; }
 .why h2 { color:#d4af37; margin-bottom:15px; }
 .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px; }
@@ -155,11 +212,10 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <div class="hero-content">
     <h2>Rénovation intérieure de luxe</h2>
     <p>Avec RENOLIX, transformez vos espaces en véritables œuvres d'art modernes et élégantes.</p>
-    <a href="contact.html" class="btn">Demander un devis</a>
   </div>
+  <a href="contact.html" class="btn hero-btn">Demande de devis gratuit</a>
 </section>
 
-<!-- À PROPOS DE RENOLIX -->
 <section class="about-renolix">
   <h2 style="text-align:center;color:#d4af37;">À propos de RENOLIX</h2>
   <div class="about-card">
@@ -172,8 +228,8 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <h2 style="text-align:center;color:#d4af37;">Nos Services</h2>
   <div class="services">
     <div class="service-card"><h3>Placo & Cloisons</h3><p>Création d’espaces modernes avec des finitions haut de gamme.</p></div>
-    <div class="service-card"><h3>Dalle de sol & Faïence</h3><p>Pose de sols et faïences avec précision et style élégant.</p></div>
-    <div class="service-card"><h3>Plomberie</h3><p>Installation et réparation de plomberie avec un design soigné.</p></div>
+    <div class="service-card"><h3>Dalle de sol & Faïence</h3><p>Pose de sols élégants et durables pour tous types d’intérieurs.</p></div>
+    <div class="service-card"><h3>Plomberie</h3><p>Installations fiables et soignées pour un confort optimal.</p></div>
     <div class="service-card"><h3>Électricité</h3><p>Installations sûres et élégantes avec un design raffiné.</p></div>
     <div class="service-card"><h3>Peinture & Finitions</h3><p>Des murs impeccables, sobres et élégants pour vos intérieurs.</p></div>
     <div class="service-card"><h3>Cuisines & Dressing</h3><p>Conception sur mesure alliant praticité et élégance.</p></div>
@@ -193,12 +249,12 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <div class="gallery">
     <img src="https://images.unsplash.com/photo-1600585152925-2323047c5f7d?auto=format&fit=crop&w=800&q=80" alt="Projet 1">
     <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118d?auto=format&fit=crop&w=800&q=80" alt="Projet 2">
-    <img src="https://images.unsplash.com/photo-1600573472598-30eec6a4e4d0?auto=format&fit=crop&w=800&q=80" alt="Projet 3">
+    <img src="https://images.unsplash.com/photo-1600573472598-30eec6a4e4d0?auto=format&w=800&q=80" alt="Projet 3">
   </div>
 </section>
 
 <section style="text-align:center;padding:50px 20px;background:#f9f9f9;">
-  <h2 style="color:#d4af37;">Prêt à transformer votre intérieur ?</h2>
+  <h2 style="color:#d4af37;margin-bottom:15px;">Prêt à transformer votre intérieur ?</h2>
   <a href="contact.html" class="btn">Contactez-nous maintenant</a>
 </section>
 
@@ -208,12 +264,20 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 </footer>
 
 <script>
-function toggleMenu(){ document.getElementById('nav-links').classList.toggle('active'); }
+function toggleMenu(){
+  document.getElementById('nav-links').classList.toggle('active');
+}
+
+// Sous-menu Réalisations au clic
 document.getElementById('realisations-btn').addEventListener('click', function(e){
   e.preventDefault();
   let submenu = document.getElementById('realisations-submenu');
-  submenu.style.display = (submenu.style.display === "flex") ? "none" : "flex";
-  submenu.style.flexDirection = "column";
+  if(submenu.style.display === "flex"){
+    submenu.style.display = "none";
+  } else {
+    submenu.style.display = "flex";
+    submenu.style.flexDirection = "column";
+  }
 });
 </script>
 
