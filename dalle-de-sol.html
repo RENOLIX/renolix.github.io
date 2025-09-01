@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RENOLIX - Réalisations</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.logo-container {display:flex;align-items:center;}
+.logo-container img{width:50px;height:auto;}
+.header-center {position: absolute; left: 47%; letter-spacing: 2px; transform: translateX(-50%); text-align: center;}
+.header-center a { text-decoration: none; }
+.header-center h1 {
+  margin:0;font-size:28.5px;font-family:'Playfair Display', serif;font-weight:700;
+  background: linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);
+  background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation: luxuryShine 2.2s linear infinite;
+}
+@keyframes luxuryShine {0% {background-position:200% 0;}100% {background-position:-200% 0;}}
+.menu { display: flex; align-items: center; padding-right: 25px; }
+nav { display:flex; gap:15px; align-items:center; }
+nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+nav a:hover { color:#d4af37; }
+.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
+.menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
+@media(max-width:768px){
+  nav {
+    position:absolute; top:60px; right:10px; width:220px; flex-direction:column; display:none;
+    padding:15px 20px; background: rgba(255,255,255,0.3); backdrop-filter: blur(12px);
+    border: 2px solid #d4af37; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 1050;
+    transition: all 0.4s ease;
+  }
+  nav.active {display:flex; flex-direction:column;}
+  nav a { margin:5px 0; padding:10px 15px; font-weight: 600; color:#222; text-transform: uppercase;
+          letter-spacing: 1px; border-radius: 10px; transition: all 0.3s ease; }
+  nav a:hover { background: linear-gradient(90deg,#d4af37,#ffd700); color:#fff; 
+               box-shadow: 0 0 10px #ffd700, 0 0 20px #d4af37; }
+  .submenu { display:none; flex-direction:column; padding-left:15px; margin-top:5px; border-left:2px solid #d4af37; }
+  .submenu a { padding:8px 15px; font-weight: 500; border-radius: 8px; transition: all 0.3s ease; }
+  .submenu a:hover { background: linear-gradient(90deg,#ffd700,#d4af37); color:#222; 
+                     box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37; }
+  .menu-toggle {display:flex;}
+}
+section { padding:40px 10%; }
+h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
+.gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
+.gallery img { width:100%; height:200px; object-fit:cover; border-radius:12px; transition:.3s; box-shadow:0 8px 18px rgba(0,0,0,0.15); }
+.gallery img:hover { transform:scale(1.05); box-shadow:0 12px 25px rgba(0,0,0,0.2); }
+footer { background:#f9f9f9; padding:25px; text-align:center; color:#555; font-size:14px; border-top:1px solid #eee; }
+footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
+  </div>
+    <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
+  <div class="menu">
+    <nav id="nav-links">
+      <a href="index.html">Accueil</a>
+      <div>
+        <a href="#" id="realisations-btn">Réalisations ▼</a>
+        <div class="submenu" id="realisations-submenu">
+          <a href="placo-platre.html">Placo & Plâtre</a>
+          <a href="Peinture.html">Peinture</a>
+          <a href="dalle-de-sol.html">Dalle de sol</a>
+          <a href="#">Plomberie</a>
+          <a href="#">Électricité</a>
+          <a href="#">Cuisine & Dressing</a>
+        </div>
+      </div>
+      <a href="about.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </div>
+</header>
+
+<section style="margin-top:80px;">
+  <h2>Dalle de sol & Faïence</h2>
+  <div class="gallery">
+    <!-- 30 images -->
+    <img src="https://picsum.photos/400/300?random=1" alt="Projet 1">
+    <img src="https://picsum.photos/400/300?random=2" alt="Projet 2">
+    <img src="https://picsum.photos/400/300?random=3" alt="Projet 3">
+    <img src="https://picsum.photos/400/300?random=4" alt="Projet 4">
+    <img src="https://picsum.photos/400/300?random=5" alt="Projet 5">
+    <img src="https://picsum.photos/400/300?random=6" alt="Projet 6">
+    <img src="https://picsum.photos/400/300?random=7" alt="Projet 7">
+    <img src="https://picsum.photos/400/300?random=8" alt="Projet 8">
+    <img src="https://picsum.photos/400/300?random=9" alt="Projet 9">
+    <img src="https://picsum.photos/400/300?random=10" alt="Projet 10">
+    <img src="https://picsum.photos/400/300?random=11" alt="Projet 11">
+    <img src="https://picsum.photos/400/300?random=12" alt="Projet 12">
+    <img src="https://picsum.photos/400/300?random=13" alt="Projet 13">
+    <img src="https://picsum.photos/400/300?random=14" alt="Projet 14">
+    <img src="https://picsum.photos/400/300?random=15" alt="Projet 15">
+    <img src="https://picsum.photos/400/300?random=16" alt="Projet 16">
+    <img src="https://picsum.photos/400/300?random=17" alt="Projet 17">
+    <img src="https://picsum.photos/400/300?random=18" alt="Projet 18">
+    <img src="https://picsum.photos/400/300?random=19" alt="Projet 19">
+    <img src="https://picsum.photos/400/300?random=20" alt="Projet 20">
+    <img src="https://picsum.photos/400/300?random=21" alt="Projet 21">
+    <img src="https://picsum.photos/400/300?random=22" alt="Projet 22">
+    <img src="https://picsum.photos/400/300?random=23" alt="Projet 23">
+    <img src="https://picsum.photos/400/300?random=24" alt="Projet 24">
+    <img src="https://picsum.photos/400/300?random=25" alt="Projet 25">
+    <img src="https://picsum.photos/400/300?random=26" alt="Projet 26">
+    <img src="https://picsum.photos/400/300?random=27" alt="Projet 27">
+    <img src="https://picsum.photos/400/300?random=28" alt="Projet 28">
+    <img src="https://picsum.photos/400/300?random=29" alt="Projet 29">
+    <img src="https://picsum.photos/400/300?random=30" alt="Projet 30">
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
+  <p>
+    <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank">Instagram</a> |
+    <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank">Facebook</a> |
+    <a href="https://wa.me/213542093648" target="_blank">WhatsApp</a>
+  </p>
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('nav-links').classList.toggle('active');
+}
+document.getElementById('realisations-btn').addEventListener('click', function(e){
+  e.preventDefault();
+  let submenu = document.getElementById('realisations-submenu');
+  if(submenu.style.display === "flex"){
+    submenu.style.display = "none";
+  } else {
+    submenu.style.display = "flex";
+    submenu.style.flexDirection = "column";
+  }
+});
+</script>
+
+</body>
+</html>
