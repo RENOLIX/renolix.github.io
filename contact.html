@@ -7,7 +7,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <style>
-body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
+/* Structure globale pour footer collé en bas */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family:'Montserrat',sans-serif;
+  background:#fff;
+  color:#222;
+}
+
+main {
+  flex: 1; /* pousse le footer en bas */
+}
+
+/* Header */
 header {
   display: flex;
   align-items: center;
@@ -56,21 +71,25 @@ nav a:hover { color:#d4af37; }
                      box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37; }
   .menu-toggle {display:flex;}
 }
+
+/* Section */
 section { padding:60px 10%; }
 h2 { text-align:center; margin-bottom:25px; font-size:28px; }
 .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
 .gallery img { width:100%; height:200px; object-fit:cover; border-radius:12px; transition:.3s; box-shadow:0 8px 18px rgba(0,0,0,0.15); }
 .gallery img:hover { transform:scale(1.05); box-shadow:0 12px 25px rgba(0,0,0,0.2); }
+
+/* Section Contact */
 .contact-section {
   background: linear-gradient(135deg,#fdfdfd,#f7f7f7);
   border-top: 3px solid #d4af37;
-  padding: 120px 10% 60px; /* espace en haut */
+  padding: 120px 10% 60px;
   text-align: center;
 }
 .contact-section h2 {
   font-size: 32px;
   margin-bottom: 20px;
-  color: #d4af37; /* couleur or */
+  color: #d4af37;
 }
 .contact-icons {
   display: flex;
@@ -108,7 +127,17 @@ h2 { text-align:center; margin-bottom:25px; font-size:28px; }
   color:#666;
   font-style: italic;
 }
-footer { background:#f9f9f9; padding:25px; text-align:center; color:#555; font-size:14px; border-top:1px solid #eee; }
+
+/* Footer */
+footer { 
+  background:#f9f9f9; 
+  padding:25px; 
+  text-align:center; 
+  color:#555; 
+  font-size:14px; 
+  border-top:1px solid #eee; 
+  margin-top:auto; /* colle le footer en bas */
+}
 footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 </style>
 </head>
@@ -142,24 +171,26 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </div>
 </header>
 
-<!-- Section Contact -->
-<section class="contact-section" id="contact">
-  <h2>Nous Contacter</h2>
-  <p>Pour vos projets de rénovation, notre équipe est à votre écoute.</p>
-  <div class="contact-icons">
-    <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank"><i class="bi bi-instagram"></i></a>
-    <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank"><i class="bi bi-facebook"></i></a>
-    <a href="https://wa.me/213542093648" target="_blank"><i class="bi bi-whatsapp"></i></a>
-    <a href="mailto:renolix.contact@gmail.com"><i class="bi bi-envelope-fill"></i></a>
-  </div>
-  <div class="contact-info">
-    <p><strong>Téléphone :</strong> <a href="tel:+213542093648">+213 542 09 36 48</a></p>
-    <p><strong>Email :</strong> <a href="mailto:renolix.dz@gmail.com">renolix.dz@gmail.com</a></p>
-  </div>
-  <div class="contact-extra">
-    ✨ Votre espace, notre savoir-faire. Transformons vos espaces en luxe intemporel.
-  </div>
-</section>
+<main>
+  <!-- Section Contact -->
+  <section class="contact-section" id="contact">
+    <h2>Nous Contacter</h2>
+    <p>Pour vos projets de rénovation, notre équipe est à votre écoute.</p>
+    <div class="contact-icons">
+      <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank"><i class="bi bi-instagram"></i></a>
+      <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank"><i class="bi bi-facebook"></i></a>
+      <a href="https://wa.me/213542093648" target="_blank"><i class="bi bi-whatsapp"></i></a>
+      <a href="mailto:renolix.contact@gmail.com"><i class="bi bi-envelope-fill"></i></a>
+    </div>
+    <div class="contact-info">
+      <p><strong>Téléphone :</strong> <a href="tel:+213542093648">+213 542 09 36 48</a></p>
+      <p><strong>Email :</strong> <a href="mailto:renolix.dz@gmail.com">renolix.dz@gmail.com</a></p>
+    </div>
+    <div class="contact-extra">
+      ✨ Votre espace, notre savoir-faire. Transformons vos espaces en luxe intemporel.
+    </div>
+  </section>
+</main>
 
 <footer>
   <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
