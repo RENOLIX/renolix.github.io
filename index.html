@@ -50,20 +50,16 @@ header {
 }
 
 /* MENU */
-.menu {
-  display: flex;
-  align-items: center;
-  padding-right: 25px;
-}
-nav {display:flex;gap:15px;align-items:center;}
-nav a{color:#222;text-decoration:none;font-weight:500;transition:.3s;}
-nav a:hover{color:#d4af37;}
+.menu { display: flex; align-items: center; padding-right: 25px; }
+nav { display:flex; gap:15px; align-items:center; }
+nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+nav a:hover { color:#d4af37; }
 
 /* MENU TOGGLE */
-.menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
-.menu-toggle div{width:25px;height:3px;background:#222;margin:4px 0;transition:0.3s;}
+.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
+.menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
 
-/* MOBILE MENU LUXE */
+/* MOBILE MENU */
 @media(max-width:768px){
   nav {
     position:absolute;
@@ -81,7 +77,7 @@ nav a:hover{color:#d4af37;}
     z-index: 1050;
     transition: all 0.4s ease;
   }
-  nav.active {display:flex;flex-direction:column;}
+  nav.active { display:flex; flex-direction:column; }
   nav a {
     margin:5px 0;
     padding:10px 15px;
@@ -116,12 +112,12 @@ nav a:hover{color:#d4af37;}
     color:#222;
     box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37;
   }
-  .menu-toggle {display:flex;}
+  .menu-toggle { display:flex; }
 }
 
 @keyframes submenuSlide {
-  0% {opacity:0; transform:translateY(-10px);}
-  100% {opacity:1; transform:translateY(0);}
+  0% { opacity:0; transform:translateY(-10px); }
+  100% { opacity:1; transform:translateY(0); }
 }
 
 /* HERO */
@@ -138,13 +134,11 @@ nav a:hover{color:#d4af37;}
 .hero::after{
   content:"";
   position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  top:0; left:0;
+  width:100%; height:100%;
   background:rgba(0,0,0,0.4);
 }
-.hero-content{position:relative;z-index:1;max-width:700px;}
+.hero-content{position:relative; z-index:1; max-width:700px;}
 .hero-content h2{font-size:48px;color:#d4af37;margin-bottom:15px;text-transform:uppercase;}
 .hero-content p{font-size:18px;margin-bottom:25px;}
 .btn{
@@ -160,15 +154,23 @@ nav a:hover{color:#d4af37;}
 .btn:hover{box-shadow:0 0 15px #d4af37;}
 
 section{padding:80px 10%;}
-.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
-.service-card{background:#fff;padding:25px;border-radius:15px;text-align:center;transition:.3s;border:1px solid #eee;}
-.service-card:hover{transform:translateY(-8px);box-shadow:0 8px 18px rgba(0,0,0,0.15);}
-.service-card h3{color:#d4af37;margin-bottom:12px;}
+.services, .about-renolix {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
+.service-card, .about-card{
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  transition:.3s;
+  border:1px solid #eee;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+.service-card:hover, .about-card:hover{transform:translateY(-8px);box-shadow:0 12px 25px rgba(0,0,0,0.2);}
+.service-card h3, .about-card h3{color:#d4af37;margin-bottom:12px;}
 .why{text-align:center;}
 .why h2{color:#d4af37;margin-bottom:20px;}
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;}
-.gallery img{width:100%;height:250px;object-fit:cover;border-radius:10px;transition:.3s;}
-.gallery img:hover{transform:scale(1.05);}
+.gallery img{width:100%;height:250px;object-fit:cover;border-radius:10px;transition:.3s;box-shadow:0 8px 18px rgba(0,0,0,0.15);}
+.gallery img:hover{transform:scale(1.05);box-shadow:0 12px 25px rgba(0,0,0,0.2);}
 footer{background:#f9f9f9;padding:25px;text-align:center;color:#555;font-size:14px;border-top:1px solid #eee;}
 footer a{color:#d4af37;text-decoration:none;margin:0 10px;}
 </style>
@@ -214,10 +216,22 @@ footer a{color:#d4af37;text-decoration:none;margin:0 10px;}
   </div>
 </section>
 
+<!-- À PROPOS DE RENOLIX -->
+<section class="about-renolix">
+  <h2 style="text-align:center;color:#d4af37;margin-bottom:35px;">À propos de RENOLIX</h2>
+  <div class="about-card">
+    <p>RENOLIX est une entreprise spécialisée dans la rénovation intérieure de luxe, alliant modernité et élégance pour créer des espaces uniques et raffinés. Notre mission est de transformer vos idées en réalisations haut de gamme avec une attention parfaite aux détails.</p>
+    <a href="about.html" class="btn">En savoir plus</a>
+  </div>
+</section>
+
+<!-- NOS SERVICES -->
 <section>
   <h2 style="text-align:center;color:#d4af37;margin-bottom:35px;">Nos Services</h2>
   <div class="services">
     <div class="service-card"><h3>Placo & Cloisons</h3><p>Création d’espaces modernes avec des finitions haut de gamme.</p></div>
+    <div class="service-card"><h3>Dalle de sol & Faïence</h3><p>Pose de sols et faïences élégants et durables pour tous vos espaces intérieurs.</p></div>
+    <div class="service-card"><h3>Plomberie</h3><p>Installations et rénovations de plomberie fiables et esthétiques, adaptées à vos besoins.</p></div>
     <div class="service-card"><h3>Électricité</h3><p>Installations sûres et élégantes avec un design raffiné.</p></div>
     <div class="service-card"><h3>Peinture & Finitions</h3><p>Des murs impeccables, sobres et élégants pour vos intérieurs.</p></div>
     <div class="service-card"><h3>Cuisines & Dressing</h3><p>Conception sur mesure alliant praticité et élégance.</p></div>
