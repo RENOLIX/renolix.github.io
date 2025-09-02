@@ -56,6 +56,23 @@ nav { display:flex; gap:15px; align-items:center; }
 nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
 nav a:hover { color:#d4af37; }
 
+/* ✅ Bouton connexion avec même style que "Demande de devis gratuit" */
+.connexion-btn {
+  display: inline-block;
+  background: linear-gradient(90deg,#d4af37,#b8860b);
+  color: #fff !important;
+  font-weight: bold;
+  padding: 8px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin-top: 10px;
+  transition: 0.3s;
+  text-align: center;
+}
+.connexion-btn:hover {
+  box-shadow: 0 0 15px #d4af37;
+}
+
 /* MENU TOGGLE */
 .menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
 .menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
@@ -204,6 +221,8 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
+      <!-- ✅ Bouton connexion -->
+      <a href="login.html" class="connexion-btn">Connexion</a>
     </nav>
     <div class="menu-toggle" onclick="toggleMenu()">
       <div></div><div></div><div></div>
