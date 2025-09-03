@@ -33,8 +33,11 @@
     .header-center {position:absolute;left:47%;transform:translateX(-50%);text-align:center;}
     .header-center a{text-decoration:none;}
     .header-center h1{
-      margin:0;font-size:32px;letter-spacing:2px;
-      font-family:'Playfair Display',serif;font-weight:700;
+      margin:0;
+      font-size:40px; /* ✅ Taille du titre RENOLIX augmentée */
+      letter-spacing:2px;
+      font-family:'Playfair Display',serif;
+      font-weight:700;
       background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);
       background-size:200% 200%;
       -webkit-background-clip:text;
@@ -158,7 +161,7 @@
 
     /* ✅ Responsive */
     @media (max-width:480px) {
-      .header-center h1 {font-size:22px;}
+      .header-center h1 {font-size:28px;} /* augmenté aussi sur mobile */
       .login-container {padding:20px; max-width:90%;}
     }
   </style>
