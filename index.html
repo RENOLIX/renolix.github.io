@@ -238,7 +238,28 @@ const profileMenuFirebase = document.getElementById('profileMenu');
 onAuthStateChanged(auth, user => {
   profileMenuFirebase.innerHTML = ''; // vider le menu
   if(user){
-    // Utilisateur connecté : afficher Déconnexion
+    // Email affiché
+    const emailItem = document.createElement('div');
+    emailItem.textContent = user.email;
+    emailItem.style.padding = "8px 10px";
+    emailItem.style.fontSize = "14px";
+    emailItem.style.color = "#555";
+    emailItem.style.borderBottom = "1px solid #eee";
+    profileMenuFirebase.appendChild(emailItem);
+
+    // Lien Profil
+    const profileLink = document.createElement('a');
+    profileLink.href = "profile.html"; // crée cette page si pas existante
+    profileLink.textContent = "Profil";
+    profileMenuFirebase.appendChild(profileLink);
+
+    // Lien Paramètres
+    const settingsLink = document.createElement('a');
+    settingsLink.href = "settings.html"; // crée cette page si pas existante
+    settingsLink.textContent = "Paramètres";
+    profileMenuFirebase.appendChild(settingsLink);
+
+    // Déconnexion
     const logoutLink = document.createElement('a');
     logoutLink.href = "#";
     logoutLink.textContent = "Déconnexion";
@@ -248,6 +269,7 @@ onAuthStateChanged(auth, user => {
       window.location.reload();
     });
     profileMenuFirebase.appendChild(logoutLink);
+
   } else {
     // Pas connecté : afficher Se connecter / S'inscrire
     const loginLink = document.createElement('a');
