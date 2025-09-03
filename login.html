@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion - RENOLIX</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body { margin:0;font-family:'Montserrat',sans-serif;background:#f4f4f4;color:#222; }
-    header { display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;z-index:1000;background:rgba(255,255,255,0.95);box-shadow:0 2px 10px rgba(0,0,0,0.1);}
-    .logo-container {display:flex;align-items:center;}
-    .logo-container img{width:50px;height:auto;}
-    .header-center {position:absolute;left:47%;transform:translateX(-50%);text-align:center;}
-    .header-center a{text-decoration:none;}
-    .header-center h1{margin:0;font-size:28.5px;letter-spacing:2px;font-family:'Playfair Display',serif;font-weight:700;background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite;}
-    @keyframes luxuryShine {0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-    .menu{display:flex;align-items:center;padding-right:25px;}
-    nav {display:flex;gap:15px;align-items:center;}
-    nav a {color:#222;text-decoration:none;font-weight:500;transition:.3s;}
-    nav a:hover {color:#d4af37;}
-    .menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
-    .menu-toggle div{width:25px;height:3px;background:#222;margin:4px 0;transition:0.3s;}
-    .submenu {display:none;flex-direction:column;padding-left:15px;margin-top:5px;border-left:2px solid #d4af37;}
-    .submenu a {padding:8px 15px;font-weight:500;border-radius:8px;transition:.3s;}
-    .submenu a:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#222;box-shadow:0 0 8px #ffd700,0 0 15px #d4af37;}
-    @media(max-width:768px){nav{position:absolute;top:60px;right:10px;width:220px;flex-direction:column;display:none;padding:15px 20px;background: rgba(255,255,255,0.3);backdrop-filter: blur(12px);border:2px solid #d4af37;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:1050;}nav.active{display:flex;flex-direction:column;}nav a{margin:5px 0;padding:10px 15px;font-weight:600;color:#222;text-transform:uppercase;letter-spacing:1px;border-radius:10px;transition:.3s;}nav a:hover{background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff;box-shadow:0 0 10px #ffd700,0 0 20px #d4af37;}.menu-toggle{display:flex;}}
-    .login-container {margin-top:120px;background:#fff;padding:25px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.15);width:90%;max-width:340px;text-align:center;margin-left:auto;margin-right:auto;box-sizing:border-box;}
-    .login-container h2 {color:#d4af37;margin-bottom:15px;font-size:22px;}
-    input {width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px;box-sizing:border-box;}
-    button {width:100%;padding:10px;margin-top:12px;border:none;border-radius:8px;background:linear-gradient(90deg,#d4af37,#b8860b);color:white;font-size:15px;font-weight:bold;cursor:pointer;transition:0.3s;}
-    button:hover {box-shadow:0 0 12px #d4af37;}
-    .link {display:block;margin-top:8px;font-size:13px;color:#555;text-decoration:none;}
-    .social-login {margin-top:15px;}
-    .social-login p {margin:8px 0;font-size:14px;color:#666;}
-    .social-btn {display:flex;align-items:center;justify-content:center;background:#f1f1f1;border:1px solid #ddd;padding:8px;border-radius:8px;margin:6px 0;cursor:pointer;transition:0.3s;font-size:14px;}
-    .social-btn:hover {background:#e6e6e6;}
-    .social-btn i {margin-right:8px;font-size:18px;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion - RENOLIX</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  body { margin:0;font-family:'Montserrat',sans-serif;background:#f4f4f4;color:#222; }
+  header { display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;z-index:1000;background:rgba(255,255,255,0.95);box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+  .logo-container {display:flex;align-items:center;}
+  .logo-container img{width:50px;height:auto;}
+  .header-center {position:absolute;left:47%;transform:translateX(-50%);text-align:center;}
+  .header-center a{text-decoration:none;}
+  .header-center h1{margin:0;font-size:28.5px;letter-spacing:2px;font-family:'Playfair Display',serif;font-weight:700;background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite;}
+  @keyframes luxuryShine {0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+  .menu{display:flex;align-items:center;padding-right:25px;}
+  nav {display:flex;gap:15px;align-items:center;}
+  nav a {color:#222;text-decoration:none;font-weight:500;transition:.3s;}
+  nav a:hover {color:#d4af37;}
+  .menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
+  .menu-toggle div{width:25px;height:3px;background:#222;margin:4px 0;transition:0.3s;}
+  .submenu {display:none;flex-direction:column;padding-left:15px;margin-top:5px;border-left:2px solid #d4af37;}
+  .submenu a {padding:8px 15px;font-weight:500;border-radius:8px;transition:.3s;}
+  .submenu a:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#222;box-shadow:0 0 8px #ffd700,0 0 15px #d4af37;}
+  @media(max-width:768px){nav{position:absolute;top:60px;right:10px;width:220px;flex-direction:column;display:none;padding:15px 20px;background: rgba(255,255,255,0.3);backdrop-filter: blur(12px);border:2px solid #d4af37;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:1050;}nav.active{display:flex;flex-direction:column;}nav a{margin:5px 0;padding:10px 15px;font-weight:600;color:#222;text-transform:uppercase;letter-spacing:1px;border-radius:10px;transition:.3s;}nav a:hover{background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff;box-shadow:0 0 10px #ffd700,0 0 20px #d4af37;}.menu-toggle{display:flex;}}
+  .login-container {margin-top:120px;background:#fff;padding:25px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.15);width:90%;max-width:340px;text-align:center;margin-left:auto;margin-right:auto;box-sizing:border-box;}
+  .login-container h2 {color:#d4af37;margin-bottom:15px;font-size:22px;}
+  input {width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px;box-sizing:border-box;}
+  button {width:100%;padding:10px;margin-top:12px;border:none;border-radius:8px;background:linear-gradient(90deg,#d4af37,#b8860b);color:white;font-size:15px;font-weight:bold;cursor:pointer;transition:0.3s;}
+  button:hover {box-shadow:0 0 12px #d4af37;}
+  .link {display:block;margin-top:8px;font-size:13px;color:#555;text-decoration:none;}
+  .social-login {margin-top:15px;}
+  .social-login p {margin:8px 0;font-size:14px;color:#666;}
+  .social-btn {display:flex;align-items:center;justify-content:center;background:#f1f1f1;border:1px solid #ddd;padding:8px;border-radius:8px;margin:6px 0;cursor:pointer;transition:0.3s;font-size:14px;}
+  .social-btn:hover {background:#e6e6e6;}
+  .social-btn i {margin-right:8px;font-size:18px;}
+</style>
 </head>
 <body>
 
@@ -113,9 +113,7 @@
   const provider = new GoogleAuthProvider();
   googleBtn.addEventListener('click', async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      alert("Connecté en tant que " + user.email);
+      await signInWithPopup(auth, provider);
       window.location.href = "index.html";
     } catch(err) { alert(err.message); }
   });
