@@ -7,163 +7,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body {
-      margin:0;
-      font-family:'Montserrat',sans-serif;
-      background:#f4f4f4;
-      color:#222;
-    }
-
-    /* HEADER repris du site principal */
-    header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:5px 20px;
-      height:60px;
-      position:fixed;
-      width:100%;
-      top:0;
-      z-index:1000;
-      background:rgba(255,255,255,0.95);
-      box-shadow:0 2px 10px rgba(0,0,0,0.1);
-    }
+    body {margin:0;font-family:'Montserrat',sans-serif;background:#f4f4f4;color:#222;}
+    header {display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;z-index:1000;background:rgba(255,255,255,0.95);box-shadow:0 2px 10px rgba(0,0,0,0.1);}
     .logo-container {display:flex;align-items:center;}
     .logo-container img{width:50px;height:auto;}
     .header-center {position:absolute;left:47%;transform:translateX(-50%);text-align:center;}
     .header-center a{text-decoration:none;}
-    .header-center h1{
-      margin:0;
-      font-size:40px;
-      letter-spacing:2px;
-      font-family:'Playfair Display',serif;
-      font-weight:700;
-      background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);
-      background-size:200% 200%;
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      animation:luxuryShine 2.2s linear infinite;
-    }
-    @keyframes luxuryShine {
-      0% {background-position:200% 0;}
-      100% {background-position:-200% 0;}
-    }
+    .header-center h1{margin:0;font-size:40px;letter-spacing:2px;font-family:'Playfair Display',serif;font-weight:700;background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite;}
+    @keyframes luxuryShine {0% {background-position:200% 0;} 100% {background-position:-200% 0;}}
     .menu{display:flex;align-items:center;padding-right:25px;}
     nav {display:flex;gap:15px;align-items:center;}
     nav a {color:#222;text-decoration:none;font-weight:500;transition:.3s;}
     nav a:hover {color:#d4af37;}
     .menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
     .menu-toggle div{width:25px;height:3px;background:#222;margin:4px 0;transition:0.3s;}
-
-    /* Sous-menu */
     .submenu {display:none;flex-direction:column;padding-left:15px;margin-top:5px;border-left:2px solid #d4af37;}
     .submenu a {padding:8px 15px;font-weight:500;border-radius:8px;transition:.3s;}
     .submenu a:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#222;box-shadow:0 0 8px #ffd700,0 0 15px #d4af37;}
-
-    /* Menu mobile */
     @media(max-width:768px){
-      nav {
-        position:absolute;
-        top:60px;
-        right:10px;
-        width:220px;
-        flex-direction:column;
-        display:none;
-        padding:15px 20px;
-        background: rgba(255,255,255,0.3);
-        backdrop-filter: blur(12px);
-        border:2px solid #d4af37;
-        border-radius:20px;
-        box-shadow:0 10px 25px rgba(0,0,0,0.25);
-        z-index:1050;
-      }
+      nav {position:absolute;top:60px;right:10px;width:220px;flex-direction:column;display:none;padding:15px 20px;background: rgba(255,255,255,0.3);backdrop-filter: blur(12px);border:2px solid #d4af37;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:1050;}
       nav.active {display:flex;flex-direction:column;}
       nav a {margin:5px 0;padding:10px 15px;font-weight:600;color:#222;text-transform:uppercase;letter-spacing:1px;border-radius:10px;transition:.3s;}
       nav a:hover {background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff;box-shadow:0 0 10px #ffd700,0 0 20px #d4af37;}
       .menu-toggle {display:flex;}
     }
-
-    /* FORMULAIRE */
-    .register-container {
-      margin-top:120px;
-      background:#fff;
-      padding:25px;
-      border-radius:15px;
-      box-shadow:0 8px 20px rgba(0,0,0,0.15);
-      width:90%;
-      max-width:340px;
-      text-align:center;
-      margin-left:auto;
-      margin-right:auto;
-      box-sizing:border-box;
-    }
-    .register-container h2 {
-      color:#d4af37;
-      margin-bottom:15px;
-      font-size:22px;
-    }
-    input {
-      width:100%;
-      padding:10px;
-      margin:8px 0;
-      border:1px solid #ccc;
-      border-radius:8px;
-      font-size:15px;
-      box-sizing:border-box;
-    }
-    button {
-      width:100%;
-      padding:10px;
-      margin-top:12px;
-      border:none;
-      border-radius:8px;
-      background:linear-gradient(90deg,#d4af37,#b8860b);
-      color:white;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
-    }
+    .register-container {margin-top:120px;background:#fff;padding:25px;border-radius:15px;box-shadow:0 8px 20px rgba(0,0,0,0.15);width:90%;max-width:340px;text-align:center;margin-left:auto;margin-right:auto;box-sizing:border-box;}
+    .register-container h2 {color:#d4af37;margin-bottom:15px;font-size:22px;}
+    input {width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px;box-sizing:border-box;}
+    button {width:100%;padding:10px;margin-top:12px;border:none;border-radius:8px;background:linear-gradient(90deg,#d4af37,#b8860b);color:white;font-size:15px;font-weight:bold;cursor:pointer;transition:0.3s;}
     button:hover {box-shadow:0 0 12px #d4af37;}
-    .link {
-      display:block;
-      margin-top:8px;
-      font-size:13px;
-      color:#555;
-      text-decoration:none;
-    }
-    .social-login {
-      margin-top:15px;
-    }
-    .social-login p {
-      margin:8px 0;
-      font-size:14px;
-      color:#666;
-    }
-    .social-btn {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#f1f1f1;
-      border:1px solid #ddd;
-      padding:8px;
-      border-radius:8px;
-      margin:6px 0;
-      cursor:pointer;
-      transition:0.3s;
-      font-size:14px;
-    }
+    .link {display:block;margin-top:8px;font-size:13px;color:#555;text-decoration:none;}
+    .social-login {margin-top:15px;}
+    .social-login p {margin:8px 0;font-size:14px;color:#666;}
+    .social-btn {display:flex;align-items:center;justify-content:center;background:#f1f1f1;border:1px solid #ddd;padding:8px;border-radius:8px;margin:6px 0;cursor:pointer;transition:0.3s;font-size:14px;}
     .social-btn:hover {background:#e6e6e6;}
-    .social-btn i {
-      margin-right:8px;
-      font-size:18px;
-    }
-
-    /* ✅ Responsive */
-    @media (max-width:480px) {
-      .header-center h1 {font-size:28px;}
-      .register-container {padding:20px; max-width:90%;}
-    }
+    .social-btn i {margin-right:8px;font-size:18px;}
+    @media (max-width:480px) {.header-center h1 {font-size:28px;} .register-container {padding:20px; max-width:90%;}}
   </style>
 </head>
 <body>
@@ -173,7 +52,6 @@
     <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
   </div>
   <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
-
   <div class="menu">
     <nav id="nav-links">
       <a href="index.html">Accueil</a>
@@ -192,19 +70,17 @@
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <div></div><div></div><div></div>
-    </div>
+    <div class="menu-toggle" onclick="toggleMenu()"><div></div><div></div><div></div></div>
   </div>
 </header>
 
 <div class="register-container">
   <h2>Créer un compte</h2>
-  <form>
-    <input type="text" placeholder="Nom complet" required>
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Mot de passe" required>
-    <input type="password" placeholder="Confirmer le mot de passe" required>
+  <form id="register-form">
+    <input type="text" id="name" placeholder="Nom complet" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <input type="password" id="confirm-password" placeholder="Confirmer le mot de passe" required>
     <button type="submit">S'inscrire</button>
   </form>
 
@@ -216,6 +92,48 @@
 
   <a href="login.html" class="link">Vous avez déjà un compte ? Connectez-vous</a>
 </div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCK_JRF3Pzml-7JvYLpbXHTXIc7ntjCIXY",
+    authDomain: "renolix.firebaseapp.com",
+    projectId: "renolix",
+    storageBucket: "renolix.firebasestorage.app",
+    messagingSenderId: "693930423888",
+    appId: "1:693930423888:web:d9eabdb9cce3e646ee8355",
+    measurementId: "G-9DH4V5X8WD"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const form = document.getElementById('register-form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if(password !== confirmPassword){
+      alert("Les mots de passe ne correspondent pas !");
+      return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        alert("Compte créé avec succès !");
+        window.location.href = "login.html"; // Redirige vers login après inscription
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  });
+</script>
 
 <script>
 function toggleMenu(){
