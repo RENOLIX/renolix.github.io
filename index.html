@@ -8,16 +8,143 @@
 <style>
 body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
 
-/* HERO */
-.hero {height:80vh;background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover; display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center; color:white; position:relative; padding:20px; overflow:hidden;}
-.hero::before {content:""; position:absolute; top:50%; left:50%; width:80%; height:100px; background: rgba(0,0,0,0.6); filter: blur(35px); transform:translate(-50%, -50%); z-index:2; border-radius:50%;}
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.logo-container {display:flex;align-items:center;}
+.logo-container img{width:50px;height:auto;}
+
+/* NOM CENTRÉ avec animation or-noir diagonal */
+.header-center {
+  position: absolute;
+  left: 47%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.header-center a { text-decoration: none; display:flex; align-items:center; gap:10px; }
+.header-center h1 {
+  margin: 0;
+  font-size: 28.5px;
+  letter-spacing: 2px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  background: linear-gradient(-45deg, #000 20%, #d4af37 50%, #000 80%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: luxuryShine 2.2s linear infinite;
+}
+.header-center img.profile-icon {
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  cursor:pointer;
+  border:2px solid #d4af37;
+}
+.profile-menu {
+  display:none;
+  position:absolute;
+  top:50px;
+  right:0;
+  background:#fff;
+  border:1px solid #d4af37;
+  border-radius:10px;
+  padding:10px;
+  min-width:150px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  z-index:2000;
+}
+.profile-menu a {
+  display:block;
+  text-decoration:none;
+  color:#222;
+  padding:8px 10px;
+  border-radius:5px;
+  transition:0.3s;
+}
+.profile-menu a:hover {background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff;}
+
+@keyframes luxuryShine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* MENU */
+.menu { display: flex; align-items: center; padding-right: 25px; }
+nav { display:flex; gap:15px; align-items:center; }
+nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+nav a:hover { color:#d4af37; }
+
+/* ✅ Bouton connexion */
+.connexion-btn {
+  display: inline-block;
+  background: linear-gradient(90deg,#d4af37,#b8860b);
+  color: #fff !important;
+  font-weight: bold;
+  padding: 8px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin-top: 10px;
+  transition: 0.3s;
+  text-align: center;
+}
+.connexion-btn:hover {
+  box-shadow: 0 0 15px #d4af37;
+}
+
+/* MENU TOGGLE */
+.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
+.menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
+
+/* MOBILE MENU */
+@media(max-width:768px){
+  nav {
+    position:absolute;
+    top:60px;
+    right:10px;
+    width:220px;
+    flex-direction:column;
+    display:none;
+    padding:15px 20px;
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(12px);
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    z-index: 1050;
+    transition: all 0.4s ease;
+  }
+  nav.active {display:flex; flex-direction:column;}
+  nav a { margin:5px 0; padding:10px 15px; font-weight: 600; color:#222; text-transform: uppercase; letter-spacing: 1px; border-radius: 10px; transition: all 0.3s ease; }
+  nav a:hover { background: linear-gradient(90deg,#d4af37,#ffd700); color:#fff; box-shadow: 0 0 10px #ffd700, 0 0 20px #d4af37; }
+  .submenu { display:none; flex-direction:column; padding-left:15px; margin-top:5px; border-left:2px solid #d4af37; animation: submenuSlide 0.4s ease forwards; }
+  .submenu a { padding:8px 15px; font-weight: 500; border-radius: 8px; transition: all 0.3s ease; }
+  .submenu a:hover { background: linear-gradient(90deg,#ffd700,#d4af37); color:#222; box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37; }
+  .menu-toggle {display:flex;}
+}
+@keyframes submenuSlide { 0% {opacity:0; transform:translateY(-10px);} 100% {opacity:1; transform:translateY(0);} }
+
+/* HERO et sections (inchangés) */
+.hero {height:80vh; background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover; display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center; color:white; position:relative; padding:20px; overflow:hidden;}
+.hero::before {content:""; position:absolute; top:50%; left:50%; width:80%; height:100px; background: rgba(0,0,0,0.6); filter: blur(35px); transform: translate(-50%, -50%); z-index:2; border-radius:50%;}
 .hero::after {content:""; position:absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.55); z-index:1;}
 .hero-content {position:relative; z-index:3; max-width:700px; margin-top:150px;}
-.hero-content h2 {font-size:40px; color:#d4af37; margin-bottom:70px; text-transform:uppercase;}
-.hero-content p {position:relative; z-index:3; font-size:16px; margin-top:5px; margin-bottom:60px; color:#fff;}
+.hero-content h2 {font-size: 40px; color: #d4af37; margin-bottom: 70px; text-transform: uppercase;}
+.hero-content p {position:relative; z-index:3; font-size: 16px; margin-top: 5px; margin-bottom: 60px; color:#fff;}
 .hero-btn {position:relative; z-index:3; margin-bottom:90px;}
-.btn {display:inline-block; padding:12px 28px; background:linear-gradient(90deg,#d4af37,#b8860b); color:#fff; font-weight:bold; border-radius:30px; text-decoration:none; transition:.3s;}
-.btn:hover {box-shadow:0 0 15px #d4af37;}
+.btn { display:inline-block; padding:12px 28px; background:linear-gradient(90deg,#d4af37,#b8860b); color:#fff; font-weight:bold; border-radius:30px; text-decoration:none; transition:.3s; }
+.btn:hover { box-shadow:0 0 15px #d4af37; }
 
 /* SECTIONS */
 section { padding:40px 10%; }
@@ -38,46 +165,47 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 </head>
 <body>
 
-<!-- HEADER PLACEHOLDER -->
-<div id="header-placeholder"></div>
+<header>
+  <div class="logo-container">
+    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
+  </div>
 
-<script>
-fetch('header.html')
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('header-placeholder').innerHTML = data;
+  <div class="header-center">
+    <a href="index.html">
+      <h1>RENOLIX</h1>
+      <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profil" class="profile-icon" id="profileIcon">
+    </a>
+    <div class="profile-menu" id="profileMenu">
+      <a href="login.html">Se connecter</a>
+      <a href="register.html">S'inscrire</a>
+    </div>
+  </div>
 
-    // Menu Hamburger
-    const toggle = document.querySelector('.menu-toggle');
-    const nav = document.getElementById('nav-links');
-    toggle.addEventListener('click', () => nav.classList.toggle('active'));
+  <div class="menu">
+    <nav id="nav-links">
+      <a href="index.html">Accueil</a>
+      <div>
+        <a href="#" id="realisations-btn">Réalisations ▼</a>
+        <div class="submenu" id="realisations-submenu">
+          <a href="placo-platre.html">Placo & Plâtre</a>
+          <a href="Peinture.html">Peinture</a>
+          <a href="dalle-de-sol.html">Dalle de sol</a>
+          <a href="Plomberie.html">Plomberie</a>
+          <a href="électricité.html">Électricité</a>
+          <a href="cuisine-&-dressing.html">Cuisine & Dressing</a>
+        </div>
+      </div>
+      <a href="devis-gratuit.html">Devis Gratuit</a>
+      <a href="à-propos.html">À propos</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="connexion-btn">Connexion</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </div>
+</header>
 
-    // Sous-menu Réalisations
-    const btn = document.getElementById('realisations-btn');
-    const submenu = document.getElementById('realisations-submenu');
-    btn.addEventListener('click', e=>{
-      e.preventDefault();
-      submenu.style.display = submenu.style.display === "flex" ? "none" : "flex";
-      submenu.style.flexDirection = "column";
-    });
-
-    // Menu profil
-    const profileIcon = document.getElementById('profileIcon');
-    const profileMenu = document.getElementById('profileMenu');
-    profileIcon.addEventListener('click', e=>{
-      e.preventDefault();
-      profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-    });
-
-    document.addEventListener('click', e=>{
-      if(!profileIcon.contains(e.target) && !profileMenu.contains(e.target)){
-        profileMenu.style.display = 'none';
-      }
-    });
-  });
-</script>
-
-<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h2>Rénovation intérieure de luxe</h2>
@@ -86,7 +214,6 @@ fetch('header.html')
   <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
 </section>
 
-<!-- À propos -->
 <section class="about-renolix">
   <h2 style="text-align:center;color:#d4af37;">À propos de RENOLIX</h2>
   <div class="about-card">
@@ -95,7 +222,6 @@ fetch('header.html')
   </div>
 </section>
 
-<!-- Services -->
 <section>
   <h2 style="text-align:center;color:#d4af37;">Nos Services</h2>
   <div class="services">
@@ -132,7 +258,6 @@ fetch('header.html')
   </div>
 </section>
 
-<!-- Pourquoi RENOLIX -->
 <section class="why">
   <h2>Pourquoi choisir RENOLIX ?</h2>
   <p>✔ Qualité supérieure des matériaux</p>
@@ -141,13 +266,11 @@ fetch('header.html')
   <p>✔ Accompagnement personnalisé</p>
 </section>
 
-<!-- Call to Action -->
 <section style="text-align:center;padding:50px 20px;background:#f9f9f9;">
   <h2 style="color:#d4af37;margin-bottom:15px;">Prêt à transformer votre intérieur ?</h2>
   <a href="contact.html" class="btn">Contactez-nous maintenant</a>
 </section>
 
-<!-- Footer -->
 <footer>
   <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
   <p>
@@ -156,6 +279,40 @@ fetch('header.html')
     <a href="https://wa.me/213542093648" target="_blank">WhatsApp</a>
   </p>
 </footer>
+
+<script>
+// Toggle menu hamburger
+function toggleMenu(){
+  document.getElementById('nav-links').classList.toggle('active');
+}
+
+// Toggle sous-menu réalisations
+document.getElementById('realisations-btn').addEventListener('click', function(e){
+  e.preventDefault();
+  let submenu = document.getElementById('realisations-submenu');
+  if(submenu.style.display === "flex"){
+    submenu.style.display = "none";
+  } else {
+    submenu.style.display = "flex";
+    submenu.style.flexDirection = "column";
+  }
+});
+
+// Toggle menu profil
+const profileIcon = document.getElementById('profileIcon');
+const profileMenu = document.getElementById('profileMenu');
+profileIcon.addEventListener('click', function(e){
+  e.preventDefault();
+  profileMenu.style.display = (profileMenu.style.display === "block") ? "none" : "block";
+});
+
+// Fermer le menu profil si clic en dehors
+document.addEventListener('click', function(e){
+  if(!profileIcon.contains(e.target) && !profileMenu.contains(e.target)){
+    profileMenu.style.display = 'none';
+  }
+});
+</script>
 
 </body>
 </html>
