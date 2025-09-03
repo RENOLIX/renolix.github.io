@@ -30,7 +30,7 @@
   input {width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px;box-sizing:border-box;}
   button {width:100%;padding:10px;margin-top:12px;border:none;border-radius:8px;background:linear-gradient(90deg,#d4af37,#b8860b);color:white;font-size:15px;font-weight:bold;cursor:pointer;transition:0.3s;}
   button:hover {box-shadow:0 0 12px #d4af37;}
-  .link {display:block;margin-top:8px;font-size:13px;color:#555;text-decoration:none;}
+  .link {display:block;margin-top:8px;font-size:13px;color:#555;text-decoration:none;cursor:pointer;}
   .social-login {margin-top:15px;}
   .social-login p {margin:8px 0;font-size:14px;color:#666;}
   .social-btn {display:flex;align-items:center;justify-content:center;background:#f1f1f1;border:1px solid #ddd;padding:8px;border-radius:8px;margin:6px 0;cursor:pointer;transition:0.3s;font-size:14px;}
@@ -72,7 +72,7 @@
     <input type="password" placeholder="Mot de passe" id="password" required>
     <button type="submit">Se connecter</button>
   </form>
-  <a href="#" class="link">Mot de passe oublié ?</a>
+  <a href="forgot-password.html" class="link">Mot de passe oublié ?</a>
   <div class="social-login">
     <p>Ou connectez-vous avec</p>
     <div class="social-btn google"><i class="fab fa-google"></i> Google</div>
@@ -81,55 +81,52 @@
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCK_JRF3Pzml-7JvYLpbXHTXIc7ntjCIXY",
-    authDomain: "renolix.firebaseapp.com",
-    projectId: "renolix",
-    storageBucket: "renolix.firebasestorage.app",
-    messagingSenderId: "693930423888",
-    appId: "1:693930423888:web:d9eabdb9cce3e646ee8355",
-    measurementId: "G-9DH4V5X8WD"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCK_JRF3Pzml-7JvYLpbXHTXIc7ntjCIXY",
+  authDomain: "renolix.firebaseapp.com",
+  projectId: "renolix",
+  storageBucket: "renolix.firebasestorage.app",
+  messagingSenderId: "693930423888",
+  appId: "1:693930423888:web:d9eabdb9cce3e646ee8355",
+  measurementId: "G-9DH4V5X8WD"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  // Email/password login
-  document.getElementById('loginForm').addEventListener('submit', async e => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "index.html";
-    } catch(err) { alert(err.message); }
-  });
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    window.location.href = "index.html";
+  } catch(err) { alert(err.message); }
+});
 
-  // Google Sign-In
-  const googleBtn = document.querySelector('.social-btn.google');
-  const provider = new GoogleAuthProvider();
-  googleBtn.addEventListener('click', async () => {
-    try {
-      await signInWithPopup(auth, provider);
-      window.location.href = "index.html";
-    } catch(err) { alert(err.message); }
-  });
+const googleBtn = document.querySelector('.social-btn.google');
+const provider = new GoogleAuthProvider();
+googleBtn.addEventListener('click', async () => {
+  try {
+    await signInWithPopup(auth, provider);
+    window.location.href = "index.html";
+  } catch(err) { alert(err.message); }
+});
 
-  // Rediriger si déjà connecté
-  onAuthStateChanged(auth, user => { if(user) window.location.href = "index.html"; });
+onAuthStateChanged(auth, user => { if(user) window.location.href = "index.html"; });
 </script>
 
 <script>
-  function toggleMenu(){ document.getElementById('nav-links').classList.toggle('active'); }
-  document.getElementById('realisations-btn').addEventListener('click', e=>{
-    e.preventDefault();
-    let submenu = document.getElementById('realisations-submenu');
-    submenu.style.display = (submenu.style.display==="flex")?"none":"flex";
-    submenu.style.flexDirection = "column";
-  });
+function toggleMenu(){ document.getElementById('nav-links').classList.toggle('active'); }
+document.getElementById('realisations-btn').addEventListener('click', e=>{
+  e.preventDefault();
+  let submenu = document.getElementById('realisations-submenu');
+  submenu.style.display = (submenu.style.display==="flex")?"none":"flex";
+  submenu.style.flexDirection = "column";
+});
 </script>
 
 </body>
