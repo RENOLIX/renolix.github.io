@@ -48,9 +48,7 @@
 <body>
 
 <header>
-  <div class="logo-container">
-    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
-  </div>
+  <div class="logo-container"><img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix"></div>
   <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
   <div class="menu">
     <nav id="nav-links">
@@ -86,17 +84,15 @@
 
   <div class="social-login">
     <p>Ou inscrivez-vous avec</p>
-    <div class="social-btn"><i class="fab fa-google"></i> Google</div>
-    <div class="social-btn"><i class="fab fa-apple"></i> Apple</div>
+    <div class="social-btn google"><i class="fab fa-google"></i> Google</div>
   </div>
 
   <a href="login.html" class="link">Vous avez déjà un compte ? Connectez-vous</a>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCK_JRF3Pzml-7JvYLpbXHTXIc7ntjCIXY",
@@ -111,8 +107,9 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  // Création compte email/password
   const form = document.getElementById('register-form');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -123,31 +120,40 @@
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert("Compte créé avec succès !");
-        window.location.href = "login.html"; // Redirige vers login après inscription
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      alert("Compte créé avec succès !");
+      window.location.href = "login.html";
+    } catch(error) {
+      alert(error.message);
+    }
   });
+
+  // Google Sign-In
+  const googleBtn = document.querySelector('.social-btn.google');
+  const provider = new GoogleAuthProvider();
+  googleBtn.addEventListener('click', async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      alert("Connecté en tant que " + user.email);
+      window.location.href = "index.html";
+    } catch(err) { alert(err.message); }
+  });
+
+  // Redirection si déjà connecté
+  onAuthStateChanged(auth, user => { if(user) window.location.href = "index.html"; });
 </script>
 
 <script>
 function toggleMenu(){
   document.getElementById('nav-links').classList.toggle('active');
 }
-document.getElementById('realisations-btn').addEventListener('click', function(e){
+document.getElementById('realisations-btn').addEventListener('click', e=>{
   e.preventDefault();
   let submenu = document.getElementById('realisations-submenu');
-  if(submenu.style.display === "flex"){
-    submenu.style.display = "none";
-  } else {
-    submenu.style.display = "flex";
-    submenu.style.flexDirection = "column";
-  }
+  submenu.style.display = (submenu.style.display==="flex")?"none":"flex";
+  submenu.style.flexDirection = "column";
 });
 </script>
 
