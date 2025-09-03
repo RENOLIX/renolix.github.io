@@ -8,16 +8,159 @@
 <style>
 body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
 
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.logo-container {display:flex;align-items:center;}
+.logo-container img{width:50px;height:auto;}
+
+/* NOM CENTRÉ avec animation or-noir diagonal */
+.header-center {
+  position: absolute;
+  left: 47%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.header-center a { text-decoration: none; }
+.header-center h1 {
+  margin: 0;
+  font-size: 28.5px;
+  letter-spacing: 2px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  background: linear-gradient(-45deg, #000 20%, #d4af37 50%, #000 80%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: luxuryShine 2.2s linear infinite;
+}
+@keyframes luxuryShine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* MENU */
+.menu { display: flex; align-items: center; padding-right: 25px; }
+nav { display:flex; gap:15px; align-items:center; }
+nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+nav a:hover { color:#d4af37; }
+
+/* MENU TOGGLE */
+.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
+.menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
+
+/* MOBILE MENU */
+@media(max-width:768px){
+  nav {
+    position:absolute;
+    top:60px;
+    right:10px;
+    width:220px;
+    flex-direction:column;
+    display:none;
+    padding:15px 20px;
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(12px);
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    z-index: 1050;
+    transition: all 0.4s ease;
+  }
+  nav.active {display:flex; flex-direction:column;}
+  nav a { margin:5px 0; padding:10px 15px; font-weight: 600; color:#222; text-transform: uppercase; letter-spacing: 1px; border-radius: 10px; transition: all 0.3s ease; }
+  nav a:hover { background: linear-gradient(90deg,#d4af37,#ffd700); color:#fff; box-shadow: 0 0 10px #ffd700, 0 0 20px #d4af37; }
+  .submenu { display:none; flex-direction:column; padding-left:15px; margin-top:5px; border-left:2px solid #d4af37; animation: submenuSlide 0.4s ease forwards; }
+  .submenu a { padding:8px 15px; font-weight: 500; border-radius: 8px; transition: all 0.3s ease; }
+  .submenu a:hover { background: linear-gradient(90deg,#ffd700,#d4af37); color:#222; box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37; }
+  .menu-toggle {display:flex;}
+}
+
+@keyframes submenuSlide { 0% {opacity:0; transform:translateY(-10px);} 100% {opacity:1; transform:translateY(0);} }
+
 /* HERO */
-.hero {height:80vh;background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover; display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center; color:white; position:relative; padding:20px; overflow:hidden;}
-.hero::before {content:""; position:absolute; top:50%; left:50%; width:80%; height:100px; background: rgba(0,0,0,0.6); filter: blur(35px); transform:translate(-50%, -50%); z-index:2; border-radius:50%;}
-.hero::after {content:""; position:absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.55); z-index:1;}
-.hero-content {position:relative; z-index:3; max-width:700px; margin-top:150px;}
-.hero-content h2 {font-size:40px; color:#d4af37; margin-bottom:70px; text-transform:uppercase;}
-.hero-content p {position:relative; z-index:3; font-size:16px; margin-top:5px; margin-bottom:60px; color:#fff;}
-.hero-btn {position:relative; z-index:3; margin-bottom:90px;}
-.btn {display:inline-block; padding:12px 28px; background:linear-gradient(90deg,#d4af37,#b8860b); color:#fff; font-weight:bold; border-radius:30px; text-decoration:none; transition:.3s;}
-.btn:hover {box-shadow:0 0 15px #d4af37;}
+.hero {
+  height:80vh;
+  background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
+  display:flex; 
+  flex-direction:column; 
+  justify-content:space-between;
+  align-items:center;
+  text-align:center; 
+  color:white; 
+  position:relative;
+  padding:20px;
+  overflow:hidden;
+}
+
+/* NUAGE NOIR FLUO DERRIERE LE TEXTE */
+.hero::before {
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:80%;
+  height:100px;
+  background: rgba(0,0,0,0.6);
+  filter: blur(35px);
+  transform: translate(-50%, -50%);
+  z-index:2;
+  border-radius:50%;
+}
+
+/* OVERLAY NOIR SUR L'IMAGE POUR ASSOMBRIR */
+.hero::after {
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.55);
+  z-index:1;
+}
+
+.hero-content {
+  position:relative; 
+  z-index:3; 
+  max-width:700px;
+  margin-top:150px;
+}
+
+.hero-content h2 {
+  font-size: 40px;
+  color: #d4af37;
+  margin-bottom: 70px; 
+  text-transform: uppercase;
+}
+
+.hero-content p {
+  position:relative;
+  z-index:3;
+  font-size: 16px;
+  margin-top: 5px; 
+  margin-bottom: 60px; 
+  color:#fff;
+}
+
+.hero-btn {
+  position:relative;
+  z-index:3;
+  margin-bottom:90px;
+}
+.btn { display:inline-block; padding:12px 28px; background:linear-gradient(90deg,#d4af37,#b8860b); color:#fff; font-weight:bold; border-radius:30px; text-decoration:none; transition:.3s; }
+.btn:hover { box-shadow:0 0 15px #d4af37; }
 
 /* SECTIONS */
 section { padding:40px 10%; }
@@ -38,29 +181,36 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <nav>
-    <div class="menu-toggle">☰</div>
-    <ul id="nav-links">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="placo-platre.html">Placo</a></li>
-      <li><a href="Peinture.html">Peinture</a></li>
-      <li><a href="dalle-de-sol.html">Sol & Faïence</a></li>
-      <li><a href="Plomberie.html">Plomberie</a></li>
-      <li><a href="électricité.html">Électricité</a></li>
-      <li><a href="cuisine-&-dressing.html">Cuisine & Dressing</a></li>
-    </ul>
-    <div id="profileIcon">👤</div>
-    <div id="profileMenu" style="display:none;">
-      <span class="profile-name"></span>
-      <br>
-      <button id="logoutBtn">Se déconnecter</button>
+  <div class="logo-container">
+    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
+  </div>
+  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
+
+  <div class="menu">
+    <nav id="nav-links">
+      <a href="index.html">Accueil</a>
+      <div>
+        <a href="#" id="realisations-btn">Réalisations ▼</a>
+        <div class="submenu" id="realisations-submenu">
+          <a href="placo-platre.html">Placo & Plâtre</a>
+          <a href="Peinture.html">Peinture</a>
+          <a href="dalle-de-sol.html">Dalle de sol</a>
+          <a href="Plomberie.html">Plomberie</a>
+          <a href="électricité.html">Électricité</a>
+          <a href="cuisine-&-dressing.html">Cuisine & Dressing</a>
+        </div>
+      </div>
+      <a href="devis-gratuit.html">Devis Gratuit</a>
+      <a href="à-propos.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
     </div>
-  </nav>
+  </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h2>Rénovation intérieure de luxe</h2>
@@ -69,7 +219,6 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
 </section>
 
-<!-- À propos -->
 <section class="about-renolix">
   <h2 style="text-align:center;color:#d4af37;">À propos de RENOLIX</h2>
   <div class="about-card">
@@ -78,7 +227,6 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </div>
 </section>
 
-<!-- Services -->
 <section>
   <h2 style="text-align:center;color:#d4af37;">Nos Services</h2>
   <div class="services">
@@ -115,7 +263,6 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </div>
 </section>
 
-<!-- Pourquoi RENOLIX -->
 <section class="why">
   <h2>Pourquoi choisir RENOLIX ?</h2>
   <p>✔ Qualité supérieure des matériaux</p>
@@ -124,13 +271,11 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <p>✔ Accompagnement personnalisé</p>
 </section>
 
-<!-- Call to Action -->
 <section style="text-align:center;padding:50px 20px;background:#f9f9f9;">
   <h2 style="color:#d4af37;margin-bottom:15px;">Prêt à transformer votre intérieur ?</h2>
   <a href="contact.html" class="btn">Contactez-nous maintenant</a>
 </section>
 
-<!-- Footer -->
 <footer>
   <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
   <p>
@@ -140,74 +285,21 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </p>
 </footer>
 
-<!-- Firebase App et Auth -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-
 <script>
-  // Configuration Firebase avec tes clés réelles
-  const firebaseConfig = {
-    apiKey: "AIzaSyCK_JRF3Pzml-7JvYLpbXHTXIc7ntjCIXY",
-    authDomain: "renolix.firebaseapp.com",
-    projectId: "renolix",
-    storageBucket: "renolix.firebasestorage.app",
-    messagingSenderId: "693930423888",
-    appId: "1:693930423888:web:d9eabdb9cce3e646ee8355"
-  };
+function toggleMenu(){
+  document.getElementById('nav-links').classList.toggle('active');
+}
 
-  // Initialisation Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  // Gestion de l'état de connexion
-  auth.onAuthStateChanged(user => {
-    if(user){
-      console.log("Utilisateur connecté :", user.email);
-
-      // Afficher menu utilisateur
-      const profileMenu = document.getElementById('profileMenu');
-      if(profileMenu) profileMenu.style.display = "block";
-
-      // Afficher nom/email utilisateur
-      const profileName = document.querySelector('.profile-name');
-      if(profileName) profileName.textContent = user.displayName || user.email;
-
-    } else {
-      console.log("Utilisateur non connecté");
-      // Rediriger vers login si non connecté
-      window.location.href = "login.html";
-    }
-  });
-
-  // Déconnexion
-  const logoutBtn = document.getElementById('logoutBtn');
-  if(logoutBtn){
-    logoutBtn.addEventListener('click', ()=>{
-      auth.signOut().then(()=>{
-        window.location.href = "login.html";
-      });
-    });
+document.getElementById('realisations-btn').addEventListener('click', function(e){
+  e.preventDefault();
+  let submenu = document.getElementById('realisations-submenu');
+  if(submenu.style.display === "flex"){
+    submenu.style.display = "none";
+  } else {
+    submenu.style.display = "flex";
+    submenu.style.flexDirection = "column";
   }
-</script>
-
-<!-- Menu Hamburger et interactions -->
-<script>
-  const toggle = document.querySelector('.menu-toggle');
-  const nav = document.getElementById('nav-links');
-  toggle.addEventListener('click', () => nav.classList.toggle('active'));
-
-  const profileIcon = document.getElementById('profileIcon');
-  const profileMenu = document.getElementById('profileMenu');
-  profileIcon.addEventListener('click', e=>{
-    e.preventDefault();
-    profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-  });
-
-  document.addEventListener('click', e=>{
-    if(!profileIcon.contains(e.target) && !profileMenu.contains(e.target)){
-      profileMenu.style.display = 'none';
-    }
-  });
+});
 </script>
 
 </body>
