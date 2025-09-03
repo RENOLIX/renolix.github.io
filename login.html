@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* Ton CSS existant ici… */
     body { margin:0;font-family:'Montserrat',sans-serif;background:#f4f4f4;color:#222; }
     header { display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;z-index:1000;background:rgba(255,255,255,0.95);box-shadow:0 2px 10px rgba(0,0,0,0.1);}
     .logo-container {display:flex;align-items:center;}
@@ -76,15 +75,14 @@
   <a href="#" class="link">Mot de passe oublié ?</a>
   <div class="social-login">
     <p>Ou connectez-vous avec</p>
-    <div class="social-btn"><i class="fab fa-google"></i> Google</div>
-    <div class="social-btn"><i class="fab fa-apple"></i> Apple</div>
+    <div class="social-btn google"><i class="fab fa-google"></i> Google</div>
   </div>
   <a href="register.html" class="link">Créer un compte</a>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCK_JRF3Pzml-7JvYLpbXHTXIc7ntjCIXY",
@@ -99,35 +97,36 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // Login form
-  const loginForm = document.getElementById('loginForm');
-  loginForm.addEventListener('submit', async (e) => {
+  // Email/password login
+  document.getElementById('loginForm').addEventListener('submit', async e => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "index.html"; // redirige après connexion
-    } catch(err) {
-      alert(err.message);
-    }
+      window.location.href = "index.html";
+    } catch(err) { alert(err.message); }
   });
 
-  // Vérifier si l'utilisateur est déjà connecté
-  onAuthStateChanged(auth, user => {
-    if(user){
-      // Déjà connecté → rediriger
+  // Google Sign-In
+  const googleBtn = document.querySelector('.social-btn.google');
+  const provider = new GoogleAuthProvider();
+  googleBtn.addEventListener('click', async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      alert("Connecté en tant que " + user.email);
       window.location.href = "index.html";
-    }
+    } catch(err) { alert(err.message); }
   });
+
+  // Rediriger si déjà connecté
+  onAuthStateChanged(auth, user => { if(user) window.location.href = "index.html"; });
 </script>
 
 <script>
-  // Menu toggle et sous-menu
-  function toggleMenu(){
-    document.getElementById('nav-links').classList.toggle('active');
-  }
-  document.getElementById('realisations-btn').addEventListener('click', function(e){
+  function toggleMenu(){ document.getElementById('nav-links').classList.toggle('active'); }
+  document.getElementById('realisations-btn').addEventListener('click', e=>{
     e.preventDefault();
     let submenu = document.getElementById('realisations-submenu');
     submenu.style.display = (submenu.style.display==="flex")?"none":"flex";
