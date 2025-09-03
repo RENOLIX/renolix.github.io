@@ -7,11 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
+
 /* HEADER */
 header {display: flex; align-items: center; justify-content: space-between; padding: 5px 20px; height: 60px; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(255,255,255,0.95); box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
 .logo-container {display:flex;align-items:center;}
 .logo-container img{width:50px;height:auto;}
-.header-center {position: absolute; left: 47%; transform: translateX(-50%); text-align: center;}
+.header-center {position: absolute; left: 50%; transform: translateX(-50%); text-align: center;}
 .header-center a { text-decoration: none; display:flex; align-items:center; gap:10px; }
 .header-center h1 {margin:0;font-size:28.5px;letter-spacing:2px;font-family:'Playfair Display',serif;font-weight:700;background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite;}
 .header-center img.profile-icon {width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid #d4af37; position: relative; left: 15px; }
@@ -40,25 +41,6 @@ nav a:hover { color:#d4af37; }
   .menu-toggle {display:flex;}
 }
 @keyframes submenuSlide {0% {opacity:0; transform:translateY(-10px);} 100% {opacity:1; transform:translateY(0);}}
-
-<body>
-
-<div id="header-placeholder"></div>
-<script>
-fetch('header.html')
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('header-placeholder').innerHTML = data;
-  });
-</script>
-
-<section class="hero">
-  <div class="hero-content">
-    <h2>Rénovation intérieure de luxe</h2>
-    <p>Avec RENOLIX, transformez vos espaces en véritables œuvres d'art modernes et élégantes.</p>
-  </div>
-  <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
-</section>
 
 /* HERO */
 .hero {height:80vh;background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover; display:flex; flex-direction:column; justify-content:space-between; align-items:center; text-align:center; color:white; position:relative; padding:20px; overflow:hidden;}
@@ -90,6 +72,17 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 </head>
 <body>
 
+<!-- HEADER DYNAMIQUE -->
+<div id="header-placeholder"></div>
+<script>
+fetch('header.html')
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('header-placeholder').innerHTML = data;
+  });
+</script>
+
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h2>Rénovation intérieure de luxe</h2>
@@ -98,6 +91,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
 </section>
 
+<!-- À PROPOS -->
 <section class="about-renolix">
   <h2 style="text-align:center;color:#d4af37;">À propos de RENOLIX</h2>
   <div class="about-card">
@@ -106,6 +100,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </div>
 </section>
 
+<!-- SERVICES -->
 <section>
   <h2 style="text-align:center;color:#d4af37;">Nos Services</h2>
   <div class="services">
@@ -142,6 +137,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </div>
 </section>
 
+<!-- POURQUOI NOUS -->
 <section class="why">
   <h2>Pourquoi choisir RENOLIX ?</h2>
   <p>✔ Qualité supérieure des matériaux</p>
@@ -150,11 +146,13 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <p>✔ Accompagnement personnalisé</p>
 </section>
 
+<!-- CTA -->
 <section style="text-align:center;padding:50px 20px;background:#f9f9f9;">
   <h2 style="color:#d4af37;margin-bottom:15px;">Prêt à transformer votre intérieur ?</h2>
   <a href="contact.html" class="btn">Contactez-nous maintenant</a>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
   <p>
@@ -163,7 +161,6 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
     <a href="https://wa.me/213542093648" target="_blank">WhatsApp</a>
   </p>
 </footer>
-
 
 </body>
 </html>
