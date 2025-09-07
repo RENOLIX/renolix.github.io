@@ -56,6 +56,23 @@ nav { display:flex; gap:15px; align-items:center; }
 nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
 nav a:hover { color:#d4af37; }
 
+/* ✅ Bouton connexion */
+.connexion-btn {
+  display: inline-block;
+  background: linear-gradient(90deg,#d4af37,#b8860b);
+  color: #fff !important;
+  font-weight: bold;
+  padding: 8px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin-top: 10px;
+  transition: 0.3s;
+  text-align: center;
+}
+.connexion-btn:hover {
+  box-shadow: 0 0 15px #d4af37;
+}
+
 /* MENU TOGGLE */
 .menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
 .menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
@@ -204,19 +221,9 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
+      <!-- ✅ Bouton connexion -->
+      <a href="login.html" class="connexion-btn">Connexion</a>
     </nav>
-
-<div id="profile-container"></div>
-
-<script>
-  // Charger profile-menu.html dans la page
-  fetch("profile-menu.html")
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById("profile-container").innerHTML = html;
-    });
-</script>
-
     <div class="menu-toggle" onclick="toggleMenu()">
       <div></div><div></div><div></div>
     </div>
@@ -297,6 +304,8 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </p>
 </footer>
 
+<!-- ✅ Script menu + Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 function toggleMenu(){
   document.getElementById('nav-links').classList.toggle('active');
@@ -312,47 +321,23 @@ document.getElementById('realisations-btn').addEventListener('click', function(e
     submenu.style.flexDirection = "column";
   }
 });
-</script>
 
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js";
+/* ✅ Connexion Supabase */
+const { createClient } = supabase;
+const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-  // 🔑 Tes identifiants Supabase
-  const SUPABASE_URL = "https://kawlncpapaxdzjyhnhhz.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  // 🔍 Vérifie si l’utilisateur est connecté
-  async function checkAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (!session) {
-      // 🚨 Pas connecté → redirection vers login
-      window.location.href = "login.html";
-    } else {
-      // ✅ Connecté → afficher infos
-      const user = session.user;
-      console.log("Utilisateur connecté :", user);
-
-      // Si tu as un <div id="user-info"> tu peux y afficher l'email
-      const userInfoDiv = document.getElementById("user-info");
-      if (userInfoDiv) {
-        userInfoDiv.innerText = `Bienvenue ${user.email}`;
-      }
-    }
+// Exemple test : récupérer toutes les lignes d'une table "users"
+async function loadUsers(){
+  let { data, error } = await supabaseClient.from("users").select("*");
+  if(error) {
+    console.error("Erreur Supabase:", error);
+  } else {
+    console.log("Utilisateurs:", data);
   }
-
-  // 🚪 Déconnexion
-  async function logout() {
-    await supabase.auth.signOut();
-    window.location.href = "login.html";
-  }
-
-  // Vérifie automatiquement à chaque chargement de page
-  checkAuth();
-
-  // Rendre logout utilisable dans le HTML
-  window.logout = logout;
+}
+loadUsers();
 </script>
 
 </body>
