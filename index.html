@@ -329,6 +329,7 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
 // Exemple test : récupérer toutes les lignes d'une table "users"
+// ✅ Pas de redirection automatique si pas connecté
 async function loadUsers(){
   let { data, error } = await supabaseClient.from("users").select("*");
   if(error) {
