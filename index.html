@@ -302,5 +302,46 @@ document.getElementById('realisations-btn').addEventListener('click', function(e
 });
 </script>
 
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+  // 🔑 Tes identifiants Supabase
+  const SUPABASE_URL = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // 🔍 Vérifie si l’utilisateur est connecté
+  async function checkAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      // 🚨 Pas connecté → redirection vers login
+      window.location.href = "login.html";
+    } else {
+      // ✅ Connecté → afficher infos
+      const user = session.user;
+      console.log("Utilisateur connecté :", user);
+
+      // Si tu as un <div id="user-info"> tu peux y afficher l'email
+      const userInfoDiv = document.getElementById("user-info");
+      if (userInfoDiv) {
+        userInfoDiv.innerText = `Bienvenue ${user.email}`;
+      }
+    }
+  }
+
+  // 🚪 Déconnexion
+  async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+  }
+
+  // Vérifie automatiquement à chaque chargement de page
+  checkAuth();
+
+  // Rendre logout utilisable dans le HTML
+  window.logout = logout;
+</script>
+
 </body>
 </html>
