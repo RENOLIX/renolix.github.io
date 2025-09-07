@@ -20,37 +20,57 @@
 .profile-menu {
   position: relative;
   margin-left: 15px;
+  font-family: 'Montserrat', sans-serif;
 }
+
 .profile-icon {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid #d4af37;
+  transition: transform 0.2s ease;
 }
+
+.profile-icon:hover {
+  transform: scale(1.05);
+}
+
 .dropdown {
   position: absolute;
-  top: 50px;
+  top: 55px;
   right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background: #ffffff;
+  border: 2px solid #d4af37;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
   display: none;
   flex-direction: column;
-  min-width: 180px;
+  min-width: 220px;
   z-index: 2000;
+  overflow: hidden;
 }
-.dropdown a, .dropdown p {
-  padding: 10px 15px;
+
+.dropdown a, 
+.dropdown p {
+  padding: 12px 18px;
   text-decoration: none;
   color: #222;
   display: block;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
+
+.dropdown p {
+  font-weight: 600;
+  border-bottom: 1px solid #f2f2f2;
+  color: #444;
+}
+
 .dropdown a:hover {
-  background: #f4f4f4;
+  background: #fff9e8;
+  color: #d4af37;
 }
 </style>
 
