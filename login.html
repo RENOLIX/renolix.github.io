@@ -73,50 +73,33 @@
     <button type="submit">Se connecter</button>
   </form>
   <a href="forgot-password.html" class="link">Mot de passe oublié ?</a>
-  <div class="social-login">
-    <p>Ou connectez-vous avec</p>
-    <div class="social-btn google"><i class="fab fa-google"></i> Google</div>
-  </div>
   <a href="register.html" class="link">Créer un compte</a>
 </div>
 
+<!-- 🚀 Script Supabase -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import { createClient } from "https://esm.sh/@supabase/supabase-js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCK_JRF3Pzml-7JvYLpbXHTXIc7ntjCIXY",
-  authDomain: "renolix.firebaseapp.com",
-  projectId: "renolix",
-  storageBucket: "renolix.firebasestorage.app",
-  messagingSenderId: "693930423888",
-  appId: "1:693930423888:web:d9eabdb9cce3e646ee8355",
-  measurementId: "G-9DH4V5X8WD"
-};
+  // Tes identifiants Supabase
+  const SUPABASE_URL = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+  // Connexion utilisateur
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-document.getElementById('loginForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    window.location.href = "index.html";
-  } catch(err) { alert(err.message); }
-});
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-const googleBtn = document.querySelector('.social-btn.google');
-const provider = new GoogleAuthProvider();
-googleBtn.addEventListener('click', async () => {
-  try {
-    await signInWithPopup(auth, provider);
-    window.location.href = "index.html";
-  } catch(err) { alert(err.message); }
-});
-
-onAuthStateChanged(auth, user => { if(user) window.location.href = "index.html"; });
+    if (error) {
+      alert("❌ Erreur : " + error.message);
+    } else {
+      alert("✅ Connexion réussie !");
+      window.location.href = "index.html"; // Redirection vers accueil
+    }
+  });
 </script>
 
 <script>
