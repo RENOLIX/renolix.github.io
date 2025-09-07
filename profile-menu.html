@@ -1,0 +1,103 @@
+<!-- profile-menu.html -->
+<div class="profile-menu">
+  <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" 
+       alt="Profil" id="profileIcon" class="profile-icon">
+  <div class="dropdown" id="profileDropdown">
+    <div id="guestMenu">
+      <a href="login.html">Connexion</a>
+      <a href="register.html">Inscription</a>
+    </div>
+    <div id="userMenu" style="display:none;">
+      <p id="userEmail"></p>
+      <a href="profile.html">Mon Profil</a>
+      <a href="settings.html">Paramètres</a>
+      <a href="#" id="logoutBtn">Déconnexion</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.profile-menu {
+  position: relative;
+  margin-left: 15px;
+}
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #d4af37;
+}
+.dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: none;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 2000;
+}
+.dropdown a, .dropdown p {
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #222;
+  display: block;
+  font-size: 14px;
+  cursor: pointer;
+}
+.dropdown a:hover {
+  background: #f4f4f4;
+}
+</style>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // ta clé publique
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const profileIcon = document.getElementById('profileIcon');
+  const dropdown = document.getElementById('profileDropdown');
+  const guestMenu = document.getElementById('guestMenu');
+  const userMenu = document.getElementById('userMenu');
+  const userEmail = document.getElementById('userEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // toggle menu
+  profileIcon.addEventListener('click', () => {
+    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  // fermer si clic dehors
+  document.addEventListener('click', (e) => {
+    if (!profileIcon.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+
+  // vérifier session
+  async function checkSession() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session && session.user) {
+      guestMenu.style.display = "none";
+      userMenu.style.display = "block";
+      userEmail.textContent = session.user.email;
+    } else {
+      guestMenu.style.display = "block";
+      userMenu.style.display = "none";
+    }
+  }
+  checkSession();
+
+  // déconnexion
+  logoutBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    await supabase.auth.signOut();
+    location.reload();
+  });
+</script>
