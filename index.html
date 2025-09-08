@@ -277,5 +277,14 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
 });
 </script>
 
+<div id="bottom-nav-container"></div>
+<script>
+  fetch('bottom-nav.html')  // comme le fichier est dans le même dossier
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('bottom-nav-container').innerHTML = html;
+    });
+</script>
+
 </body>
 </html>
