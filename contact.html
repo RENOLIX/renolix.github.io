@@ -18,9 +18,7 @@ html, body {
   color:#222;
 }
 
-main {
-  flex: 1; /* pousse le footer en bas */
-}
+main { flex: 1; }
 
 /* Header */
 header {
@@ -38,7 +36,7 @@ header {
 }
 .logo-container {display:flex;align-items:center;}
 .logo-container img{width:50px;height:auto;}
-.header-center {position: absolute; left: 47%; letter-spacing: 2px; transform: translateX(-50%); text-align: center;}
+.header-center {position: absolute; left: 46%; letter-spacing: 2px; transform: translateX(-50%); text-align: center;}
 .header-center a { text-decoration: none; }
 .header-center h1 {
   margin:0;font-size:28.5px;font-family:'Playfair Display', serif;font-weight:700;
@@ -51,8 +49,30 @@ header {
 nav { display:flex; gap:15px; align-items:center; }
 nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
 nav a:hover { color:#d4af37; }
+
+/* Bouton Connexion (même style que l’accueil) */
+.connexion-btn {
+  display:inline-block;
+  background:linear-gradient(90deg,#d4af37,#b8860b);
+  color:#fff !important;
+  font-weight:bold;
+  padding:8px 18px;
+  border-radius:20px;
+  text-decoration:none;
+  margin-top:10px;
+  transition:0.3s;
+  text-align:center;
+}
+.connexion-btn:hover { box-shadow:0 0 15px #d4af37; }
+
+/* Hamburger */
 .menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
 .menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
+
+/* Anim submenu */
+@keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
+
+/* Mobile */
 @media(max-width:768px){
   nav {
     position:absolute; top:60px; right:10px; width:220px; flex-direction:column; display:none;
@@ -91,42 +111,13 @@ h2 { text-align:center; margin-bottom:25px; font-size:28px; }
   margin-bottom: 20px;
   color: #d4af37;
 }
-.contact-icons {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin: 25px 0;
-  flex-wrap: wrap;
-}
-.contact-icons a {
-  font-size: 35px;
-  color: #222;
-  transition: all 0.3s ease;
-}
-.contact-icons a:hover {
-  color: #d4af37;
-  transform: scale(1.2);
-}
-.contact-info {
-  font-size: 18px;
-  margin-top: 20px;
-  color:#333;
-}
-.contact-info a {
-  color:#222;
-  text-decoration:none;
-  transition:0.3s;
-}
-.contact-info a:hover {
-  color:#d4af37;
-  text-decoration: underline;
-}
-.contact-extra {
-  margin-top: 25px;
-  font-size: 16px;
-  color:#666;
-  font-style: italic;
-}
+.contact-icons { display: flex; justify-content: center; gap: 30px; margin: 25px 0; flex-wrap: wrap; }
+.contact-icons a { font-size: 35px; color: #222; transition: all 0.3s ease; }
+.contact-icons a:hover { color: #d4af37; transform: scale(1.2); }
+.contact-info { font-size: 18px; margin-top: 20px; color:#333; }
+.contact-info a { color:#222; text-decoration:none; transition:0.3s; }
+.contact-info a:hover { color:#d4af37; text-decoration: underline; }
+.contact-extra { margin-top: 25px; font-size: 16px; color:#666; font-style: italic; }
 
 /* Footer */
 footer { 
@@ -136,9 +127,30 @@ footer {
   color:#555; 
   font-size:14px; 
   border-top:1px solid #eee; 
-  margin-top:auto; /* colle le footer en bas */
+  margin-top:auto;
 }
 footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
+
+/* PROFILE MENU */
+.profile {position:relative;margin:0 8px 0 6px;z-index:1100;}
+.profile-btn {
+  width:38px;height:38px;border-radius:50%;border:2px solid transparent;
+  background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#d4af37,#b8860b) border-box;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s ease;
+}
+.profile-btn:hover {box-shadow:0 0 12px rgba(212,175,55,0.8);transform:translateY(-2px);}
+.profile-btn svg {width:20px;height:20px;fill:#b8860b;}
+.profile-dropdown {
+  position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);border:2px solid #d4af37;border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);padding:8px;display:none;
+}
+.profile-dropdown.open {display:block;animation:submenuSlide 0.25s ease forwards;}
+.profile-email {font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,0.5);border-radius:8px;}
+.profile-item {display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:#222;text-decoration:none;font-weight:600;transition:all 0.3s ease;}
+.profile-item:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px #d4af37;}
+.profile-divider {height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,#d4af37,transparent);}
+.hidden {display:none;}
 </style>
 </head>
 <body>
@@ -147,7 +159,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <div class="logo-container">
     <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
   </div>
-    <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
+  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
   <div class="menu">
     <nav id="nav-links">
       <a href="index.html">Accueil</a>
@@ -165,7 +177,32 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
+      <a href="login.html" class="connexion-btn">Connexion</a>
     </nav>
+
+    <!-- Icône Profil (entre le titre RENOLIX et le hamburger) -->
+    <div class="profile" id="profile">
+      <button class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path>
+        </svg>
+      </button>
+      <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
+        <!-- État connecté -->
+        <div id="profile-logged-in" class="hidden">
+          <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
+          <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
+          <a href="parametres.html" class="profile-item" role="menuitem">Paramètres</a>
+          <div class="profile-divider"></div>
+          <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
+        </div>
+        <!-- État non connecté -->
+        <div id="profile-logged-out" class="hidden">
+          <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
+        </div>
+      </div>
+    </div>
+
     <div class="menu-toggle" onclick="toggleMenu()">
       <div></div><div></div><div></div>
     </div>
@@ -202,6 +239,8 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   </p>
 </footer>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 function toggleMenu(){
   document.getElementById('nav-links').classList.toggle('active');
@@ -215,6 +254,56 @@ document.getElementById('realisations-btn').addEventListener('click', function(e
     submenu.style.display = "flex";
     submenu.style.flexDirection = "column";
   }
+});
+
+/* Supabase (remplace Firebase) */
+const { createClient } = supabase;
+const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
+
+/* Icône profil + menu */
+const profileButton = document.getElementById('profileButton');
+const profileDropdown = document.getElementById('profileDropdown');
+const loggedInBox = document.getElementById('profile-logged-in');
+const loggedOutBox = document.getElementById('profile-logged-out');
+const profileEmailEl = document.getElementById('profileEmail');
+
+function openProfile(){profileDropdown.classList.add('open');profileButton.setAttribute('aria-expanded','true');profileDropdown.setAttribute('aria-hidden','false');}
+function closeProfile(){profileDropdown.classList.remove('open');profileButton.setAttribute('aria-expanded','false');profileDropdown.setAttribute('aria-hidden','true');}
+function toggleProfile(){profileDropdown.classList.contains('open') ? closeProfile() : openProfile();}
+
+profileButton.addEventListener('click', (e)=>{e.stopPropagation();toggleProfile();});
+document.addEventListener('click', (e)=>{ if(!profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
+
+async function updateProfileUI(){
+  try{
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if(user){
+      loggedOutBox.classList.add('hidden');
+      loggedInBox.classList.remove('hidden');
+      profileEmailEl.textContent = user.email || '';
+    }else{
+      loggedInBox.classList.add('hidden');
+      loggedOutBox.classList.remove('hidden');
+      profileEmailEl.textContent = '';
+    }
+  }catch(err){
+    console.error("Erreur récupération utilisateur:", err);
+    loggedInBox.classList.add('hidden');
+    loggedOutBox.classList.remove('hidden');
+  }
+}
+updateProfileUI();
+supabaseClient.auth.onAuthStateChange((_event,_session)=>{ updateProfileUI(); });
+
+document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
+  e.preventDefault();
+  await supabaseClient.auth.signOut();
+  updateProfileUI();
+  closeProfile();
+  // window.location.reload(); // Décommente si tu veux recharger la page après déconnexion
 });
 </script>
 
