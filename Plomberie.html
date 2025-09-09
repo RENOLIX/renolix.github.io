@@ -131,10 +131,11 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
-      <a href="login.html" class="connexion-btn">Connexion</a>
+      <!-- Devient Déconnexion après login -->
+      <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
     </nav>
 
-    <!-- Icône Profil (entre le titre RENOLIX et le hamburger) -->
+    <!-- Icône Profil -->
     <div class="profile" id="profile">
       <button class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -142,7 +143,6 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
         </svg>
       </button>
       <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
-        <!-- État connecté -->
         <div id="profile-logged-in" class="hidden">
           <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
           <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
@@ -150,7 +150,6 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
           <div class="profile-divider"></div>
           <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
         </div>
-        <!-- État non connecté -->
         <div id="profile-logged-out" class="hidden">
           <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
         </div>
@@ -212,70 +211,175 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function toggleMenu(){
-  document.getElementById('nav-links').classList.toggle('active');
-}
-document.getElementById('realisations-btn').addEventListener('click', function(e){
-  e.preventDefault();
-  let submenu = document.getElementById('realisations-submenu');
-  submenu.style.display = submenu.style.display === "flex" ? "none" : "flex";
-  submenu.style.flexDirection = "column";
-});
+document.addEventListener('DOMContentLoaded', function(){
+  // Supabase
+  const { createClient } = supabase;
+  const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+  const sb = createClient(supabaseUrl, supabaseKey);
+  window._sb = sb;
 
-/* Supabase (remplace Firebase) */
-const { createClient } = supabase;
-const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
-const supabaseClient = createClient(supabaseUrl, supabaseKey);
+  // Header/menu
+  const nav = document.getElementById('nav-links');
+  const navAuthLink = document.getElementById('navAuthLink');
+  const submenuBtn = document.getElementById('realisations-btn');
+  const submenu = document.getElementById('realisations-submenu');
 
-/* Icône profil + menu */
-const profileButton = document.getElementById('profileButton');
-const profileDropdown = document.getElementById('profileDropdown');
-const loggedInBox = document.getElementById('profile-logged-in');
-const loggedOutBox = document.getElementById('profile-logged-out');
-const profileEmailEl = document.getElementById('profileEmail');
+  window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
+  function closeMenu(){ nav && nav.classList.remove('active'); }
 
-function openProfile(){profileDropdown.classList.add('open');profileButton.setAttribute('aria-expanded','true');profileDropdown.setAttribute('aria-hidden','false');}
-function closeProfile(){profileDropdown.classList.remove('open');profileButton.setAttribute('aria-expanded','false');profileDropdown.setAttribute('aria-hidden','true');}
-function toggleProfile(){profileDropdown.classList.contains('open') ? closeProfile() : openProfile();}
-
-profileButton.addEventListener('click', (e)=>{e.stopPropagation();toggleProfile();});
-document.addEventListener('click', (e)=>{ if(!profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
-document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
-
-async function updateProfileUI(){
-  try{
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    if(user){
-      loggedOutBox.classList.add('hidden');
-      loggedInBox.classList.remove('hidden');
-      profileEmailEl.textContent = user.email || '';
-    }else{
-      loggedInBox.classList.add('hidden');
-      loggedOutBox.classList.remove('hidden');
-      profileEmailEl.textContent = '';
-    }
-  }catch(err){
-    console.error("Erreur récupération utilisateur:", err);
-    loggedInBox.classList.add('hidden');
-    loggedOutBox.classList.remove('hidden');
+  if(submenuBtn){
+    submenuBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(!submenu) return;
+      submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
+      submenu.style.flexDirection = "column";
+    });
   }
-}
-updateProfileUI();
-supabaseClient.auth.onAuthStateChange((_event,_session)=>{ updateProfileUI(); });
 
-document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
-  e.preventDefault();
-  await supabaseClient.auth.signOut();
+  // Profile dropdown
+  const profileButton   = document.getElementById('profileButton');
+  const profileDropdown = document.getElementById('profileDropdown');
+  const loggedInBox     = document.getElementById('profile-logged-in');
+  const loggedOutBox    = document.getElementById('profile-logged-out');
+  const profileEmailEl  = document.getElementById('profileEmail');
+  const logoutBtn       = document.getElementById('logoutBtn');
+
+  function openProfile(){ if(profileDropdown){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); } }
+  function closeProfile(){ if(profileDropdown){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); } }
+  function toggleProfile(){ profileDropdown && (profileDropdown.classList.contains('open') ? closeProfile() : openProfile()); }
+
+  if(profileButton){ profileButton.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); }); }
+  document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
+
+  // Auth UI
+  async function updateProfileUI(){
+    try{
+      const { data: { user } } = await sb.auth.getUser();
+      if(user){
+        loggedOutBox && loggedOutBox.classList.add('hidden');
+        loggedInBox  && loggedInBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = user.email || '';
+      }else{
+        loggedInBox  && loggedInBox.classList.add('hidden');
+        loggedOutBox && loggedOutBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = '';
+      }
+    }catch(err){
+      console.error("Erreur récupération utilisateur:", err);
+      loggedInBox  && loggedInBox.classList.add('hidden');
+      loggedOutBox && loggedOutBox.classList.remove('hidden');
+    }
+  }
+
+  function syncHeaderAuthLink(){
+    if(!navAuthLink) return;
+    sb.auth.getUser().then(({data:{user}})=>{
+      // Purger anciens listeners
+      const clone = navAuthLink.cloneNode(true);
+      navAuthLink.parentNode.replaceChild(clone, navAuthLink);
+      const link = document.getElementById('navAuthLink');
+
+      if(user){
+        link.textContent = 'Déconnexion';
+        link.setAttribute('href', '#');
+        link.dataset.mode = 'logout';
+        link.addEventListener('click', async (e)=>{
+          e.preventDefault();
+          await signOutAndGoHome();
+        });
+      }else{
+        link.textContent = 'Connexion';
+        link.setAttribute('href', 'login.html');
+        link.dataset.mode = 'login';
+      }
+    });
+  }
+
+  // Bottom nav
+  const bnProfile = document.getElementById('bn-profile');
+  const bnProfileLabel = document.getElementById('bn-profile-label');
+
+  function updateBottomNavAuthUI(){
+    if(!bnProfile || !bnProfileLabel) return;
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){
+        bnProfile.setAttribute('href','profil.html');
+        bnProfileLabel.textContent = 'Profil';
+        bnProfile.removeAttribute('data-auth');
+      }else{
+        bnProfile.setAttribute('href','login.html');
+        bnProfileLabel.textContent = 'Se connecter';
+        bnProfile.setAttribute('data-auth','required');
+      }
+    });
+  }
+
+  (function setActiveBottomNav(){
+    const path = (location.pathname || "").toLowerCase();
+    document.querySelectorAll('.bottom-nav .bn-item').forEach(a=>{
+      const route = (a.getAttribute('data-route')||"").toLowerCase();
+      if(route && (path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path==='')))){
+        a.classList.add('active');
+      }
+    });
+  })();
+
+  // Guard auth sur liens protégés (bottom-nav)
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('.bottom-nav a[data-auth="required"]');
+    if(!a) return;
+    e.preventDefault();
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){ location.href = a.getAttribute('href'); }
+      else{
+        const next = encodeURIComponent(a.getAttribute('href'));
+        location.href = 'login.html?next='+next;
+      }
+    }).catch(()=>{
+      const next = encodeURIComponent(a.getAttribute('href'));
+      location.href = 'login.html?next='+next;
+    });
+  });
+
+  // Déconnexion + redirection accueil
+  async function signOutAndGoHome(){
+    try{
+      await sb.auth.signOut();
+    }catch(err){
+      console.error('Erreur déconnexion:', err);
+    }finally{
+      closeProfile();
+      closeMenu();
+      // Refresh + go home
+      location.replace('index.html');
+    }
+  }
+
+  if(logoutBtn){
+    logoutBtn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      await signOutAndGoHome();
+    });
+  }
+
+  // Init + listeners
   updateProfileUI();
-  closeProfile();
+  syncHeaderAuthLink();
+  updateBottomNavAuthUI();
+
+  sb.auth.onAuthStateChange((_event,_session)=>{
+    updateProfileUI();
+    syncHeaderAuthLink();
+    updateBottomNavAuthUI();
+  });
 });
 </script>
 
 <!-- === Bottom Nav RENOLIX (Accueil > Suivi > Devis > Profil/Se connecter) === -->
 <style>
   :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
-  /* Espace pour ne pas masquer le contenu par la barre */
   body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 
   .bottom-nav{
@@ -302,7 +406,6 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
   .bn-item.active .bn-icon svg,
   .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
 
-  /* CTA Devis mis en valeur */
   .bn-cta{
     margin:8px; border-radius:14px;
     background:linear-gradient(90deg,var(--gold),var(--gold2));
@@ -339,83 +442,14 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
     <span class="bn-label">Devis</span>
   </a>
 
-  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" aria-label="Profil">
+  <!-- Initialement Se connecter (après login => Profil) -->
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Profil">
     <span class="bn-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
     </span>
-    <span class="bn-label" id="bn-profile-label">Profil</span>
+    <span class="bn-label" id="bn-profile-label">Se connecter</span>
   </a>
 </nav>
-
-<script>
-  (function(){
-    function getSb(){
-      if (window._sb && window._sb.auth && window._sb.auth.getUser) return window._sb;
-      if (typeof supabaseClient !== 'undefined' && supabaseClient.auth && supabaseClient.auth.getUser) return supabaseClient;
-      return null;
-    }
-
-    // Active state
-    function setActive(){
-      var path = (location.pathname || "").toLowerCase();
-      document.querySelectorAll('.bottom-nav .bn-item').forEach(function(a){
-        var route = (a.getAttribute('data-route')||"").toLowerCase();
-        if(!route) return;
-        if(path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path===''))){
-          a.classList.add('active');
-        }
-      });
-    }
-    setActive();
-
-    // Guard auth for protected links
-    function guardAuthLink(e){
-      var href = e.currentTarget.getAttribute('href');
-      var sb = getSb();
-      e.preventDefault();
-      if(!sb){
-        var next = encodeURIComponent(href);
-        location.href = 'login.html?next='+next;
-        return;
-      }
-      sb.auth.getUser().then(({data:{user}})=>{
-        if(user){ location.href = href; }
-        else{ location.href = 'login.html?next='+encodeURIComponent(href); }
-      }).catch(()=>{ location.href = 'login.html?next='+encodeURIComponent(href); });
-    }
-    document.querySelectorAll('.bottom-nav .bn-item[data-auth="required"]').forEach(function(a){
-      a.addEventListener('click', guardAuthLink);
-    });
-
-    // Update profile link based on session
-    function updateProfileLink(){
-      var a = document.getElementById('bn-profile');
-      var lbl = document.getElementById('bn-profile-label');
-      if(!a || !lbl) return;
-      var sb = getSb();
-      if(!sb){
-        a.setAttribute('href','login.html');
-        lbl.textContent = 'Se connecter';
-        a.setAttribute('data-auth','required');
-        return;
-      }
-      sb.auth.getUser().then(({data:{user}})=>{
-        if(user){
-          a.setAttribute('href','profil.html');
-          lbl.textContent = 'Profil';
-          a.removeAttribute('data-auth');
-        }else{
-          a.setAttribute('href','login.html');
-          lbl.textContent = 'Se connecter';
-          a.setAttribute('data-auth','required');
-        }
-      });
-    }
-    updateProfileLink();
-    var sb = getSb();
-    if(sb && sb.auth && sb.auth.onAuthStateChange){ sb.auth.onAuthStateChange(updateProfileLink); }
-  })();
-</script>
 <!-- === /Bottom Nav RENOLIX === -->
 
 </body>
