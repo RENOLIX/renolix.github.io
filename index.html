@@ -104,7 +104,7 @@ footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
-      <!-- IMPORTANT: id pour mise à jour dynamique -->
+      <!-- id pour MAJ dynamique -->
       <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
     </nav>
 
@@ -212,7 +212,7 @@ footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- Script principal: corrige Déconnexion et met à jour le bouton Connexion -->
+<!-- Script principal -->
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   // --- Supabase ---
@@ -220,17 +220,14 @@ document.addEventListener('DOMContentLoaded', function(){
   const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
   const sb = createClient(supabaseUrl, supabaseKey);
-  // Expose global pour d'autres scripts (ex: bottom-nav)
-  window._sb = sb;
-  window.supabaseClient = sb;
+  window._sb = sb; // global (utile si d’autres scripts)
 
-  // --- Sélecteurs ---
+  // --- Sélecteurs header / profil ---
   const nav = document.getElementById('nav-links');
   const navAuthLink = document.getElementById('navAuthLink'); // Connexion/Déconnexion header
   const submenuBtn = document.getElementById('realisations-btn');
   const submenu = document.getElementById('realisations-submenu');
 
-  // Profil dropdown
   const profileButton   = document.getElementById('profileButton');
   const profileDropdown = document.getElementById('profileDropdown');
   const loggedInBox     = document.getElementById('profile-logged-in');
@@ -238,25 +235,58 @@ document.addEventListener('DOMContentLoaded', function(){
   const profileEmailEl  = document.getElementById('profileEmail');
   const logoutBtn       = document.getElementById('logoutBtn');
 
-  // --- UI helpers ---
+  // --- Sélecteurs bottom-nav ---
+  const bnProfile = document.getElementById('bn-profile');
+  const bnProfileLabel = document.getElementById('bn-profile-label');
+
+  // --- Helpers UI ---
   function openProfile(){ if(profileDropdown){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); } }
   function closeProfile(){ if(profileDropdown){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); } }
   function toggleProfile(){ profileDropdown && (profileDropdown.classList.contains('open') ? closeProfile() : openProfile()); }
   function closeMenu(){ nav && nav.classList.remove('active'); }
   window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
 
-  function safeOn(el, evt, fn){ if(el){ el.addEventListener(evt, fn); } }
+  function setActiveBottomNav(){
+    const path = (location.pathname || "").toLowerCase();
+    document.querySelectorAll('.bottom-nav .bn-item').forEach(a=>{
+      const route = (a.getAttribute('data-route')||"").toLowerCase();
+      if(route && (path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path==='')))){
+        a.classList.add('active');
+      }
+    });
+  }
 
-  // --- Sous-menu Réalisations ---
-  safeOn(submenuBtn, 'click', function(e){
+  // Guard auth pour liens avec data-auth="required" (délégation)
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('.bottom-nav a[data-auth="required"]');
+    if(!a) return;
     e.preventDefault();
-    if(!submenu) return;
-    submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
-    submenu.style.flexDirection = "column";
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){ location.href = a.getAttribute('href'); }
+      else{
+        const next = encodeURIComponent(a.getAttribute('href'));
+        location.href = 'login.html?next='+next;
+      }
+    }).catch(()=>{
+      const next = encodeURIComponent(a.getAttribute('href'));
+      location.href = 'login.html?next='+next;
+    });
   });
 
+  // --- Sous-menu Réalisations ---
+  if(submenuBtn){
+    submenuBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(!submenu) return;
+      submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
+      submenu.style.flexDirection = "column";
+    });
+  }
+
   // --- Profil dropdown bindings ---
-  safeOn(profileButton, 'click', (e)=>{ e.stopPropagation(); toggleProfile(); });
+  if(profileButton){
+    profileButton.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); });
+  }
   document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
 
@@ -280,11 +310,10 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  // Met à jour le bouton Connexion du header (devient Déconnexion si connecté)
   function syncHeaderAuthLink(){
     if(!navAuthLink) return;
     sb.auth.getUser().then(({data:{user}})=>{
-      // Remplacer le nœud pour purger d’anciens listeners (évite les doublons)
+      // Purger anciens listeners
       const clone = navAuthLink.cloneNode(true);
       navAuthLink.parentNode.replaceChild(clone, navAuthLink);
       const link = document.getElementById('navAuthLink');
@@ -305,50 +334,62 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
+  function updateBottomNavAuthUI(){
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(!bnProfile || !bnProfileLabel) return;
+      if(user){
+        bnProfile.setAttribute('href','profil.html');
+        bnProfileLabel.textContent = 'Profil';
+        bnProfile.removeAttribute('data-auth');
+      }else{
+        bnProfile.setAttribute('href','login.html');
+        bnProfileLabel.textContent = 'Se connecter';
+        bnProfile.setAttribute('data-auth','required');
+      }
+    });
+  }
+
   async function signOutAndRefresh(){
     try{
-      // Empêche des clics multiples pendant la déco
+      // Empêcher les clics pendant la déconnexion
       if(profileDropdown) profileDropdown.style.pointerEvents = 'none';
       await sb.auth.signOut();
     }catch(err){
       console.error('Erreur déconnexion:', err);
     }finally{
       if(profileDropdown) profileDropdown.style.pointerEvents = '';
-      await updateProfileUI();
-      syncHeaderAuthLink();
+      // Fermer les overlays avant reload
       closeProfile();
       closeMenu();
-      // Optionnel: forcer un refresh pour tout réinitialiser
-      // location.reload();
+      // Rafraîchissement demandé après déconnexion
+      location.reload();
     }
   }
 
-  // Bouton Déconnexion du dropdown profil
-  safeOn(logoutBtn, 'click', async (e)=>{
-    e.preventDefault();
-    await signOutAndRefresh();
-  });
+  // Bouton Déconnexion dans le dropdown
+  if(logoutBtn){
+    logoutBtn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      await signOutAndRefresh();
+    });
+  }
 
-  // Init au chargement
+  // Init
+  setActiveBottomNav();
   updateProfileUI();
   syncHeaderAuthLink();
+  updateBottomNavAuthUI();
 
-  // Suivre les changements d’état (login/logout)
+  // Réagir aux changements d’état (login/logout)
   sb.auth.onAuthStateChange((_event, _session)=>{
     updateProfileUI();
     syncHeaderAuthLink();
+    updateBottomNavAuthUI();
   });
-
-  // Si vous n’avez pas besoin de cette requête, laissez-la commentée (elle peut être bloquée par les politiques RLS)
-  // async function loadUsers(){
-  //   let { data, error } = await sb.from("users").select("*");
-  //   if(error){console.error("Erreur Supabase:",error);} else {console.log("Utilisateurs:",data);}
-  // }
-  // loadUsers();
 });
 </script>
 
-<!-- === Bottom Nav RENOLIX (coller avant </body>) === -->
+<!-- === Bottom Nav RENOLIX === -->
 <style>
   :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
   body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
@@ -417,78 +458,9 @@ document.addEventListener('DOMContentLoaded', function(){
     <span class="bn-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
     </span>
-    <span class="bn-label" id="bn-profile-label">Profil</span>
+    <span class="bn-label" id="bn-profile-label">Se connecter</span>
   </a>
 </nav>
-
-<script>
-  (function(){
-    function getSb(){
-      if (window._sb && window._sb.auth && window._sb.auth.getUser) return window._sb;
-      if (typeof supabaseClient !== 'undefined' && supabaseClient.auth && supabaseClient.auth.getUser) return supabaseClient;
-      return null;
-    }
-
-    // Active state
-    function setActive(){
-      var path = (location.pathname || "").toLowerCase();
-      document.querySelectorAll('.bottom-nav .bn-item').forEach(function(a){
-        var route = (a.getAttribute('data-route')||"").toLowerCase();
-        if(!route) return;
-        if(path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path===''))){
-          a.classList.add('active');
-        }
-      });
-    }
-    setActive();
-
-    // Guard auth pour liens protégés
-    function guardAuthLink(e){
-      var href = e.currentTarget.getAttribute('href');
-      var sb = getSb();
-      e.preventDefault();
-      if(!sb){
-        var next = encodeURIComponent(href);
-        location.href = 'login.html?next='+next;
-        return;
-      }
-      sb.auth.getUser().then(({data:{user}})=>{
-        if(user){ location.href = href; }
-        else{ location.href = 'login.html?next='+encodeURIComponent(href); }
-      }).catch(()=>{ location.href = 'login.html?next='+encodeURIComponent(href); });
-    }
-    document.querySelectorAll('.bottom-nav .bn-item[data-auth="required"]').forEach(function(a){
-      a.addEventListener('click', guardAuthLink);
-    });
-
-    // Met à jour le lien Profil/Se connecter selon session
-    function updateProfileLink(){
-      var a = document.getElementById('bn-profile');
-      var lbl = document.getElementById('bn-profile-label');
-      if(!a || !lbl) return;
-      var sb = getSb();
-      if(!sb){
-        a.setAttribute('href','login.html');
-        lbl.textContent = 'Se connecter';
-        a.setAttribute('data-auth','required');
-        return;
-      }
-      sb.auth.getUser().then(({data:{user}})=>{
-        if(user){
-          a.setAttribute('href','profil.html');
-          lbl.textContent = 'Profil';
-          a.removeAttribute('data-auth');
-        }else{
-          a.setAttribute('href','login.html');
-          lbl.textContent = 'Se connecter';
-          a.setAttribute('data-auth','required');
-        }
-      });
-      if(sb && sb.auth && sb.auth.onAuthStateChange){ sb.auth.onAuthStateChange(updateProfileLink); }
-    }
-    updateProfileLink();
-  })();
-</script>
 <!-- === /Bottom Nav RENOLIX === -->
 
 </body>
