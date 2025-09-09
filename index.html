@@ -17,9 +17,11 @@ header {display:flex;align-items:center;justify-content:space-between;padding:5p
 .header-center h1 {margin:0;font-size:28.5px;letter-spacing:2px;font-family:'Playfair Display',serif;font-weight:700;background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite;}
 @keyframes luxuryShine {0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 .menu {display:flex;align-items:center;padding-right:25px;}
-nav {display:flex;gap:15px;align-items:center;}
-nav a {color:#222;text-decoration:none;font-weight:500;transition:.3s;}
-nav a:hover {color:#d4af37;}
+
+/* IMPORTANT: cibler uniquement la nav du header */
+header nav {display:flex;gap:15px;align-items:center;}
+header nav a {color:#222;text-decoration:none;font-weight:500;transition:.3s;}
+header nav a:hover {color:#d4af37;}
 .connexion-btn {display:inline-block;background:linear-gradient(90deg,#d4af37,#b8860b);color:#fff !important;font-weight:bold;padding:8px 18px;border-radius:20px;text-decoration:none;margin-top:10px;transition:0.3s;text-align:center;}
 .connexion-btn:hover {box-shadow:0 0 15px #d4af37;}
 .menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
@@ -29,10 +31,10 @@ nav a:hover {color:#d4af37;}
 .submenu a:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#222;box-shadow:0 0 8px #ffd700,0 0 15px #d4af37;}
 @keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
 @media(max-width:768px){
-  nav {position:absolute;top:60px;right:10px;width:220px;flex-direction:column;display:none;padding:15px 20px;background:rgba(255,255,255,0.3);backdrop-filter:blur(12px);border:2px solid #d4af37;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:1050;transition:all 0.4s ease;}
-  nav.active {display:flex;}
-  nav a {margin:5px 0;padding:10px 15px;font-weight:600;color:#222;text-transform:uppercase;letter-spacing:1px;border-radius:10px;transition:all 0.3s ease;}
-  nav a:hover {background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff;box-shadow:0 0 10px #ffd700,0 0 20px #d4af37;}
+  header nav {position:absolute;top:60px;right:10px;width:220px;flex-direction:column;display:none;padding:15px 20px;background:rgba(255,255,255,0.3);backdrop-filter:blur(12px);border:2px solid #d4af37;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:1050;transition:all 0.4s ease;}
+  header nav.active {display:flex;}
+  header nav a {margin:5px 0;padding:10px 15px;font-weight:600;color:#222;text-transform:uppercase;letter-spacing:1px;border-radius:10px;transition:all 0.3s ease;}
+  header nav a:hover {background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff;box-shadow:0 0 10px #ffd700,0 0 20px #d4af37;}
   .menu-toggle {display:flex;}
 }
 
@@ -105,16 +107,14 @@ footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
       <a href="login.html" class="connexion-btn">Connexion</a>
     </nav>
 
-    <!-- Icône Profil (entre le titre RENOLIX et le menu hamburger) -->
+    <!-- Icône Profil -->
     <div class="profile" id="profile">
       <button class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
-        <!-- Icône utilisateur -->
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path>
         </svg>
       </button>
       <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
-        <!-- État connecté -->
         <div id="profile-logged-in" class="hidden">
           <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
           <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
@@ -122,7 +122,6 @@ footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
           <div class="profile-divider"></div>
           <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
         </div>
-        <!-- État non connecté -->
         <div id="profile-logged-out" class="hidden">
           <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
         </div>
@@ -273,17 +272,19 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
   await supabaseClient.auth.signOut();
   updateProfileUI();
   closeProfile();
-  // window.location.reload(); // Décommente si tu veux recharger la page après déconnexion
 });
 </script>
 
-<!-- BOTTOM NAV -->
+<!-- === Bottom Nav RENOLIX (coller avant </body>) === -->
 <style>
   :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
+  /* Espace pour ne pas masquer le contenu par la barre */
   body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 
   .bottom-nav{
     position:fixed; left:50%; transform:translateX(-50%);
+    /* forcer le bas et neutraliser un éventuel top hérité */
+    top:auto !important;
     bottom: calc(10px + env(safe-area-inset-bottom));
     width:min(900px, calc(100% - 20px));
     height:68px;
@@ -305,6 +306,7 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
   .bn-item.active .bn-icon svg,
   .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
 
+  /* CTA Devis mis en valeur */
   .bn-cta{
     margin:8px; border-radius:14px;
     background:linear-gradient(90deg,var(--gold),var(--gold2));
@@ -319,51 +321,105 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
   }
 </style>
 
-<style>
-  :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
-  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+<nav class="bottom-nav" role="navigation" aria-label="Navigation inférieure">
+  <a href="index.html" class="bn-item" data-route="index.html" aria-label="Accueil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 3 3 11v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4h2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-8Z"/></svg>
+    </span>
+    <span class="bn-label">Accueil</span>
+  </a>
 
-  .bottom-nav{
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: calc(10px + env(safe-area-inset-bottom));
-    width: min(900px, calc(100% - 20px));
-    height: 68px;
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    border: 2px solid var(--gold);
-    border-radius: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.22);
-    z-index: 1100;
-  }
-  .bn-item{
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
-    text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px;
-    -webkit-tap-highlight-color:transparent; transition:transform .15s ease;
-  }
-  .bn-item:active{ transform:translateY(1px); }
-  .bn-icon svg{ width:22px; height:22px; fill:#666; transition:transform .2s ease, filter .2s ease, fill .2s ease; }
-  .bn-item:hover .bn-icon svg{ filter:drop-shadow(0 0 8px rgba(212,175,55,.5)); transform:translateY(-2px); }
+  <a href="suivi-chantier.html" class="bn-item" data-route="suivi-chantier.html" data-auth="required" aria-label="Suivi du chantier">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M9 7h10v2H9zM9 11h10v2H9zM9 15h10v2H9zM7.5 6 6 7.5 4.5 6 3 7.5 6 10.5 9 7.5z"/></svg>
+    </span>
+    <span class="bn-label">Suivi</span>
+  </a>
 
-  .bn-item.active .bn-icon svg,
-  .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
+  <a href="devis-gratuit.html" class="bn-item bn-cta" data-route="devis-gratuit.html" aria-label="Demander un devis">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#fff" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
+    </span>
+    <span class="bn-label">Devis</span>
+  </a>
 
-  .bn-cta{
-    margin:8px; border-radius:14px;
-    background:linear-gradient(90deg,var(--gold),var(--gold2));
-    box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4);
-    color:#fff;
-  }
-  .bn-cta .bn-icon svg{ fill:#fff; }
-  .bn-cta .bn-label{ color:#fff; }
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" aria-label="Profil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
+    </span>
+    <span class="bn-label" id="bn-profile-label">Profil</span>
+  </a>
+</nav>
 
-  @media (prefers-reduced-motion: reduce){
-    .bn-item,.bn-icon svg{ transition:none !important; }
-  }
-</style>
+<script>
+  (function(){
+    function getSb(){
+      if (window._sb && window._sb.auth && window._sb.auth.getUser) return window._sb;
+      if (typeof supabaseClient !== 'undefined' && supabaseClient.auth && supabaseClient.auth.getUser) return supabaseClient;
+      return null;
+    }
+
+    // Active state
+    function setActive(){
+      var path = (location.pathname || "").toLowerCase();
+      document.querySelectorAll('.bottom-nav .bn-item').forEach(function(a){
+        var route = (a.getAttribute('data-route')||"").toLowerCase();
+        if(!route) return;
+        if(path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path===''))){
+          a.classList.add('active');
+        }
+      });
+    }
+    setActive();
+
+    // Guard auth for protected links
+    function guardAuthLink(e){
+      var href = e.currentTarget.getAttribute('href');
+      var sb = getSb();
+      e.preventDefault();
+      if(!sb){
+        var next = encodeURIComponent(href);
+        location.href = 'login.html?next='+next;
+        return;
+      }
+      sb.auth.getUser().then(({data:{user}})=>{
+        if(user){ location.href = href; }
+        else{ location.href = 'login.html?next='+encodeURIComponent(href); }
+      }).catch(()=>{ location.href = 'login.html?next='+encodeURIComponent(href); });
+    }
+    document.querySelectorAll('.bottom-nav .bn-item[data-auth="required"]').forEach(function(a){
+      a.addEventListener('click', guardAuthLink);
+    });
+
+    // Update profile link based on session
+    function updateProfileLink(){
+      var a = document.getElementById('bn-profile');
+      var lbl = document.getElementById('bn-profile-label');
+      if(!a || !lbl) return;
+      var sb = getSb();
+      if(!sb){
+        a.setAttribute('href','login.html');
+        lbl.textContent = 'Se connecter';
+        a.setAttribute('data-auth','required');
+        return;
+      }
+      sb.auth.getUser().then(({data:{user}})=>{
+        if(user){
+          a.setAttribute('href','profil.html');
+          lbl.textContent = 'Profil';
+          a.removeAttribute('data-auth');
+        }else{
+          a.setAttribute('href','login.html');
+          lbl.textContent = 'Se connecter';
+          a.setAttribute('data-auth','required');
+        }
+      });
+      if(sb && sb.auth && sb.auth.onAuthStateChange){ sb.auth.onAuthStateChange(updateProfileLink); }
+    }
+    updateProfileLink();
+  })();
+</script>
+<!-- === /Bottom Nav RENOLIX === -->
 
 </body>
 </html>
