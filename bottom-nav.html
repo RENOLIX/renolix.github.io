@@ -1,26 +1,39 @@
 <!-- bottom-nav.html -->
 <style>
-  :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
-  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  :root{
+    --gold:#d4af37;
+    --gold2:#ffd700;
+    --ink:#222;
+    --glass:rgba(255,255,255,0.92);
+    --font-family:'Montserrat',sans-serif; /* même police que ton site */
+  }
+
+  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); font-family:var(--font-family); }
 
   .bottom-nav{
-    position:fixed; left:50%; transform:translateX(-50%);
-    top:auto !important;
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
     bottom: calc(10px + env(safe-area-inset-bottom));
     width:min(900px, calc(100% - 20px));
     height:68px;
     display:grid; grid-template-columns:repeat(4,1fr);
-    background:var(--glass); backdrop-filter:blur(12px);
-    border:2px solid var(--gold); border-radius:18px;
+    background:var(--glass);
+    backdrop-filter:blur(12px);
+    border:2px solid var(--gold);
+    border-radius:18px;
     box-shadow:0 10px 25px rgba(0,0,0,0.22);
     z-index:1100;
+    font-family:var(--font-family);
   }
+
   .bn-item{
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
     text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px;
-    -webkit-tap-highlight-color:transparent; transition:transform .15s ease;
+    transition:transform .15s ease;
   }
   .bn-item:active{ transform:translateY(1px); }
+
   .bn-icon svg{ width:22px; height:22px; fill:#666; transition:transform .2s ease, filter .2s ease, fill .2s ease; }
   .bn-item:hover .bn-icon svg{ filter:drop-shadow(0 0 8px rgba(212,175,55,.5)); transform:translateY(-2px); }
   .bn-item.active .bn-icon svg,
@@ -78,6 +91,7 @@
     return null;
   }
 
+  // Activer le lien actif
   function setActive(){
     var path = (location.pathname || "").toLowerCase();
     document.querySelectorAll('.bottom-nav .bn-item').forEach(function(a){
@@ -90,6 +104,7 @@
   }
   setActive();
 
+  // Redirection si lien protégé
   function guardAuthLink(e){
     var href = e.currentTarget.getAttribute('href');
     var sb = getSb();
@@ -103,10 +118,11 @@
       else{ location.href = 'login.html?next='+encodeURIComponent(href); }
     }).catch(()=>{ location.href = 'login.html?next='+encodeURIComponent(href); });
   }
-  document.querySelectorAll('.bottom-nav .bn-item[data-auth="required"]').forEach(function(a){
+  document.querySelectorAll('.bottom-nav .bn-item[data-auth="required"]').forEach(a=>{
     a.addEventListener('click', guardAuthLink);
   });
 
+  // Mettre à jour Profil selon la session
   function updateProfileLink(){
     var a = document.getElementById('bn-profile');
     var lbl = document.getElementById('bn-profile-label');
