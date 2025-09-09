@@ -223,11 +223,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Header/menu
   const nav = document.getElementById('nav-links');
+  window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
+
   const submenuBtn = document.getElementById('realisations-btn');
   const submenu = document.getElementById('realisations-submenu');
-  window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
-  function closeMenu(){ nav && nav.classList.remove('active'); }
-
   if(submenuBtn){
     submenuBtn.addEventListener('click', function(e){
       e.preventDefault();
@@ -245,9 +244,9 @@ document.addEventListener('DOMContentLoaded', function(){
   const profileEmailEl  = document.getElementById('profileEmail');
   const logoutBtn       = document.getElementById('logoutBtn');
 
-  function openProfile(){ if(profileDropdown){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); } }
-  function closeProfile(){ if(profileDropdown){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); } }
-  function toggleProfile(){ profileDropdown && (profileDropdown.classList.contains('open') ? closeProfile() : openProfile()); }
+  function openProfile(){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); }
+  function closeProfile(){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); }
+  function toggleProfile(){ profileDropdown.classList.contains('open') ? closeProfile() : openProfile(); }
 
   if(profileButton){ profileButton.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); }); }
   document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
@@ -258,55 +257,56 @@ document.addEventListener('DOMContentLoaded', function(){
     try{
       const { data: { user } } = await sb.auth.getUser();
       if(user){
-        loggedOutBox && loggedOutBox.classList.add('hidden');
-        loggedInBox  && loggedInBox.classList.remove('hidden');
+        loggedOutBox?.classList.add('hidden');
+        loggedInBox?.classList.remove('hidden');
         if(profileEmailEl) profileEmailEl.textContent = user.email || '';
       }else{
-        loggedInBox  && loggedInBox.classList.add('hidden');
-        loggedOutBox && loggedOutBox.classList.remove('hidden');
+        loggedInBox?.classList.add('hidden');
+        loggedOutBox?.classList.remove('hidden');
         if(profileEmailEl) profileEmailEl.textContent = '';
       }
     }catch(err){
       console.error("Erreur récupération utilisateur:", err);
-      loggedInBox  && loggedInBox.classList.add('hidden');
-      loggedOutBox && loggedOutBox.classList.remove('hidden');
+      loggedInBox?.classList.add('hidden');
+      loggedOutBox?.classList.remove('hidden');
     }
   }
 
   // Header Connexion -> Déconnexion
+  const navAuthLink = document.getElementById('navAuthLink');
+  function closeMenu(){ nav && nav.classList.remove('active'); }
+
   function syncHeaderAuthLink(){
-    const link = document.getElementById('navAuthLink');
-    if(!link) return;
+    if(!navAuthLink) return;
     sb.auth.getUser().then(({data:{user}})=>{
-      // supprimer anciens listeners en clonant
-      const fresh = link.cloneNode(true);
-      link.parentNode.replaceChild(fresh, link);
-      const newLink = document.getElementById('navAuthLink');
+      // purge anciens listeners
+      const clone = navAuthLink.cloneNode(true);
+      navAuthLink.parentNode.replaceChild(clone, navAuthLink);
+      const link = document.getElementById('navAuthLink');
 
       if(user){
-        newLink.textContent = 'Déconnexion';
-        newLink.setAttribute('href', '#');
-        newLink.dataset.mode = 'logout';
-        newLink.addEventListener('click', async (e)=>{
+        link.textContent = 'Déconnexion';
+        link.setAttribute('href', '#');
+        link.dataset.mode = 'logout';
+        link.addEventListener('click', async (e)=>{
           e.preventDefault();
           await signOutAndGoHome();
         });
       }else{
-        newLink.textContent = 'Connexion';
-        newLink.setAttribute('href', 'login.html');
-        newLink.dataset.mode = 'login';
+        link.textContent = 'Connexion';
+        link.setAttribute('href', 'login.html');
+        link.dataset.mode = 'login';
       }
     });
   }
 
-  // Déconnexion + redirection accueil
   async function signOutAndGoHome(){
     try{ await sb.auth.signOut(); }
     catch(err){ console.error('Erreur déconnexion:', err); }
     finally{
       closeProfile();
       closeMenu();
-      location.replace('index.html'); // refresh + go home
+      location.replace('index.html'); // refresh + redirection
     }
   }
 
@@ -317,11 +317,9 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  // Init
+  // Init + écoute des changements
   updateProfileUI();
   syncHeaderAuthLink();
-
-  // Suivi des changements
   sb.auth.onAuthStateChange((_event,_session)=>{
     updateProfileUI();
     syncHeaderAuthLink();
@@ -332,7 +330,9 @@ document.addEventListener('DOMContentLoaded', function(){
 <!-- === Bottom Nav RENOLIX (Accueil > Suivi > Devis > Profil/Se connecter) === -->
 <style>
   :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
+  /* Espace pour ne pas masquer le contenu par la barre */
   body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+
   .bottom-nav{
     position:fixed; left:50%; transform:translateX(-50%);
     top:auto !important;
@@ -345,16 +345,28 @@ document.addEventListener('DOMContentLoaded', function(){
     box-shadow:0 10px 25px rgba(0,0,0,0.22);
     z-index:1100;
   }
-  .bn-item{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
-    text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px; -webkit-tap-highlight-color:transparent; transition:transform .15s ease; }
+  .bn-item{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px;
+    -webkit-tap-highlight-color:transparent; transition:transform .15s ease;
+  }
   .bn-item:active{ transform:translateY(1px); }
   .bn-icon svg{ width:22px; height:22px; fill:#666; transition:transform .2s ease, filter .2s ease, fill .2s ease; }
   .bn-item:hover .bn-icon svg{ filter:drop-shadow(0 0 8px rgba(212,175,55,.5)); transform:translateY(-2px); }
-  .bn-item.active .bn-icon svg, .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
-  .bn-cta{ margin:8px; border-radius:14px; background:linear-gradient(90deg,var(--gold),var(--gold2));
-    box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4); color:#fff; }
+
+  .bn-item.active .bn-icon svg,
+  .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
+
+  /* CTA Devis mis en valeur */
+  .bn-cta{
+    margin:8px; border-radius:14px;
+    background:linear-gradient(90deg,var(--gold),var(--gold2));
+    box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4);
+    color:#fff;
+  }
   .bn-cta .bn-icon svg{ fill:#fff; }
   .bn-cta .bn-label{ color:#fff; }
+
   @media (prefers-reduced-motion: reduce){
     .bn-item,.bn-icon svg{ transition:none !important; }
   }
@@ -382,8 +394,8 @@ document.addEventListener('DOMContentLoaded', function(){
     <span class="bn-label">Devis</span>
   </a>
 
-  <!-- Initialement: Se connecter (sera Profil après login) -->
-  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Profil">
+  <!-- Initialement Se connecter (après login => Profil) -->
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" aria-label="Profil">
     <span class="bn-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
     </span>
