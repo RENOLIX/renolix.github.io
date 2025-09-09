@@ -6,144 +6,72 @@
 <title>RENOLIX - À propos</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-body {
-  margin:0;
-  font-family:'Montserrat', sans-serif;
-  background:#fff;
-  color:#222;
-  line-height:1.7;
-}
+body { margin:0; font-family:'Montserrat', sans-serif; background:#fff; color:#222; line-height:1.7; }
 
 /* HEADER */
-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:5px 20px;
-  height:60px;
-  position:fixed;
-  width:100%;
-  top:0;
-  z-index:1000;
-  background:rgba(255,255,255,0.95);
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
-.logo-container {display:flex;align-items:center;}
-.logo-container img{width:50px;height:auto;}
-.header-center {
-  position:absolute;
-  left:46%;
-  letter-spacing:2px;
-  transform:translateX(-50%);
-  text-align:center;
-}
-.header-center a {text-decoration:none;}
-.header-center h1 {
-  margin:0; font-size:28.5px; font-family:'Playfair Display', serif; font-weight:700;
-  background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);
-  background-size:200% 200%;
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  animation:luxuryShine 2.2s linear infinite;
-}
-@keyframes luxuryShine {0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+header { display:flex; align-items:center; justify-content:space-between; padding:5px 20px; height:60px; position:fixed; width:100%; top:0; z-index:1000; background:rgba(255,255,255,0.95); box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+.logo-container { display:flex; align-items:center; }
+.logo-container img{ width:50px; height:auto; }
+.header-center { position:absolute; left:46%; letter-spacing:2px; transform:translateX(-50%); text-align:center; }
+.header-center a { text-decoration:none; }
+.header-center h1 { margin:0; font-size:28.5px; font-family:'Playfair Display', serif; font-weight:700;
+  background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%); background-size:200% 200%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:luxuryShine 2.2s linear infinite; }
+@keyframes luxuryShine { 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
 
-.menu {display:flex;align-items:center;padding-right:25px;}
+.menu { display:flex; align-items:center; padding-right:25px; }
 
-/* IMPORTANT: cibler uniquement la nav du header pour éviter d'affecter la bottom-nav */
-header nav {display:flex;gap:15px;align-items:center;}
-header nav a {color:#222;text-decoration:none;font-weight:500;transition:.3s;}
-header nav a:hover {color:#d4af37;}
+/* cibler uniquement la nav du header */
+header nav { display:flex; gap:15px; align-items:center; }
+header nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+header nav a:hover { color:#d4af37; }
 
 /* Bouton Connexion */
-.connexion-btn {
-  display:inline-block;
-  background:linear-gradient(90deg,#d4af37,#b8860b);
-  color:#fff !important;
-  font-weight:bold;
-  padding:8px 18px;
-  border-radius:20px;
-  text-decoration:none;
-  margin-top:10px;
-  transition:0.3s;
-  text-align:center;
-}
+.connexion-btn { display:inline-block; background:linear-gradient(90deg,#d4af37,#b8860b); color:#fff !important; font-weight:bold; padding:8px 18px; border-radius:20px; text-decoration:none; margin-top:10px; transition:0.3s; text-align:center; }
 .connexion-btn:hover { box-shadow:0 0 15px #d4af37; }
 
 /* Hamburger */
-.menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
-.menu-toggle div {width:25px;height:3px;background:#222;margin:4px 0;transition:0.3s;}
+.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
+.menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
 
-/* Sous-menu Réalisations (desktop + mobile) */
-.submenu {
-  display:none;
-  flex-direction:column;
-  padding-left:15px;
-  margin-top:5px;
-  border-left:2px solid #d4af37;
-  animation:submenuSlide 0.4s ease forwards;
-}
-.submenu a {padding:8px 15px;font-weight:500;border-radius:8px;transition:all 0.3s ease;}
-.submenu a:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#222;box-shadow:0 0 8px #ffd700,0 0 15px #d4af37;}
-@keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
+/* Sous-menu Réalisations */
+.submenu { display:none; flex-direction:column; padding-left:15px; margin-top:5px; border-left:2px solid #d4af37; animation:submenuSlide 0.4s ease forwards; }
+.submenu a { padding:8px 15px; font-weight:500; border-radius:8px; transition:all 0.3s ease; }
+.submenu a:hover { background:linear-gradient(90deg,#ffd700,#d4af37); color:#222; box-shadow:0 0 8px #ffd700,0 0 15px #d4af37; }
+@keyframes submenuSlide { 0%{opacity:0;transform:translateY(-10px);} 100%{opacity:1;transform:translateY(0);} }
 
 /* Mobile */
 @media(max-width:768px){
-  header nav {
-    position:absolute; top:60px; right:10px; width:220px; flex-direction:column; display:none;
-    padding:15px 20px; background:rgba(255,255,255,0.3); backdrop-filter:blur(12px);
-    border:2px solid #d4af37; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.25); z-index:1050;
-    transition:all 0.4s ease;
-  }
-  header nav.active {display:flex;flex-direction:column;}
-  header nav a {
-    margin:5px 0; padding:10px 15px; font-weight:600; color:#222; text-transform:uppercase;
-    letter-spacing:1px; border-radius:10px; transition:all 0.3s ease;
-  }
-  header nav a:hover {background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff; 
-    box-shadow:0 0 10px #ffd700,0 0 20px #d4af37;}
-  .menu-toggle {display:flex;}
+  header nav { position:absolute; top:60px; right:10px; width:220px; flex-direction:column; display:none; padding:15px 20px; background:rgba(255,255,255,0.3); backdrop-filter:blur(12px); border:2px solid #d4af37; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.25); z-index:1050; transition:all 0.4s ease; }
+  header nav.active { display:flex; flex-direction:column; }
+  header nav a { margin:5px 0; padding:10px 15px; font-weight:600; color:#222; text-transform:uppercase; letter-spacing:1px; border-radius:10px; transition:all 0.3s ease; }
+  header nav a:hover { background:linear-gradient(90deg,#d4af37,#ffd700); color:#fff; box-shadow:0 0 10px #ffd700,0 0 20px #d4af37; }
+  .menu-toggle { display:flex; }
 }
 
 /* PROFILE MENU */
-.profile {position:relative;margin:0 8px 0 6px;z-index:1100;}
-.profile-btn {
-  width:38px;height:38px;border-radius:50%;border:2px solid transparent;
-  background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#d4af37,#b8860b) border-box;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s ease;
-}
-.profile-btn:hover {box-shadow:0 0 12px rgba(212,175,55,0.8);transform:translateY(-2px);}
-.profile-btn svg {width:20px;height:20px;fill:#b8860b;}
-.profile-dropdown {
-  position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,0.92);
-  backdrop-filter:blur(12px);border:2px solid #d4af37;border-radius:14px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);padding:8px;display:none;
-}
-.profile-dropdown.open {display:block;animation:submenuSlide 0.25s ease forwards;}
-.profile-email {font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,0.5);border-radius:8px;}
-.profile-item {display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:#222;text-decoration:none;font-weight:600;transition:all 0.3s ease;}
-.profile-item:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px #d4af37;}
-.profile-divider {height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,#d4af37,transparent);}
-.hidden {display:none;}
+.profile { position:relative; margin:0 8px 0 6px; z-index:1100; }
+.profile-btn { width:38px; height:38px; border-radius:50%; border:2px solid transparent; background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#d4af37,#b8860b) border-box; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; }
+.profile-btn:hover { box-shadow:0 0 12px rgba(212,175,55,0.8); transform:translateY(-2px); }
+.profile-btn svg { width:20px; height:20px; fill:#b8860b; }
+.profile-dropdown { position:absolute; top:46px; right:0; min-width:230px; background:rgba(255,255,255,0.92); backdrop-filter:blur(12px); border:2px solid #d4af37; border-radius:14px; box-shadow:0 10px 25px rgba(0,0,0,0.2); padding:8px; display:none; }
+.profile-dropdown.open { display:block; animation:submenuSlide 0.25s ease forwards; }
+.profile-email { font-size:13px; color:#444; margin:4px 8px 8px; padding:6px 8px; background:#faf7ef; border:1px dashed rgba(212,175,55,0.5); border-radius:8px; }
+.profile-item { display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; color:#222; text-decoration:none; font-weight:600; transition:all 0.3s ease; }
+.profile-item:hover { background:linear-gradient(90deg,#ffd700,#d4af37); color:#fff; box-shadow:0 0 10px #ffd700,0 0 18px #d4af37; }
+.profile-divider { height:1px; margin:6px 4px; background:linear-gradient(90deg,transparent,#d4af37,transparent); }
+.hidden { display:none; }
 
 /* SECTIONS */
-section {padding:60px 10%;max-width:1100px;margin:auto;}
-h2 {
-  color:#d4af37; text-align:center; margin-bottom:25px; font-size:32px; font-family:'Montserrat', sans-serif;
-}
-.apropos-section {margin-bottom:60px;}
-.apropos-section h3 {font-size:24px;margin-bottom:15px;color:#000;font-weight:700;}
-.apropos-section p {font-size:16px;color:#444;text-align:justify;}
+section { padding:60px 10%; max-width:1100px; margin:auto; }
+h2 { color:#d4af37; text-align:center; margin-bottom:25px; font-size:32px; font-family:'Montserrat', sans-serif; }
+.apropos-section { margin-bottom:60px; }
+.apropos-section h3 { font-size:24px; margin-bottom:15px; color:#000; font-weight:700; }
+.apropos-section p { font-size:16px; color:#444; text-align:justify; }
 
 /* FOOTER */
-footer {
-  background:#f9f9f9;
-  padding:25px;
-  text-align:center;
-  color:#555;
-  font-size:14px;
-  border-top:1px solid #eee;
-}
-footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
+footer { background:#f9f9f9; padding:25px; text-align:center; color:#555; font-size:14px; border-top:1px solid #eee; }
+footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 </style>
 </head>
 <body>
@@ -170,7 +98,8 @@ footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
-      <a href="login.html" class="connexion-btn">Connexion</a>
+      <!-- Ce lien sera transformé en "Déconnexion" après login -->
+      <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
     </nav>
 
     <!-- Icône Profil -->
@@ -207,29 +136,17 @@ footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
 
   <div class="apropos-section">
     <h3>Notre Vision</h3>
-    <p>
-      RENOLIX n’est pas une simple entreprise de rénovation, c’est une vision. Une vision qui consiste à transformer les espaces de vie en véritables œuvres d’art modernes et intemporelles. 
-      Nous croyons que chaque intérieur mérite une identité unique, une atmosphère qui reflète la personnalité de ses habitants et un confort pensé dans les moindres détails. 
-      Nous plaçons l’innovation, le design et l’élégance au centre de toutes nos créations, pour offrir une expérience haut de gamme qui dépasse la simple rénovation.
-    </p>
+    <p>RENOLIX n’est pas une simple entreprise de rénovation, c’est une vision. Une vision qui consiste à transformer les espaces de vie en véritables œuvres d’art modernes et intemporelles. Nous croyons que chaque intérieur mérite une identité unique, une atmosphère qui reflète la personnalité de ses habitants et un confort pensé dans les moindres détails. Nous plaçons l’innovation, le design et l’élégance au centre de toutes nos créations, pour offrir une expérience haut de gamme qui dépasse la simple rénovation.</p>
   </div>
 
   <div class="apropos-section">
     <h3>Notre Expertise</h3>
-    <p>
-      Avec une équipe d’artisans passionnés, d’architectes d’intérieur et de techniciens hautement qualifiés, RENOLIX maîtrise l’art de conjuguer esthétisme et fonctionnalité. 
-      Chaque projet est pensé comme une pièce sur mesure, où le choix des matériaux, la précision des finitions et l’attention portée aux détails garantissent une qualité irréprochable. 
-      Du placo sophistiqué aux cuisines modernes, en passant par l’électricité et la plomberie intégrées intelligemment, nous apportons une expertise complète et luxueuse à vos projets.
-    </p>
+    <p>Avec une équipe d’artisans passionnés, d’architectes d’intérieur et de techniciens hautement qualifiés, RENOLIX maîtrise l’art de conjuguer esthétisme et fonctionnalité. Chaque projet est pensé comme une pièce sur mesure, où le choix des matériaux, la précision des finitions et l’attention portée aux détails garantissent une qualité irréprochable. Du placo sophistiqué aux cuisines modernes, en passant par l’électricité et la plomberie intégrées intelligemment, nous apportons une expertise complète et luxueuse à vos projets.</p>
   </div>
 
   <div class="apropos-section">
     <h3>Notre Engagement</h3>
-    <p>
-      Chez RENOLIX, nous nous engageons à offrir plus qu’un simple service : une promesse. La promesse de délais respectés, de transparence totale et d’une satisfaction absolue. 
-      Chaque client est au cœur de notre démarche, car nous savons qu’une maison rénovée n’est pas qu’un projet, mais un rêve qui se réalise. 
-      Nous façonnons des intérieurs qui inspirent, qui durent et qui élèvent le quotidien à un niveau supérieur. RENOLIX, c’est l’art de sublimer vos espaces et d’élever votre confort.
-    </p>
+    <p>Chez RENOLIX, nous nous engageons à offrir plus qu’un simple service : une promesse. La promesse de délais respectés, de transparence totale et d’une satisfaction absolue. Chaque client est au cœur de notre démarche, car nous savons qu’une maison rénovée n’est pas qu’un projet, mais un rêve qui se réalise. Nous façonnons des intérieurs qui inspirent, qui durent et qui élèvent le quotidien à un niveau supérieur. RENOLIX, c’est l’art de sublimer vos espaces et d’élever votre confort.</p>
   </div>
 
 </section>
@@ -246,70 +163,178 @@ footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function toggleMenu(){
-  document.getElementById('nav-links').classList.toggle('active');
-}
-document.getElementById('realisations-btn').addEventListener('click', function(e){
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', function(){
+  // Supabase
+  const { createClient } = supabase;
+  const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+  const sb = createClient(supabaseUrl, supabaseKey);
+  window._sb = sb;
+
+  // Sélecteurs header / menu / profil
+  const nav = document.getElementById('nav-links');
+  const navAuthLink = document.getElementById('navAuthLink'); // Connexion/Déconnexion dans le header (et hamburger)
+  const submenuBtn = document.getElementById('realisations-btn');
   const submenu = document.getElementById('realisations-submenu');
-  submenu.style.display = submenu.style.display === "flex" ? "none" : "flex";
-  submenu.style.flexDirection = "column";
-});
 
-/* Supabase */
-const { createClient } = supabase;
-const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
-const supabaseClient = createClient(supabaseUrl, supabaseKey);
+  const profileButton   = document.getElementById('profileButton');
+  const profileDropdown = document.getElementById('profileDropdown');
+  const loggedInBox     = document.getElementById('profile-logged-in');
+  const loggedOutBox    = document.getElementById('profile-logged-out');
+  const profileEmailEl  = document.getElementById('profileEmail');
+  const logoutBtn       = document.getElementById('logoutBtn');
 
-/* Icône profil + menu */
-const profileButton = document.getElementById('profileButton');
-const profileDropdown = document.getElementById('profileDropdown');
-const loggedInBox = document.getElementById('profile-logged-in');
-const loggedOutBox = document.getElementById('profile-logged-out');
-const profileEmailEl = document.getElementById('profileEmail');
+  // Bottom nav
+  const bnProfile = document.getElementById('bn-profile');
+  const bnProfileLabel = document.getElementById('bn-profile-label');
 
-function openProfile(){profileDropdown.classList.add('open');profileButton.setAttribute('aria-expanded','true');profileDropdown.setAttribute('aria-hidden','false');}
-function closeProfile(){profileDropdown.classList.remove('open');profileButton.setAttribute('aria-expanded','false');profileDropdown.setAttribute('aria-hidden','true');}
-function toggleProfile(){profileDropdown.classList.contains('open') ? closeProfile() : openProfile();}
+  // Helpers
+  window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
+  function closeMenu(){ nav && nav.classList.remove('active'); }
 
-profileButton.addEventListener('click', (e)=>{e.stopPropagation();toggleProfile();});
-document.addEventListener('click', (e)=>{ if(!profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
-document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
+  function openProfile(){ if(profileDropdown){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); } }
+  function closeProfile(){ if(profileDropdown){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); } }
+  function toggleProfile(){ profileDropdown && (profileDropdown.classList.contains('open') ? closeProfile() : openProfile()); }
 
-async function updateProfileUI(){
-  try{
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    if(user){
-      loggedOutBox.classList.add('hidden');
-      loggedInBox.classList.remove('hidden');
-      profileEmailEl.textContent = user.email || '';
-    }else{
-      loggedInBox.classList.add('hidden');
-      loggedOutBox.classList.remove('hidden');
-      profileEmailEl.textContent = '';
-    }
-  }catch(err){
-    console.error("Erreur récupération utilisateur:", err);
-    loggedInBox.classList.add('hidden');
-    loggedOutBox.classList.remove('hidden');
+  // Sous-menu Réalisations
+  if(submenuBtn){
+    submenuBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(!submenu) return;
+      submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
+      submenu.style.flexDirection = "column";
+    });
   }
-}
-updateProfileUI();
-supabaseClient.auth.onAuthStateChange((_event,_session)=>{ updateProfileUI(); });
 
-document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
-  e.preventDefault();
-  await supabaseClient.auth.signOut();
+  // Dropdown profil
+  if(profileButton){ profileButton.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); }); }
+  document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
+
+  // UI Auth
+  async function updateProfileUI(){
+    try{
+      const { data: { user } } = await sb.auth.getUser();
+      if(user){
+        loggedOutBox && loggedOutBox.classList.add('hidden');
+        loggedInBox  && loggedInBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = user.email || '';
+      }else{
+        loggedInBox  && loggedInBox.classList.add('hidden');
+        loggedOutBox && loggedOutBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = '';
+      }
+    }catch(err){
+      console.error("Erreur récupération utilisateur:", err);
+      loggedInBox  && loggedInBox.classList.add('hidden');
+      loggedOutBox && loggedOutBox.classList.remove('hidden');
+    }
+  }
+
+  function syncHeaderAuthLink(){
+    if(!navAuthLink) return;
+    sb.auth.getUser().then(({data:{user}})=>{
+      // purge anciens listeners
+      const clone = navAuthLink.cloneNode(true);
+      navAuthLink.parentNode.replaceChild(clone, navAuthLink);
+      const link = document.getElementById('navAuthLink');
+
+      if(user){
+        link.textContent = 'Déconnexion';
+        link.setAttribute('href', '#');
+        link.dataset.mode = 'logout';
+        link.addEventListener('click', async (e)=>{
+          e.preventDefault();
+          await signOutAndGoHome();
+        });
+      }else{
+        link.textContent = 'Connexion';
+        link.setAttribute('href', 'login.html');
+        link.dataset.mode = 'login';
+      }
+    });
+  }
+
+  function updateBottomNavAuthUI(){
+    if(!bnProfile || !bnProfileLabel) return;
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){
+        bnProfile.setAttribute('href','profil.html');
+        bnProfileLabel.textContent = 'Profil';
+        bnProfile.removeAttribute('data-auth');
+      }else{
+        bnProfile.setAttribute('href','login.html');
+        bnProfileLabel.textContent = 'Se connecter';
+        bnProfile.setAttribute('data-auth','required');
+      }
+    });
+  }
+
+  // Déconnexion + redirection accueil avec refresh
+  async function signOutAndGoHome(){
+    try{
+      await sb.auth.signOut();
+    }catch(err){
+      console.error('Erreur déconnexion:', err);
+    }finally{
+      closeProfile();
+      closeMenu();
+      // recharge + redirection accueil
+      location.replace('index.html');
+    }
+  }
+
+  if(logoutBtn){
+    logoutBtn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      await signOutAndGoHome();
+    });
+  }
+
+  // Bottom nav: état actif et garde auth
+  (function setActiveBottomNav(){
+    const path = (location.pathname || "").toLowerCase();
+    document.querySelectorAll('.bottom-nav .bn-item').forEach(a=>{
+      const route = (a.getAttribute('data-route')||"").toLowerCase();
+      if(route && (path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path==='')))){
+        a.classList.add('active');
+      }
+    });
+  })();
+
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('.bottom-nav a[data-auth="required"]');
+    if(!a) return;
+    e.preventDefault();
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){ location.href = a.getAttribute('href'); }
+      else{
+        const next = encodeURIComponent(a.getAttribute('href'));
+        location.href = 'login.html?next='+next;
+      }
+    }).catch(()=>{
+      const next = encodeURIComponent(a.getAttribute('href'));
+      location.href = 'login.html?next='+next;
+    });
+  });
+
+  // Init
   updateProfileUI();
-  closeProfile();
+  syncHeaderAuthLink();
+  updateBottomNavAuthUI();
+
+  // Suivi des changements d'état
+  sb.auth.onAuthStateChange((_event, _session)=>{
+    updateProfileUI();
+    syncHeaderAuthLink();
+    updateBottomNavAuthUI();
+  });
 });
 </script>
 
 <!-- === Bottom Nav RENOLIX (Accueil > Suivi > Devis > Profil/Se connecter) === -->
 <style>
   :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
-  /* Espace pour ne pas masquer le contenu par la barre */
   body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
 
   .bottom-nav{
@@ -324,25 +349,13 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
     box-shadow:0 10px 25px rgba(0,0,0,0.22);
     z-index:1100;
   }
-  .bn-item{
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
-    text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px;
-    -webkit-tap-highlight-color:transparent; transition:transform .15s ease;
-  }
+  .bn-item{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px; -webkit-tap-highlight-color:transparent; transition:transform .15s ease; }
   .bn-item:active{ transform:translateY(1px); }
   .bn-icon svg{ width:22px; height:22px; fill:#666; transition:transform .2s ease, filter .2s ease, fill .2s ease; }
   .bn-item:hover .bn-icon svg{ filter:drop-shadow(0 0 8px rgba(212,175,55,.5)); transform:translateY(-2px); }
+  .bn-item.active .bn-icon svg, .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
 
-  .bn-item.active .bn-icon svg,
-  .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
-
-  /* CTA Devis */
-  .bn-cta{
-    margin:8px; border-radius:14px;
-    background:linear-gradient(90deg,var(--gold),var(--gold2));
-    box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4);
-    color:#fff;
-  }
+  .bn-cta{ margin:8px; border-radius:14px; background:linear-gradient(90deg,var(--gold),var(--gold2)); box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4); color:#fff; }
   .bn-cta .bn-icon svg{ fill:#fff; }
   .bn-cta .bn-label{ color:#fff; }
 
@@ -373,83 +386,14 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
     <span class="bn-label">Devis</span>
   </a>
 
-  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" aria-label="Profil">
+  <!-- Initialement: Se connecter (après login => Profil) -->
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Profil">
     <span class="bn-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
     </span>
-    <span class="bn-label" id="bn-profile-label">Profil</span>
+    <span class="bn-label" id="bn-profile-label">Se connecter</span>
   </a>
 </nav>
-
-<script>
-  (function(){
-    function getSb(){
-      if (window._sb && window._sb.auth && window._sb.auth.getUser) return window._sb;
-      if (typeof supabaseClient !== 'undefined' && supabaseClient.auth && supabaseClient.auth.getUser) return supabaseClient;
-      return null;
-    }
-
-    // Active state
-    function setActive(){
-      var path = (location.pathname || "").toLowerCase();
-      document.querySelectorAll('.bottom-nav .bn-item').forEach(function(a){
-        var route = (a.getAttribute('data-route')||"").toLowerCase();
-        if(!route) return;
-        if(path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path===''))){
-          a.classList.add('active');
-        }
-      });
-    }
-    setActive();
-
-    // Guard auth for protected links
-    function guardAuthLink(e){
-      var href = e.currentTarget.getAttribute('href');
-      var sb = getSb();
-      e.preventDefault();
-      if(!sb){
-        var next = encodeURIComponent(href);
-        location.href = 'login.html?next='+next;
-        return;
-      }
-      sb.auth.getUser().then(({data:{user}})=>{
-        if(user){ location.href = href; }
-        else{ location.href = 'login.html?next='+encodeURIComponent(href); }
-      }).catch(()=>{ location.href = 'login.html?next='+encodeURIComponent(href); });
-    }
-    document.querySelectorAll('.bottom-nav .bn-item[data-auth="required"]').forEach(function(a){
-      a.addEventListener('click', guardAuthLink);
-    });
-
-    // Update profile link based on session
-    function updateProfileLink(){
-      var a = document.getElementById('bn-profile');
-      var lbl = document.getElementById('bn-profile-label');
-      if(!a || !lbl) return;
-      var sb = getSb();
-      if(!sb){
-        a.setAttribute('href','login.html');
-        lbl.textContent = 'Se connecter';
-        a.setAttribute('data-auth','required');
-        return;
-      }
-      sb.auth.getUser().then(({data:{user}})=>{
-        if(user){
-          a.setAttribute('href','profil.html');
-          lbl.textContent = 'Profil';
-          a.removeAttribute('data-auth');
-        }else{
-          a.setAttribute('href','login.html');
-          lbl.textContent = 'Se connecter';
-          a.setAttribute('data-auth','required');
-        }
-      });
-    }
-    updateProfileLink();
-    var sb = getSb();
-    if(sb && sb.auth && sb.auth.onAuthStateChange){ sb.auth.onAuthStateChange(updateProfileLink); }
-  })();
-</script>
 <!-- === /Bottom Nav RENOLIX === -->
 
 </body>
