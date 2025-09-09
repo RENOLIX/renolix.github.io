@@ -308,19 +308,8 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
 </script>
 
 <link rel="stylesheet" href="bottom-nav.css">
-
 <div id="bottom-nav-container"></div>
-
-<script>
-fetch('bottom-nav.html')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('bottom-nav-container').innerHTML = data;
-    var script = document.createElement('script');
-    script.src = 'bottom-nav.js';
-    document.body.appendChild(script);
-  });
-</script>
+<script src="bottom-nav.js" defer></script>
 
 </body>
 </html>
