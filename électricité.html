@@ -7,22 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
+
+/* HEADER */
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 20px;
-  height: 60px;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:5px 20px;height:60px;position:fixed;width:100%;top:0;z-index:1000;
+  background:rgba(255,255,255,0.95);box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 .logo-container {display:flex;align-items:center;}
 .logo-container img{width:50px;height:auto;}
-.header-center {position: absolute; left: 46%; letter-spacing: 2px; transform: translateX(-50%); text-align: center;}
+.header-center {position:absolute;left:46%;letter-spacing:2px;transform:translateX(-50%);text-align:center;}
 .header-center a { text-decoration: none; }
 .header-center h1 {
   margin:0;font-size:28.5px;font-family:'Playfair Display', serif;font-weight:700;
@@ -31,23 +25,18 @@ header {
   animation: luxuryShine 2.2s linear infinite;
 }
 @keyframes luxuryShine {0% {background-position:200% 0;}100% {background-position:-200% 0;}}
-.menu { display: flex; align-items: center; padding-right: 25px; }
-nav { display:flex; gap:15px; align-items:center; }
-nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
-nav a:hover { color:#d4af37; }
+.menu { display:flex; align-items:center; padding-right:25px; }
+
+/* IMPORTANT: cibler uniquement la nav du header */
+header nav { display:flex; gap:15px; align-items:center; }
+header nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+header nav a:hover { color:#d4af37; }
 
 /* Bouton Connexion */
 .connexion-btn {
-  display:inline-block;
-  background:linear-gradient(90deg,#d4af37,#b8860b);
-  color:#fff !important;
-  font-weight:bold;
-  padding:8px 18px;
-  border-radius:20px;
-  text-decoration:none;
-  margin-top:10px;
-  transition:0.3s;
-  text-align:center;
+  display:inline-block;background:linear-gradient(90deg,#d4af37,#b8860b);color:#fff !important;
+  font-weight:bold;padding:8px 18px;border-radius:20px;text-decoration:none;margin-top:10px;
+  transition:0.3s;text-align:center;
 }
 .connexion-btn:hover { box-shadow:0 0 15px #d4af37; }
 
@@ -55,34 +44,43 @@ nav a:hover { color:#d4af37; }
 .menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
 .menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
 
-/* Animations */
+/* Sous-menu Réalisations */
+.submenu {
+  display:none; flex-direction:column; padding-left:15px; margin-top:5px;
+  border-left:2px solid #d4af37; animation:submenuSlide 0.4s ease forwards;
+}
+.submenu a { padding:8px 15px; font-weight:500; border-radius:8px; transition:all 0.3s ease; }
+.submenu a:hover { background: linear-gradient(90deg,#ffd700,#d4af37); color:#222; 
+                   box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37; }
+
 @keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
 
 /* Mobile */
 @media(max-width:768px){
-  nav {
+  header nav {
     position:absolute; top:60px; right:10px; width:220px; flex-direction:column; display:none;
     padding:15px 20px; background: rgba(255,255,255,0.3); backdrop-filter: blur(12px);
     border: 2px solid #d4af37; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 1050;
     transition: all 0.4s ease;
   }
-  nav.active {display:flex; flex-direction:column;}
-  nav a { margin:5px 0; padding:10px 15px; font-weight: 600; color:#222; text-transform: uppercase;
-          letter-spacing: 1px; border-radius: 10px; transition: all 0.3s ease; }
-  nav a:hover { background: linear-gradient(90deg,#d4af37,#ffd700); color:#fff; 
+  header nav.active {display:flex; flex-direction:column;}
+  header nav a {
+    margin:5px 0; padding:10px 15px; font-weight: 600; color:#222; text-transform: uppercase;
+    letter-spacing: 1px; border-radius: 10px; transition: all 0.3s ease;
+  }
+  header nav a:hover { background: linear-gradient(90deg,#d4af37,#ffd700); color:#fff; 
                box-shadow: 0 0 10px #ffd700, 0 0 20px #d4af37; }
-  .submenu { display:none; flex-direction:column; padding-left:15px; margin-top:5px; border-left:2px solid #d4af37; }
-  .submenu a { padding:8px 15px; font-weight: 500; border-radius: 8px; transition: all 0.3s ease; }
-  .submenu a:hover { background: linear-gradient(90deg,#ffd700,#d4af37); color:#222; 
-                     box-shadow: 0 0 8px #ffd700, 0 0 15px #d4af37; }
   .menu-toggle {display:flex;}
 }
 
+/* SECTIONS */
 section { padding:40px 10%; }
 h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
 .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px; }
 .gallery img { width:100%; height:200px; object-fit:cover; border-radius:12px; transition:.3s; box-shadow:0 8px 18px rgba(0,0,0,0.15); }
 .gallery img:hover { transform:scale(1.05); box-shadow:0 12px 25px rgba(0,0,0,0.2); }
+
+/* FOOTER */
 footer { background:#f9f9f9; padding:25px; text-align:center; color:#555; font-size:14px; border-top:1px solid #eee; }
 footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 
@@ -114,7 +112,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
   <div class="logo-container">
     <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
   </div>
-    <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
+  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
   <div class="menu">
     <nav id="nav-links">
       <a href="index.html">Accueil</a>
@@ -219,12 +217,8 @@ function toggleMenu(){
 document.getElementById('realisations-btn').addEventListener('click', function(e){
   e.preventDefault();
   let submenu = document.getElementById('realisations-submenu');
-  if(submenu.style.display === "flex"){
-    submenu.style.display = "none";
-  } else {
-    submenu.style.display = "flex";
-    submenu.style.flexDirection = "column";
-  }
+  submenu.style.display = submenu.style.display === "flex" ? "none" : "flex";
+  submenu.style.flexDirection = "column";
 });
 
 /* Supabase (remplace Firebase) */
@@ -277,6 +271,152 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
   // window.location.reload(); // Décommente si tu veux recharger la page après déconnexion
 });
 </script>
+
+<!-- === Bottom Nav RENOLIX (Accueil > Suivi > Devis > Profil/Se connecter) === -->
+<style>
+  :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
+  /* Espace pour ne pas masquer le contenu par la barre */
+  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+
+  .bottom-nav{
+    position:fixed; left:50%; transform:translateX(-50%);
+    top:auto !important;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    width:min(900px, calc(100% - 20px));
+    height:68px;
+    display:grid; grid-template-columns:repeat(4,1fr);
+    background:var(--glass); backdrop-filter:blur(12px);
+    border:2px solid var(--gold); border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.22);
+    z-index:1100;
+  }
+  .bn-item{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px;
+    -webkit-tap-highlight-color:transparent; transition:transform .15s ease;
+  }
+  .bn-item:active{ transform:translateY(1px); }
+  .bn-icon svg{ width:22px; height:22px; fill:#666; transition:transform .2s ease, filter .2s ease, fill .2s ease; }
+  .bn-item:hover .bn-icon svg{ filter:drop-shadow(0 0 8px rgba(212,175,55,.5)); transform:translateY(-2px); }
+
+  .bn-item.active .bn-icon svg,
+  .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
+
+  /* CTA Devis mis en valeur */
+  .bn-cta{
+    margin:8px; border-radius:14px;
+    background:linear-gradient(90deg,var(--gold),var(--gold2));
+    box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4);
+    color:#fff;
+  }
+  .bn-cta .bn-icon svg{ fill:#fff; }
+  .bn-cta .bn-label{ color:#fff; }
+
+  @media (prefers-reduced-motion: reduce){
+    .bn-item,.bn-icon svg{ transition:none !important; }
+  }
+</style>
+
+<nav class="bottom-nav" role="navigation" aria-label="Navigation inférieure">
+  <a href="index.html" class="bn-item" data-route="index.html" aria-label="Accueil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 3 3 11v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4h2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-8Z"/></svg>
+    </span>
+    <span class="bn-label">Accueil</span>
+  </a>
+
+  <a href="suivi-chantier.html" class="bn-item" data-route="suivi-chantier.html" data-auth="required" aria-label="Suivi du chantier">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M9 7h10v2H9zM9 11h10v2H9zM9 15h10v2H9zM7.5 6 6 7.5 4.5 6 3 7.5 6 10.5 9 7.5z"/></svg>
+    </span>
+    <span class="bn-label">Suivi</span>
+  </a>
+
+  <a href="devis-gratuit.html" class="bn-item bn-cta" data-route="devis-gratuit.html" aria-label="Demander un devis">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#fff" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
+    </span>
+    <span class="bn-label">Devis</span>
+  </a>
+
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" aria-label="Profil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
+    </span>
+    <span class="bn-label" id="bn-profile-label">Profil</span>
+  </a>
+</nav>
+
+<script>
+  (function(){
+    function getSb(){
+      if (window._sb && window._sb.auth && window._sb.auth.getUser) return window._sb;
+      if (typeof supabaseClient !== 'undefined' && supabaseClient.auth && supabaseClient.auth.getUser) return supabaseClient;
+      return null;
+    }
+
+    // Active state
+    function setActive(){
+      var path = (location.pathname || "").toLowerCase();
+      document.querySelectorAll('.bottom-nav .bn-item').forEach(function(a){
+        var route = (a.getAttribute('data-route')||"").toLowerCase();
+        if(!route) return;
+        if(path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path===''))){
+          a.classList.add('active');
+        }
+      });
+    }
+    setActive();
+
+    // Guard auth for protected links
+    function guardAuthLink(e){
+      var href = e.currentTarget.getAttribute('href');
+      var sb = getSb();
+      e.preventDefault();
+      if(!sb){
+        var next = encodeURIComponent(href);
+        location.href = 'login.html?next='+next;
+        return;
+      }
+      sb.auth.getUser().then(({data:{user}})=>{
+        if(user){ location.href = href; }
+        else{ location.href = 'login.html?next='+encodeURIComponent(href); }
+      }).catch(()=>{ location.href = 'login.html?next='+encodeURIComponent(href); });
+    }
+    document.querySelectorAll('.bottom-nav .bn-item[data-auth="required"]').forEach(function(a){
+      a.addEventListener('click', guardAuthLink);
+    });
+
+    // Update profile link based on session
+    function updateProfileLink(){
+      var a = document.getElementById('bn-profile');
+      var lbl = document.getElementById('bn-profile-label');
+      if(!a || !lbl) return;
+      var sb = getSb();
+      if(!sb){
+        a.setAttribute('href','login.html');
+        lbl.textContent = 'Se connecter';
+        a.setAttribute('data-auth','required');
+        return;
+      }
+      sb.auth.getUser().then(({data:{user}})=>{
+        if(user){
+          a.setAttribute('href','profil.html');
+          lbl.textContent = 'Profil';
+          a.removeAttribute('data-auth');
+        }else{
+          a.setAttribute('href','login.html');
+          lbl.textContent = 'Se connecter';
+          a.setAttribute('data-auth','required');
+        }
+      });
+    }
+    updateProfileLink();
+    var sb = getSb();
+    if(sb && sb.auth && sb.auth.onAuthStateChange){ sb.auth.onAuthStateChange(updateProfileLink); }
+  })();
+</script>
+<!-- === /Bottom Nav RENOLIX === -->
 
 </body>
 </html>
