@@ -307,5 +307,12 @@ document.getElementById('logoutBtn').addEventListener('click', async (e)=>{
 });
 </script>
 
+<div id="bottom-nav-container"></div>
+<script>
+  fetch('bottom-nav.html')
+    .then(res => res.text())
+    .then(data => document.getElementById('bottom-nav-container').innerHTML = data);
+</script>
+
 </body>
 </html>
