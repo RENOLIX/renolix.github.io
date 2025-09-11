@@ -6,170 +6,109 @@
 <title>RENOLIX - Suivi du chantier</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --gold:#d4af37;
-  --gold-dark:#b8860b;
-  --text:#222;
-  --muted:#555;
-  --bg:#fff;
-  --shadow:0 10px 25px rgba(0,0,0,0.12);
-}
-* { box-sizing: border-box; }
-body { margin:0; font-family:'Montserrat',sans-serif; background:var(--bg); color:var(--text); padding-bottom:84px; } /* place pour la bottom-nav */
+:root{ --gold:#d4af37; --gold-dark:#b8860b; --text:#222; --muted:#555; --bg:#fff; --shadow:0 10px 25px rgba(0,0,0,0.12); }
+*{box-sizing:border-box}
+body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);padding-bottom:84px}
 
 /* HEADER */
-header {
-  display:flex;align-items:center;justify-content:space-between;
-  padding:5px 20px;height:60px;position:fixed;width:100%;top:0;left:0;z-index:1000;
-  background:rgba(255,255,255,0.97);box-shadow:0 2px 10px rgba(0,0,0,0.08);
-  -webkit-backdrop-filter:saturate(120%) blur(6px); backdrop-filter:saturate(120%) blur(6px);
-}
-.logo-container {display:flex;align-items:center;gap:8px;}
-.logo-container img{width:50px;height:auto;}
-.header-center {position: absolute; left: 50%; transform: translateX(-50%); text-align: center;}
-.header-center a { text-decoration: none; }
-.header-center h1 {
-  margin:0;font-size:24px;font-family:'Playfair Display', serif;font-weight:700; letter-spacing:1px;
-  background: linear-gradient(-45deg,#000 20%,var(--gold) 50%,#000 80%);
-  background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  animation: luxuryShine 2.2s linear infinite;
-}
-@keyframes luxuryShine {0% {background-position:200% 0;}100% {background-position:-200% 0;}}
-.menu { display:flex; align-items:center; gap:10px; }
-
-header nav { display:flex; gap:15px; align-items:center; }
-header nav a { color:var(--text); text-decoration:none; font-weight:500; transition:.25s; }
-header nav a:hover { color:var(--gold); }
-
-/* Bouton Connexion */
-.connexion-btn {
-  display:inline-block;background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff !important;
-  font-weight:bold;padding:8px 16px;border-radius:20px;text-decoration:none;
-  transition:0.25s;text-align:center;
-}
-.connexion-btn:hover { box-shadow:0 0 15px var(--gold); transform: translateY(-1px); }
-
-/* Hamburger */
-.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-left:6px; }
-.menu-toggle div { width:24px; height:3px; background:var(--text); margin:4px 0; transition:0.3s; }
+header{display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;left:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 10px rgba(0,0,0,0.08);backdrop-filter:saturate(120%) blur(6px)}
+.logo-container{display:flex;align-items:center;gap:8px}
+.logo-container img{width:50px;height:auto}
+.header-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center}
+.header-center a{text-decoration:none}
+.header-center h1{margin:0;font-size:24px;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;background:linear-gradient(-45deg,#000 20%,var(--gold) 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite}
+@keyframes luxuryShine{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.menu{display:flex;align-items:center;gap:10px}
+header nav{display:flex;gap:15px;align-items:center}
+header nav a{color:var(--text);text-decoration:none;font-weight:500;transition:.25s}
+header nav a:hover{color:var(--gold)}
+.connexion-btn{display:inline-block;background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff !important;font-weight:bold;padding:8px 16px;border-radius:20px;text-decoration:none;transition:.25s;text-align:center}
+.connexion-btn:hover{box-shadow:0 0 15px var(--gold);transform:translateY(-1px)}
+.menu-toggle{display:none;flex-direction:column;cursor:pointer;padding:8px;margin-left:6px}
+.menu-toggle div{width:24px;height:3px;background:var(--text);margin:4px 0;transition:.3s}
 
 /* PROFILE MENU */
-.profile {position:relative; z-index:1200;}
-.profile-btn {
-  width:38px;height:38px;border-radius:50%;border:2px solid transparent; background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--gold),var(--gold-dark)) border-box;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s ease; box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-.profile-btn:hover {box-shadow:0 0 12px rgba(212,175,55,0.8);transform:translateY(-1px);}
-.profile-btn svg {width:20px;height:20px;fill:var(--gold-dark);}
-.profile-dropdown {
-  position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,0.98);
-  backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:14px;
-  box-shadow:0 12px 26px rgba(0,0,0,0.18);padding:8px;display:none; z-index:2000;
-}
-.profile-dropdown.open {display:block;animation:submenuSlide 0.18s ease forwards;}
-.profile-email {font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,0.5);border-radius:8px;}
-.profile-item {display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600;transition:all 0.2s ease;}
-.profile-item:hover {background:linear-gradient(90deg,#ffd700,var(--gold));color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px var(--gold);}
-.profile-divider {height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.hidden {display:none;}
-@keyframes submenuSlide {0%{opacity:0;transform:translateY(-8px);}100%{opacity:1;transform:translateY(0);}}
+.profile{position:relative;z-index:1200}
+.profile-btn{width:38px;height:38px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--gold),var(--gold-dark)) border-box;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.profile-btn:hover{box-shadow:0 0 12px rgba(212,175,55,.8);transform:translateY(-1px)}
+.profile-btn svg{width:20px;height:20px;fill:var(--gold-dark)}
+.profile-dropdown{position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:14px;box-shadow:0 12px 26px rgba(0,0,0,.18);padding:8px;display:none;z-index:2000}
+.profile-dropdown.open{display:block;animation:submenuSlide .18s ease forwards}
+.profile-email{font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,.5);border-radius:8px}
+.profile-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600;transition:all .2s ease}
+.profile-item:hover{background:linear-gradient(90deg,#ffd700,var(--gold));color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px var(--gold)}
+.profile-divider{height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.hidden{display:none}
+@keyframes submenuSlide{0%{opacity:0;transform:translateY(-8px)}100%{opacity:1;transform:translateY(0)}}
 
 /* Mobile nav dropdown */
 @media(max-width:860px){
-  header nav {
-    position:absolute; top:60px; right:12px; width:240px; flex-direction:column; display:none;
-    padding:14px 16px; background: rgba(255,255,255,0.96); backdrop-filter: blur(10px);
-    border: 2px solid var(--gold); border-radius: 16px; box-shadow: 0 12px 28px rgba(0,0,0,0.18);
-  }
-  header nav.active {display:flex;}
-  header nav a { padding:10px 12px; width:100%; border-radius:10px; }
-  header nav a:hover { background: linear-gradient(90deg,#ffd700,#fff2a6); }
-  .menu-toggle {display:flex;}
+  header nav{position:absolute;top:60px;right:12px;width:240px;flex-direction:column;display:none;padding:14px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.18)}
+  header nav.active{display:flex}
+  header nav a{padding:10px 12px;width:100%;border-radius:10px}
+  header nav a:hover{background:linear-gradient(90deg,#ffd700,#fff2a6)}
+  .menu-toggle{display:flex}
 }
 
 /* CONTENT */
-section { padding:40px 10%; margin-top:80px; }
-h2 { color:var(--gold); text-align:center; margin-bottom:22px; }
+section{padding:40px 10%;margin-top:80px}
+h2{color:var(--gold);text-align:center;margin-bottom:22px}
+.suivi-wrap{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start}
+@media(max-width:980px){.suivi-wrap{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.98);backdrop-filter:blur(8px);border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 12px;font-size:18px;color:var(--gold-dark)}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--gold);background:#faf7ef;color:#6a5600;font-weight:700;font-size:12px}
+.helper{color:var(--muted);font-size:13px;margin:8px 0 12px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px 0}
+.input{width:100%;padding:10px 12px;border:1.5px solid #e5e2d6;border-radius:10px;outline:none;transition:.2s;background:#fff}
+.input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
 
-.suivi-wrap{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start;}
-@media(max-width:980px){ .suivi-wrap{grid-template-columns:1fr;} }
-
-.card{
-  background:rgba(255,255,255,0.98); backdrop-filter:blur(8px);
-  border:2px solid var(--gold); border-radius:16px; padding:16px; box-shadow:var(--shadow);
-}
-.card h3{margin:0 0 12px;font-size:18px;color:var(--gold-dark);}
-.badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--gold);background:#faf7ef;color:#6a5600;font-weight:700;font-size:12px;}
-
-.helper{color:var(--muted);font-size:13px;margin:8px 0 12px;}
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px 0;}
-
-.input{
-  width:100%;padding:10px 12px;border:1.5px solid #e5e2d6;border-radius:10px;outline:none;transition:0.2s;background:#fff;
-}
-.input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,0.15);}
-
-/* Suggestions recherche client */
-.suggest-box{ position:relative;margin-top:8px; }
-.suggest-list{
-  position:absolute;left:0;right:0;max-height:260px;overflow:auto;z-index:20;
-  background:#fff;border:1.5px solid var(--gold);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.18);
-  display:none;
-}
-.suggest-list.open{display:block;}
-.suggest-item{padding:10px 12px;cursor:pointer;border-bottom:1px dashed #f1e7bf;}
-.suggest-item:last-child{border-bottom:none;}
-.suggest-item:hover{background:linear-gradient(90deg,#ffd700,#fff4b0);}
+/* Suggestions */
+.suggest-box{position:relative;margin-top:8px}
+.suggest-list{position:absolute;left:0;right:0;max-height:260px;overflow:auto;z-index:3000;background:#fff;border:1.5px solid var(--gold);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.18);display:none}
+.suggest-list.open{display:block}
+.suggest-item{padding:10px 12px;cursor:pointer;border-bottom:1px dashed #f1e7bf}
+.suggest-item:last-child{border-bottom:none}
+.suggest-item:hover{background:linear-gradient(90deg,#ffd700,#fff4b0)}
+.suggest-empty{padding:10px 12px;color:#777}
 
 /* Dropzone */
-.dropzone{
-  border:2px dashed var(--gold);border-radius:14px;padding:16px;text-align:center;background:#fffdf4;
-  transition:0.2s;
-}
-.dropzone.drag{background:#fff5bf;box-shadow:0 0 0 4px rgba(212,175,55,0.15);}
-.thumb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:10px;}
-.thumb{position:relative;border-radius:10px;overflow:hidden;background:#f5f5f5;border:1px solid #eee;height:90px;}
-.thumb img{width:100%;height:100%;object-fit:cover;}
-.thumb .name{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;padding:3px 6px;border-radius:6px;}
+.dropzone{border:2px dashed var(--gold);border-radius:14px;padding:16px;text-align:center;background:#fffdf4;transition:.2s}
+.dropzone.drag{background:#fff5bf;box-shadow:0 0 0 4px rgba(212,175,55,.15)}
+.thumb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:10px}
+.thumb{position:relative;border-radius:10px;overflow:hidden;background:#f5f5f5;border:1px solid #eee;height:90px}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .name{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:3px 6px;border-radius:6px}
 
-/* Boutons */
-.btn{ display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;border-radius:12px;padding:10px 16px;font-weight:700;letter-spacing:.3px;transition:0.2s; }
-.btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff;}
-.btn.gold:hover{box-shadow:0 0 14px rgba(212,175,55,0.6);transform:translateY(-1px);}
-.btn.ghost{background:#fff;border:2px solid var(--gold);color:#6a5600;}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;border-radius:12px;padding:10px 16px;font-weight:700;letter-spacing:.3px;transition:.2s}
+.btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff}
+.btn.gold:hover{box-shadow:0 0 14px rgba(212,175,55,.6);transform:translateY(-1px)}
+.btn.ghost{background:#fff;border:2px solid var(--gold);color:#6a5600}
 .btn.sm{padding:7px 12px;border-radius:10px;font-size:12px}
 
-/* Flux des photos */
-.feed-empty{padding:18px;text-align:center;color:#666;border:1px dashed #e3d9a7;border-radius:12px;background:#fffdf5;}
-.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
-.card-photo{ border:1.5px solid #e8e2c3;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,0.08); }
-.card-photo img{width:100%;height:200px;object-fit:cover;background:#f5f5f5;}
-.card-photo .meta{padding:10px 12px;}
-.meta .when{font-size:12px;color:#777;}
-.meta .caption{margin-top:6px;font-size:13px;color:#333;}
-.filter-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.dest-badge{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.dest-badge .pill{background:#faf7ef;border:1px solid #e8d277;border-radius:999px;padding:6px 10px;font-size:12px;color:#6a5600;}
+/* Feed */
+.feed-empty{padding:18px;text-align:center;color:#666;border:1px dashed #e3d9a7;border-radius:12px;background:#fffdf5}
+.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card-photo{border:1.5px solid #e8e2c3;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+.card-photo img{width:100%;height:200px;object-fit:cover;background:#f5f5f5}
+.card-photo .meta{padding:10px 12px}
+.meta .when{font-size:12px;color:#777}
+.filter-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.dest-badge{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dest-badge .pill{background:#faf7ef;border:1px solid #e8d277;border-radius:999px;padding:6px 10px;font-size:12px;color:#6a5600}
 
 /* FOOTER */
-footer { background:#f9f9f9; padding:25px; text-align:center; color:#555; font-size:14px; border-top:1px solid #eee; margin-top:30px; }
-footer a { color:var(--gold); text-decoration:none; margin:0 10px; }
+footer{background:#f9f9f9;padding:25px;text-align:center;color:#555;font-size:14px;border-top:1px solid #eee;margin-top:30px}
+footer a{color:var(--gold);text-decoration:none;margin:0 10px}
 
 /* BOTTOM NAV */
-.bottom-nav{
-  position:fixed; left:0; right:0; bottom:0; height:64px; padding-bottom: env(safe-area-inset-bottom,0);
-  background:#fff; border-top:1px solid #eee; display:flex; align-items:center; justify-content:space-around; z-index:995;
-  box-shadow: 0 -6px 18px rgba(0,0,0,0.08);
-}
-.bottom-nav a, .bottom-nav button{
-  appearance:none; border:none; background:none; color:#666; text-decoration:none; font-weight:600;
-  display:flex; flex-direction:column; align-items:center; gap:4px; font-size:12px; padding:6px 10px; border-radius:10px; cursor:pointer;
-}
-.bottom-nav a.active, .bottom-nav button.active, .bottom-nav a:hover, .bottom-nav button:hover{ color:var(--gold-dark); background:#fff8dc; }
-.bottom-nav svg{ width:22px; height:22px; }
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;height:64px;padding-bottom:env(safe-area-inset-bottom,0);background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-around;z-index:995;box-shadow:0 -6px 18px rgba(0,0,0,.08)}
+.bottom-nav a,.bottom-nav button{appearance:none;border:none;background:none;color:#666;text-decoration:none;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;padding:6px 10px;border-radius:10px;cursor:pointer}
+.bottom-nav a.active,.bottom-nav button.active,.bottom-nav a:hover,.bottom-nav button:hover{color:var(--gold-dark);background:#fff8dc}
+.bottom-nav svg{width:22px;height:22px}
 
-/* Accessibility helpers */
-.visually-hidden { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.visually-hidden{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
 </head>
 <body>
@@ -203,9 +142,7 @@ footer a { color:var(--gold); text-decoration:none; margin:0 10px; }
 
     <div class="profile" id="profile">
       <button type="button" class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path>
-        </svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path></svg>
       </button>
       <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
         <div id="profile-logged-in" class="hidden">
@@ -221,9 +158,7 @@ footer a { color:var(--gold); text-decoration:none; margin:0 10px; }
       </div>
     </div>
 
-    <div class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">
-      <div></div><div></div><div></div>
-    </div>
+    <div class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu"><div></div><div></div><div></div></div>
   </div>
 </header>
 
@@ -248,10 +183,13 @@ footer a { color:var(--gold); text-decoration:none; margin:0 10px; }
       <label><strong>Photos du chantier</strong></label>
       <div id="dropzone" class="dropzone">
         Glissez-déposez vos images ici ou
-        <label class="btn ghost sm" style="margin-left:6px;cursor:pointer;">
-          parcourir
-          <input id="fileInput" type="file" accept="image/*" capture="environment" multiple style="display:none;">
-        </label>
+        <button id="pickBtn" class="btn ghost sm" type="button" style="margin-left:6px;">Parcourir</button>
+        <button id="cameraBtn" class="btn ghost sm" type="button">Caméra</button>
+
+        <!-- Inputs réels (cachés) -->
+        <input id="fileInput" type="file" accept="image/*" multiple style="display:none;">
+        <input id="fileInputCam" type="file" accept="image/*" capture="environment" style="display:none;">
+
         <div class="helper">Formats: JPG, PNG, HEIC (selon navigateur) – max 10 Mo/photo.</div>
         <div class="thumb-list" id="thumbList"></div>
       </div>
@@ -314,14 +252,13 @@ footer a { color:var(--gold); text-decoration:none; margin:0 10px; }
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Supabase
   const { createClient } = supabase;
   const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
   const sb = createClient(supabaseUrl, supabaseKey);
   window._sb = sb;
 
-  // Helper: cite les colonnes avec majuscules pour PostgREST
+  // Helper : cite les colonnes à casse
   const q = (col) => /^[a-z0-9_]+$/.test(col) ? col : `"${col}"`;
 
   // Mapping exact (schéma public, tables MAJUSCULES)
@@ -332,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     photos: { id: 'id', clientId: 'Client_id', uploaderId: 'Artisan_id', uploaderRole: 'role', publicUrl: 'Url', createdAt: 'created_at' }
   };
 
-  // UI elements
+  // UI refs
   const nav = document.getElementById('nav-links');
   const menuToggle = document.getElementById('menuToggle');
   const submenuBtn = document.getElementById('realisations-btn');
@@ -344,28 +281,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const loggedInBox     = document.getElementById('profile-logged-in');
   const loggedOutBox    = document.getElementById('profile-logged-out');
   const profileEmailEl  = document.getElementById('profileEmail');
-  const logoutBtn       = document.getElementById('logoutBtn');
 
-  const roleBadge = document.getElementById('roleBadge');
-  const artisanPanel = document.getElementById('artisanPanel');
-  const clientSearch = document.getElementById('clientSearch');
-  const clientSuggest = document.getElementById('clientSuggest');
-  const destBadge = document.getElementById('destBadge');
+  const roleBadge   = document.getElementById('roleBadge');
+  const artisanPanel= document.getElementById('artisanPanel');
+  const clientSearch= document.getElementById('clientSearch');
+  const clientSuggest=document.getElementById('clientSuggest');
+  const destBadge   = document.getElementById('destBadge');
   const viewerBadge = document.getElementById('viewerBadge');
-  const dropzone = document.getElementById('dropzone');
-  const fileInput = document.getElementById('fileInput');
-  const thumbList = document.getElementById('thumbList');
-  const clearBtn = document.getElementById('clearBtn');
-  const sendBtn = document.getElementById('sendBtn');
-  const statusMsg = document.getElementById('statusMsg');
-  const feed = document.getElementById('feed');
-  const feedEmpty = document.getElementById('feedEmpty');
-  const feedInfo = document.getElementById('feedInfo');
 
-  // Bottom nav
-  const bnProfile = document.getElementById('bn-profile');
+  const dropzone    = document.getElementById('dropzone');
+  const pickBtn     = document.getElementById('pickBtn');
+  const cameraBtn   = document.getElementById('cameraBtn');
+  const fileInput   = document.getElementById('fileInput');     // Fichiers/galerie
+  const fileInputCam= document.getElementById('fileInputCam');  // Caméra
+  const thumbList   = document.getElementById('thumbList');
+  const clearBtn    = document.getElementById('clearBtn');
+  const sendBtn     = document.getElementById('sendBtn');
+  const statusMsg   = document.getElementById('statusMsg');
 
-  // Menu header
+  const feed        = document.getElementById('feed');
+  const feedEmpty   = document.getElementById('feedEmpty');
+  const feedInfo    = document.getElementById('feedInfo');
+
+  const bnProfile   = document.getElementById('bn-profile');
+
+  // Header/menu
   const toggleMenu = () => nav?.classList.toggle('active');
   menuToggle?.addEventListener('click', toggleMenu);
 
@@ -379,33 +319,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Profile dropdown robust
   function openProfile(){ profileDropdown?.classList.add('open'); profileButton?.setAttribute('aria-expanded','true'); profileDropdown?.setAttribute('aria-hidden','false'); }
   function closeProfile(){ profileDropdown?.classList.remove('open'); profileButton?.setAttribute('aria-expanded','false'); profileDropdown?.setAttribute('aria-hidden','true'); }
   function toggleProfile(){ (profileDropdown && profileDropdown.classList.contains('open')) ? closeProfile() : openProfile(); }
 
   profileButton?.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); });
-  bnProfile?.addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0, behavior:'smooth'}); openProfile(); });
+  bnProfile?.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); window.scrollTo({top:0, behavior:'smooth'}); openProfile(); });
 
-  // Fermer au clic extérieur et à Échap
   document.addEventListener('click', (e)=>{ 
     if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }
     if(nav && !nav.contains(e.target) && e.target !== menuToggle){ nav.classList.remove('active'); }
   });
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); nav.classList.remove('active'); }});
 
-  // Auth UI + lien Connexion/Déconnexion
+  // Auth UI
   async function updateProfileUI(){
     try{
       const { data: { user } } = await sb.auth.getUser();
       if(user){
         loggedOutBox?.classList.add('hidden');
         loggedInBox?.classList.remove('hidden');
-        if(profileEmailEl) profileEmailEl.textContent = user.email || '';
+        profileEmailEl && (profileEmailEl.textContent = user.email || '');
       }else{
         loggedInBox?.classList.add('hidden');
         loggedOutBox?.classList.remove('hidden');
-        if(profileEmailEl) profileEmailEl.textContent = '';
+        profileEmailEl && (profileEmailEl.textContent = '');
       }
     }catch(err){
       console.error('Auth getUser error:', err);
@@ -413,37 +351,35 @@ document.addEventListener('DOMContentLoaded', () => {
       loggedOutBox?.classList.remove('hidden');
     }
   }
-
   function syncHeaderAuthLink(){
-    if(!navAuthLink) return;
+    const link = document.getElementById('navAuthLink');
+    if(!link) return;
     sb.auth.getUser().then(({data:{user}})=>{
-      // Recrée le bouton pour réattacher les handlers proprement
-      const clone = navAuthLink.cloneNode(true);
-      navAuthLink.parentNode.replaceChild(clone, navAuthLink);
-      const link = document.getElementById('navAuthLink');
+      const clone = link.cloneNode(true);
+      link.parentNode.replaceChild(clone, link);
+      const L = document.getElementById('navAuthLink');
       if(user){
-        link.textContent = 'Déconnexion';
-        link.setAttribute('href', '#');
-        link.dataset.mode = 'logout';
-        link.addEventListener('click', async (e)=>{
+        L.textContent = 'Déconnexion';
+        L.setAttribute('href', '#');
+        L.dataset.mode = 'logout';
+        L.addEventListener('click', async (e)=>{
           e.preventDefault();
           try{ await sb.auth.signOut(); } finally{ closeProfile(); location.replace('index.html'); }
         }, { once:true });
       }else{
-        link.textContent = 'Connexion';
-        link.setAttribute('href', 'login.html');
-        link.dataset.mode = 'login';
+        L.textContent = 'Connexion';
+        L.setAttribute('href', 'login.html');
+        L.dataset.mode = 'login';
       }
     });
   }
-
   updateProfileUI(); syncHeaderAuthLink();
   sb.auth.onAuthStateChange(()=>{ updateProfileUI(); syncHeaderAuthLink(); });
 
-  // ====== Suivi du chantier ======
+  // ===== Suivi du chantier =====
   let currentUser = null;
   let currentRole = 'client';
-  let activeClientUserId = null; // client courant (client: soi-même; artisan: client sélectionné)
+  let activeClientUserId = null;
   let previewFiles = [];
   let rtChannel = null;
   let searchTimer = null;
@@ -480,19 +416,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const { data, error } = await sb.rpc('get_my_role');
       if(!error && (data === 'artisan' || data === 'client')) return data;
     }catch(e){ console.warn('get_my_role RPC error', e?.message); }
-    // Fallback éventuel (au cas où)
-    const metaRole = [user?.user_metadata?.role, user?.app_metadata?.role]
-      .map(x => (typeof x === 'string' ? x.toLowerCase() : null))
-      .find(x => x==='artisan' || x==='client');
+    const metaRole = [user?.user_metadata?.role, user?.app_metadata?.role].map(x => (typeof x === 'string' ? x.toLowerCase().trim() : null)).find(x => x==='artisan'||x==='client');
     return metaRole || 'client';
   }
 
   function bindUI(){
+    // Recherche: 1 caractère suffit
     clientSearch?.addEventListener('input', (e)=>{
       const qv = (e.target.value||'').trim();
       clearTimeout(searchTimer);
-      if(qv.length < 2){ clientSuggest.innerHTML=''; clientSuggest.classList.remove('open'); return; }
-      searchTimer = setTimeout(()=> searchClients(qv), 250);
+      if(qv.length < 1){ clientSuggest.innerHTML=''; clientSuggest.classList.remove('open'); return; }
+      searchTimer = setTimeout(()=> searchClients(qv), 220);
     });
     document.addEventListener('click', (e)=>{
       if(clientSuggest && !clientSuggest.contains(e.target) && e.target !== clientSearch){
@@ -500,6 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Drag&drop
     ['dragenter','dragover'].forEach(ev=>{
       dropzone.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.add('drag'); });
     });
@@ -510,10 +445,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const files = Array.from(e.dataTransfer.files||[]);
       addPreviews(files);
     });
-    fileInput.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
+
+    // Boutons fichiers/caméra
+    pickBtn?.addEventListener('click', ()=> fileInput?.click());
+    cameraBtn?.addEventListener('click', ()=> fileInputCam?.click());
+    fileInput?.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
+    fileInputCam?.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
 
     clearBtn?.addEventListener('click', ()=>{
-      previewFiles = []; thumbList.innerHTML=''; fileInput.value=''; status('');
+      previewFiles = []; thumbList.innerHTML=''; if(fileInput) fileInput.value=''; if(fileInputCam) fileInputCam.value=''; status('');
     });
     sendBtn?.addEventListener('click', ()=> uploadBatch());
   }
@@ -522,14 +462,21 @@ document.addEventListener('DOMContentLoaded', () => {
   async function searchClients(qv){
     try{
       const { data, error } = await sb.rpc('search_clients', { q: qv });
-      if(error){ console.error(error); return; }
-      renderSuggestions(data||[]);
-    }catch(err){ console.error(err); }
+      if(error){ console.error('search_clients RPC error:', error); renderSuggestions([]); return; }
+      renderSuggestions(Array.isArray(data) ? data : []);
+    }catch(err){ console.error(err); renderSuggestions([]); }
   }
 
   function renderSuggestions(list){
     clientSuggest.innerHTML='';
-    if(!list.length){ clientSuggest.classList.remove('open'); return; }
+    if(!list.length){
+      const empty = document.createElement('div');
+      empty.className = 'suggest-empty';
+      empty.textContent = 'Aucun résultat';
+      clientSuggest.appendChild(empty);
+      clientSuggest.classList.add('open');
+      return;
+    }
     list.forEach(c=>{
       const div = document.createElement('div');
       div.className='suggest-item';
@@ -556,6 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     subscribeRealtime();
   }
 
+  // Previews
   function addPreviews(files){
     const imgFiles = files.filter(f => f.type.startsWith('image/'));
     if(!imgFiles.length) return;
@@ -584,6 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function status(msg){ statusMsg.textContent = msg || ''; }
 
+  // Upload
   async function uploadBatch(){
     if(currentRole!=='artisan'){ return; }
     if(!activeClientUserId){ alert('Sélectionnez d’abord un client destinataire.'); return; }
@@ -602,26 +551,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const clean = file.name.replace(/[^\w\-.]+/g,'_');
         const path = `${activeClientUserId}/${yyyy}/${mm}/${dd}/${crypto.randomUUID()}_${clean}`;
 
-        // Upload Storage
         const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, { contentType:file.type, upsert:false });
         if(upErr){ console.error(upErr); continue; }
 
-        // URL publique (bucket public recommandé)
         const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
 
-        // Insert DB
         const row = {};
-        row[COL.photos.clientId]    = activeClientUserId;
-        row[COL.photos.uploaderId]  = currentUser.id;
-        row[COL.photos.uploaderRole]= 'artisan';
-        row[COL.photos.publicUrl]   = pub?.publicUrl || null;
+        row[COL.photos.clientId]     = activeClientUserId;
+        row[COL.photos.uploaderId]   = (await sb.auth.getUser()).data.user.id;
+        row[COL.photos.uploaderRole] = 'artisan';
+        row[COL.photos.publicUrl]    = pub?.publicUrl || null;
 
         const { error: insErr } = await sb.from(TABLE.photos).insert(row);
         if(insErr){ console.error(insErr); }
       }
 
       status('✅ Photos envoyées.');
-      previewFiles = []; thumbList.innerHTML=''; fileInput.value='';
+      previewFiles = []; thumbList.innerHTML=''; if(fileInput) fileInput.value=''; if(fileInputCam) fileInputCam.value='';
       await loadFeed();
     }catch(err){
       console.error(err);
@@ -632,6 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Feed
   async function loadFeed(){
     feed.innerHTML='';
     if(!activeClientUserId){
@@ -644,14 +591,12 @@ document.addEventListener('DOMContentLoaded', () => {
       ? 'Affichage du flux pour le client sélectionné.'
       : 'Vos photos de suivi envoyées par RENOLIX.';
 
-    // Colonnes à sélectionner (avec guillemets pour la casse)
-    const selectCols = [COL.photos.id, COL.photos.publicUrl, COL.photos.createdAt, COL.photos.uploaderRole]
-      .map(q).join(',');
+    const selectCols = [COL.photos.id, COL.photos.publicUrl, COL.photos.createdAt, COL.photos.uploaderRole].map(q).join(',');
 
     const { data, error } = await sb
-      .from(TABLE.photos) // "Photos"
+      .from(TABLE.photos)
       .select(selectCols)
-      .eq(q(COL.photos.clientId), activeClientUserId) // "Client_id"
+      .eq(q(COL.photos.clientId), activeClientUserId)
       .order(COL.photos.createdAt, { ascending:false })
       .limit(200);
 
@@ -682,6 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
     feedEmpty.textContent = 'Choisissez un client dans la barre de recherche pour voir/envoyer des photos.';
   }
 
+  // Realtime
   function subscribeRealtime(){
     if(rtChannel){ sb.removeChannel(rtChannel); rtChannel=null; }
     rtChannel = sb.channel('rt-Photos')
