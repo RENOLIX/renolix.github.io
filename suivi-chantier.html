@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const roleBadge   = document.getElementById('roleBadge');
   const artisanPanel= document.getElementById('artisanPanel');
   const clientSearch= document.getElementById('clientSearch');
-  const clientSuggest=document.getElementById('clientSuggest');
+  const clientSuggest= document.getElementById('clientSuggest');
   const destBadge   = document.getElementById('destBadge');
   const viewerBadge = document.getElementById('viewerBadge');
 
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Auth UI
   async function updateProfileUI(){
     try{
-      const { data: { user } } = await sb.auth.getUser();
+      const { data: { user} } = await sb.auth.getUser();
       if(user){
         loggedOutBox?.classList.add('hidden');
         loggedInBox?.classList.remove('hidden');
@@ -395,14 +395,14 @@ document.addEventListener('DOMContentLoaded', () => {
     roleBadge.textContent = (currentRole === 'artisan') ? 'Artisan' : 'Client';
 
     if(currentRole === 'artisan'){
-      artisanPanel.style.display = 'block';
+      document.getElementById('artisanPanel').style.display = 'block';
       viewerBadge.innerHTML = '<span class="pill">Vue artisan</span>';
       const saved = localStorage.getItem('renolix-selected-client');
       if(saved){ setSelectedClient({ id: saved, name:'Client sélectionné', email:'' }); }
       updateFeedHint();
       bindUI();
     }else{
-      artisanPanel.style.display = 'none';
+      document.getElementById('artisanPanel').style.display = 'none';
       activeClientUserId = currentUser.id;
       viewerBadge.innerHTML = '<span class="pill">Client</span>';
       await loadFeed();
@@ -410,18 +410,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Rôle via RPC (fiable)
+  // Rôle via RPC (corrigé)
   async function resolveRole(user){
     try{
       const { data, error } = await sb.rpc('get_my_role');
-      if(!error && (data === 'artisan' || data === 'client')) return data;
-    }catch(e){ console.warn('get_my_role RPC error', e?.message); }
-    const metaRole = [user?.user_metadata?.role, user?.app_metadata?.role].map(x => (typeof x === 'string' ? x.toLowerCase().trim() : null)).find(x => x==='artisan'||x==='client');
+      if(error) console.warn('get_my_role error:', error.message || error);
+      if(data === 'artisan' || data === 'client') return data;
+    }catch(e){
+      console.warn('get_my_role exception:', e?.message || e);
+    }
+    // Fallback éventuel si RPC indisponible
+    const metaRole = [user?.user_metadata?.role, user?.app_metadata?.role]
+      .map(x => (typeof x === 'string' ? x.toLowerCase().trim() : null))
+      .find(x => x==='artisan' || x==='client');
     return metaRole || 'client';
   }
 
   function bindUI(){
-    // Recherche: 1 caractère suffit
+    // Recherche: 1 caractère
     clientSearch?.addEventListener('input', (e)=>{
       const qv = (e.target.value||'').trim();
       clearTimeout(searchTimer);
@@ -446,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addPreviews(files);
     });
 
-    // Boutons fichiers/caméra
+    // Fichiers/galerie vs Caméra
     pickBtn?.addEventListener('click', ()=> fileInput?.click());
     cameraBtn?.addEventListener('click', ()=> fileInputCam?.click());
     fileInput?.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
@@ -526,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function shortName(name){
     if(name.length<=16) return name;
     const dot = name.lastIndexOf('.');
-    const base = dot>0 ? name.slice(0,dot) : name;
+       const base = dot>0 ? name.slice(0,dot) : name;
     const ext  = dot>0 ? name.slice(dot) : '';
     return base.slice(0,10)+'…'+ext;
   }
