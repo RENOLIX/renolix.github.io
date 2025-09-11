@@ -27,7 +27,7 @@ header {
 @keyframes luxuryShine {0% {background-position:200% 0;}100% {background-position:-200% 0;}}
 .menu { display:flex; align-items:center; padding-right:25px; }
 
-/* IMPORTANT: nav du header uniquement */
+/* Nav du header uniquement */
 header nav { display:flex; gap:15px; align-items:center; }
 header nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
 header nav a:hover { color:#d4af37; }
@@ -44,7 +44,7 @@ header nav a:hover { color:#d4af37; }
 .menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
 .menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
 
-/* Submenu animation */
+/* Animation sous-menu */
 @keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
 
 /* Mobile */
@@ -188,11 +188,9 @@ h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
-      <!-- Devient Déconnexion après login -->
       <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
     </nav>
 
-    <!-- Icône Profil -->
     <div class="profile" id="profile">
       <button class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -248,10 +246,6 @@ h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
         <div class="thumb-list" id="thumbList"></div>
       </div>
 
-      <div style="margin-top:10px;">
-        <input id="captionInput" class="input" type="text" placeholder="Légende (optionnel)">
-      </div>
-
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
         <button id="clearBtn" class="btn ghost">Vider</button>
         <button id="sendBtn" class="btn gold">Envoyer</button>
@@ -293,20 +287,17 @@ document.addEventListener('DOMContentLoaded', function(){
   const sb = createClient(supabaseUrl, supabaseKey);
   window._sb = sb;
 
-  // CONFIG: noms des tables/colonnes (adapte ici si ta base diffère)
+  // CONFIG mappée selon tes infos
   const BUCKET = 'chantier_photo';
   const TABLE = { users: 'users', photos: 'photos' };
   const COL = {
-    users: { id: 'id', role: 'role', name: 'full_name', email: 'email' },
+    users: { id: 'id', role: 'role', name: 'name', email: 'email' },
     photos: {
       id: 'id',
-      clientId: 'client_id',
-      uploaderId: 'uploader_id',
-      uploaderRole: 'uploader_role',
-      caption: 'caption',
-      bucket: 'bucket',
-      path: 'path',
-      publicUrl: 'public_url',
+      clientId: 'Client_id',
+      uploaderId: 'Artisan_id',
+      uploaderRole: 'role',       // 'artisan' au moment de l'insert
+      publicUrl: 'Url',
       createdAt: 'created_at'
     }
   };
@@ -314,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Header/menu
   const nav = document.getElementById('nav-links');
   window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
+
   const submenuBtn = document.getElementById('realisations-btn');
   const submenu = document.getElementById('realisations-submenu');
   if(submenuBtn){
@@ -324,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function(){
       submenu.style.flexDirection = "column";
     });
   }
+
   const profileButton   = document.getElementById('profileButton');
   const profileDropdown = document.getElementById('profileDropdown');
   const loggedInBox     = document.getElementById('profile-logged-in');
@@ -339,9 +332,10 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
 
-  // Auth UI dropdown + header Connexion/Déconnexion
+  // Auth UI + lien Connexion/Déconnexion header
   const navAuthLink = document.getElementById('navAuthLink');
   function closeMenu(){ nav && nav.classList.remove('active'); }
+
   async function updateProfileUI(){
     try{
       const { data: { user } } = await sb.auth.getUser();
@@ -360,12 +354,14 @@ document.addEventListener('DOMContentLoaded', function(){
       loggedOutBox?.classList.remove('hidden');
     }
   }
+
   function syncHeaderAuthLink(){
     if(!navAuthLink) return;
     sb.auth.getUser().then(({data:{user}})=>{
       const clone = navAuthLink.cloneNode(true);
       navAuthLink.parentNode.replaceChild(clone, navAuthLink);
       const link = document.getElementById('navAuthLink');
+
       if(user){
         link.textContent = 'Déconnexion';
         link.setAttribute('href', '#');
@@ -381,12 +377,15 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
   }
+
   async function signOutAndGoHome(){
     try{ await sb.auth.signOut(); }
     catch(err){ console.error('Erreur déconnexion:', err); }
     finally{ closeProfile(); closeMenu(); location.replace('index.html'); }
   }
-  updateProfileUI(); syncHeaderAuthLink();
+
+  updateProfileUI();
+  syncHeaderAuthLink();
   sb.auth.onAuthStateChange(()=>{ updateProfileUI(); syncHeaderAuthLink(); });
 
   // ====== Suivi du chantier ======
@@ -399,7 +398,6 @@ document.addEventListener('DOMContentLoaded', function(){
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('fileInput');
   const thumbList = document.getElementById('thumbList');
-  const captionInput = document.getElementById('captionInput');
   const clearBtn = document.getElementById('clearBtn');
   const sendBtn = document.getElementById('sendBtn');
   const statusMsg = document.getElementById('statusMsg');
@@ -409,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   let currentUser = null;
   let currentRole = 'client';
-  let activeClientUserId = null; // client courant pour le flux (client: soi-même; artisan: client sélectionné)
+  let activeClientUserId = null; // client courant (client: soi-même; artisan: client sélectionné)
   let previewFiles = [];
   let rtChannel = null;
   let searchTimer = null;
@@ -440,16 +438,26 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   async function resolveRole(user){
-    const metaRole = user?.user_metadata?.role;
-    if(metaRole === 'artisan' || metaRole === 'client') return metaRole;
+    // 1) Auth metadata si dispo
+    const fromMeta = [user?.user_metadata?.role, user?.app_metadata?.role]
+      .map(r => (typeof r === 'string' ? r.toLowerCase() : null))
+      .find(r => r === 'artisan' || r === 'client');
+    if(fromMeta) return fromMeta;
+
+    // 2) Table users (id == auth.users.id)
     try{
       const { data, error } = await sb
         .from(TABLE.users)
         .select(COL.users.role)
         .eq(COL.users.id, user.id)
         .maybeSingle();
-      if(!error && data?.[COL.users.role]) return data[COL.users.role];
-    }catch(_e){}
+      if(!error && data && data[COL.users.role]){
+        const r = String(data[COL.users.role]).toLowerCase();
+        return (r === 'artisan' || r === 'client') ? r : 'client';
+      }
+    }catch(e){ console.warn('resolveRole/users error', e); }
+
+    // défaut
     return 'client';
   }
 
@@ -479,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function(){
     fileInput.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
 
     clearBtn.addEventListener('click', ()=>{
-      previewFiles = []; thumbList.innerHTML=''; fileInput.value=''; captionInput.value=''; status('');
+      previewFiles = []; thumbList.innerHTML=''; fileInput.value=''; status('');
     });
     sendBtn.addEventListener('click', ()=> uploadBatch());
   }
@@ -568,7 +576,6 @@ document.addEventListener('DOMContentLoaded', function(){
     status('Envoi en cours…');
 
     try{
-      const caption = (captionInput.value||'').trim() || null;
       const now = new Date();
       const yyyy = now.getFullYear();
       const mm = String(now.getMonth()+1).padStart(2,'0');
@@ -577,17 +584,19 @@ document.addEventListener('DOMContentLoaded', function(){
       for(const file of previewFiles){
         const clean = file.name.replace(/[^\w\-.]+/g,'_');
         const path = `${activeClientUserId}/${yyyy}/${mm}/${dd}/${crypto.randomUUID()}_${clean}`;
+
+        // Upload Storage
         const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, { contentType:file.type, upsert:false });
         if(upErr){ console.error(upErr); continue; }
+
+        // URL publique (assume bucket public)
         const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
 
+        // Insert DB
         const row = {};
         row[COL.photos.clientId] = activeClientUserId;
         row[COL.photos.uploaderId] = currentUser.id;
         row[COL.photos.uploaderRole] = 'artisan';
-        row[COL.photos.caption] = caption;
-        row[COL.photos.bucket] = BUCKET;
-        row[COL.photos.path] = path;
         row[COL.photos.publicUrl] = pub?.publicUrl || null;
 
         const { error: insErr } = await sb.from(TABLE.photos).insert(row);
@@ -596,7 +605,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
       status('✅ Photos envoyées.');
       previewFiles = [];
-      thumbList.innerHTML=''; fileInput.value=''; captionInput.value='';
+      thumbList.innerHTML=''; fileInput.value='';
       await loadFeed();
     }catch(err){
       console.error(err);
@@ -619,7 +628,7 @@ document.addEventListener('DOMContentLoaded', function(){
       ? 'Affichage du flux pour le client sélectionné.'
       : 'Vos photos de suivi envoyées par RENOLIX.';
 
-    const selectCols = [COL.photos.id, COL.photos.publicUrl, COL.photos.caption, COL.photos.createdAt, COL.photos.uploaderRole].join(', ');
+    const selectCols = [COL.photos.id, COL.photos.publicUrl, COL.photos.createdAt, COL.photos.uploaderRole].join(', ');
     const { data, error } = await sb
       .from(TABLE.photos)
       .select(selectCols)
@@ -638,8 +647,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const d = new Date(item[COL.photos.createdAt]);
     const when = d.toLocaleString('fr-FR', { dateStyle:'medium', timeStyle:'short' });
     const imgUrl = item[COL.photos.publicUrl];
-    const caption = item[COL.photos.caption] || '';
-    const uploaderRole = item[COL.photos.uploaderRole];
+    const uploaderRole = (item[COL.photos.uploaderRole] || '').toString().toLowerCase();
 
     const div = document.createElement('div');
     div.className='card-photo';
@@ -647,12 +655,9 @@ document.addEventListener('DOMContentLoaded', function(){
       <img src="${imgUrl}" alt="Photo chantier">
       <div class="meta">
         <div class="when">${when} ${uploaderRole==='artisan' ? '• par artisan' : ''}</div>
-        ${caption ? `<div class="caption">${escapeHTML(caption)}</div>` : ''}
       </div>`;
     if(prepend && feed.firstChild){ feed.insertBefore(div, feed.firstChild); } else { feed.appendChild(div); }
   }
-
-  function escapeHTML(str){ return str.replace(/[&<>'"]/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[s])); }
 
   function updateFeedHint(){
     feedEmpty.style.display='block';
