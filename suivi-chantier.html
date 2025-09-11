@@ -92,7 +92,7 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 .profile-divider {height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,#d4af37,transparent);}
 .hidden {display:none;}
 
-/* === SUIVI DU CHANTIER (nouvelle interface) === */
+/* === SUIVI DU CHANTIER === */
 section { padding:40px 10%; margin-top:80px; }
 h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
 
@@ -117,9 +117,7 @@ h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
 .input:focus{border-color:#d4af37;box-shadow:0 0 0 4px rgba(212,175,55,0.15);}
 
 /* Suggestions recherche client */
-.suggest-box{
-  position:relative;margin-top:8px;
-}
+.suggest-box{ position:relative;margin-top:8px; }
 .suggest-list{
   position:absolute;left:0;right:0;max-height:260px;overflow:auto;z-index:20;
   background:#fff;border:1.5px solid #d4af37;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.18);
@@ -202,7 +200,6 @@ h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
         </svg>
       </button>
       <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
-        <!-- État connecté -->
         <div id="profile-logged-in" class="hidden">
           <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
           <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
@@ -210,7 +207,6 @@ h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
           <div class="profile-divider"></div>
           <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
         </div>
-        <!-- État non connecté -->
         <div id="profile-logged-out" class="hidden">
           <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
         </div>
@@ -230,7 +226,7 @@ h2 { color:#d4af37; text-align:center; margin-bottom:25px; }
     <!-- Panneau ARTISAN -->
     <aside class="card" id="artisanPanel" style="display:none;">
       <h3>Envoi de photos (artisans)</h3>
-      <div class="helper">Choisissez le client destinataire, ajoutez vos photos et envoyez. Le client les verra instantanément.</div>
+      <div class="helper">Recherchez le client, ajoutez vos photos et envoyez. Le client les verra instantanément.</div>
 
       <label for="clientSearch"><strong>Destinataire</strong></label>
       <div class="suggest-box">
@@ -295,12 +291,29 @@ document.addEventListener('DOMContentLoaded', function(){
   const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
   const sb = createClient(supabaseUrl, supabaseKey);
-  window._sb = sb; // accessible globalement
+  window._sb = sb;
 
-  // Header/menu existant
+  // CONFIG: noms des tables/colonnes (adapte ici si ta base diffère)
+  const BUCKET = 'chantier_photo';
+  const TABLE = { users: 'users', photos: 'photos' };
+  const COL = {
+    users: { id: 'id', role: 'role', name: 'full_name', email: 'email' },
+    photos: {
+      id: 'id',
+      clientId: 'client_id',
+      uploaderId: 'uploader_id',
+      uploaderRole: 'uploader_role',
+      caption: 'caption',
+      bucket: 'bucket',
+      path: 'path',
+      publicUrl: 'public_url',
+      createdAt: 'created_at'
+    }
+  };
+
+  // Header/menu
   const nav = document.getElementById('nav-links');
   window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
-
   const submenuBtn = document.getElementById('realisations-btn');
   const submenu = document.getElementById('realisations-submenu');
   if(submenuBtn){
@@ -311,7 +324,6 @@ document.addEventListener('DOMContentLoaded', function(){
       submenu.style.flexDirection = "column";
     });
   }
-
   const profileButton   = document.getElementById('profileButton');
   const profileDropdown = document.getElementById('profileDropdown');
   const loggedInBox     = document.getElementById('profile-logged-in');
@@ -327,7 +339,9 @@ document.addEventListener('DOMContentLoaded', function(){
   document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
 
-  // Auth UI dropdown
+  // Auth UI dropdown + header Connexion/Déconnexion
+  const navAuthLink = document.getElementById('navAuthLink');
+  function closeMenu(){ nav && nav.classList.remove('active'); }
   async function updateProfileUI(){
     try{
       const { data: { user } } = await sb.auth.getUser();
@@ -346,18 +360,12 @@ document.addEventListener('DOMContentLoaded', function(){
       loggedOutBox?.classList.remove('hidden');
     }
   }
-
-  // Header Connexion -> Déconnexion
-  const navAuthLink = document.getElementById('navAuthLink');
-  function closeMenu(){ nav && nav.classList.remove('active'); }
-
   function syncHeaderAuthLink(){
     if(!navAuthLink) return;
     sb.auth.getUser().then(({data:{user}})=>{
       const clone = navAuthLink.cloneNode(true);
       navAuthLink.parentNode.replaceChild(clone, navAuthLink);
       const link = document.getElementById('navAuthLink');
-
       if(user){
         link.textContent = 'Déconnexion';
         link.setAttribute('href', '#');
@@ -373,34 +381,15 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
   }
-
   async function signOutAndGoHome(){
     try{ await sb.auth.signOut(); }
     catch(err){ console.error('Erreur déconnexion:', err); }
-    finally{
-      closeProfile();
-      closeMenu();
-      location.replace('index.html');
-    }
+    finally{ closeProfile(); closeMenu(); location.replace('index.html'); }
   }
+  updateProfileUI(); syncHeaderAuthLink();
+  sb.auth.onAuthStateChange(()=>{ updateProfileUI(); syncHeaderAuthLink(); });
 
-  if(logoutBtn){
-    logoutBtn.addEventListener('click', async (e)=>{
-      e.preventDefault();
-      await signOutAndGoHome();
-    });
-  }
-
-  // Init header
-  updateProfileUI();
-  syncHeaderAuthLink();
-  sb.auth.onAuthStateChange((_event,_session)=>{
-    updateProfileUI();
-    syncHeaderAuthLink();
-  });
-
-  // ====== Logique Suivi du chantier ======
-  const BUCKET = 'chantier'; // nom du bucket Storage (à créer côté Supabase)
+  // ====== Suivi du chantier ======
   const roleBadge = document.getElementById('roleBadge');
   const artisanPanel = document.getElementById('artisanPanel');
   const clientSearch = document.getElementById('clientSearch');
@@ -420,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   let currentUser = null;
   let currentRole = 'client';
-  let activeClientUserId = null; // destinataire pour le flux actuel (client: soi-même; artisan: client sélectionné)
+  let activeClientUserId = null; // client courant pour le flux (client: soi-même; artisan: client sélectionné)
   let previewFiles = [];
   let rtChannel = null;
   let searchTimer = null;
@@ -429,23 +418,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
   async function initSuivi(){
     const { data: { user } } = await sb.auth.getUser();
-    if(!user){
-      // redirige vers login, puis retour ici
-      location.href = 'login.html?next='+encodeURIComponent(location.pathname);
-      return;
-    }
+    if(!user){ location.href = 'login.html?next='+encodeURIComponent(location.pathname); return; }
     currentUser = user;
     currentRole = await resolveRole(user);
     roleBadge.textContent = currentRole === 'artisan' ? 'Artisan' : 'Client';
 
-    // UI selon rôle
     if(currentRole === 'artisan'){
       artisanPanel.style.display = 'block';
       viewerBadge.innerHTML = '<span class="pill">Vue artisan</span>';
-      // si un client a été mémorisé
       const saved = localStorage.getItem('renolix-selected-client');
-      if(saved){ setSelectedClient({ full_name:'Client sélectionné', email:'', auth_user_id:saved }); }
+      if(saved){ setSelectedClient({ [COL.users.id]: saved, [COL.users.name]:'Client sélectionné', [COL.users.email]:'' }); }
       updateFeedHint();
+      bindUI();
     }else{
       artisanPanel.style.display = 'none';
       activeClientUserId = currentUser.id;
@@ -453,24 +437,22 @@ document.addEventListener('DOMContentLoaded', function(){
       await loadFeed();
       subscribeRealtime();
     }
-
-    bindUI();
   }
 
   async function resolveRole(user){
-    // 1) via user_metadata.role si dispo
     const metaRole = user?.user_metadata?.role;
-    if(metaRole === 'artisan' || metaRole === 'client'){ return metaRole; }
-    // 2) via table profiles
+    if(metaRole === 'artisan' || metaRole === 'client') return metaRole;
     try{
-      const { data, error } = await sb.from('profiles').select('role').eq('id', user.id).maybeSingle();
-      if(!error && data?.role){ return data.role; }
-    }catch(_){ /* ignore */ }
-    // défaut: client
+      const { data, error } = await sb
+        .from(TABLE.users)
+        .select(COL.users.role)
+        .eq(COL.users.id, user.id)
+        .maybeSingle();
+      if(!error && data?.[COL.users.role]) return data[COL.users.role];
+    }catch(_e){}
     return 'client';
   }
 
-  // -------- Recherche client (artisan) --------
   function bindUI(){
     clientSearch?.addEventListener('input', (e)=>{
       const q = (e.target.value||'').trim();
@@ -478,18 +460,16 @@ document.addEventListener('DOMContentLoaded', function(){
       if(q.length < 2){ clientSuggest.innerHTML=''; clientSuggest.classList.remove('open'); return; }
       searchTimer = setTimeout(()=> searchClients(q), 250);
     });
-
     document.addEventListener('click', (e)=>{
-      if(!clientSuggest.contains(e.target) && e.target !== clientSearch){
+      if(clientSuggest && !clientSuggest.contains(e.target) && e.target !== clientSearch){
         clientSuggest.classList.remove('open');
       }
     });
 
-    // Dropzone
-    ;['dragenter','dragover'].forEach(ev=>{
+    ['dragenter','dragover'].forEach(ev=>{
       dropzone.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.add('drag'); });
     });
-    ;['dragleave','drop'].forEach(ev=>{
+    ['dragleave','drop'].forEach(ev=>{
       dropzone.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('drag'); });
     });
     dropzone.addEventListener('drop', (e)=>{
@@ -499,22 +479,20 @@ document.addEventListener('DOMContentLoaded', function(){
     fileInput.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
 
     clearBtn.addEventListener('click', ()=>{
-      previewFiles = [];
-      thumbList.innerHTML='';
-      fileInput.value='';
-      captionInput.value='';
-      status('');
+      previewFiles = []; thumbList.innerHTML=''; fileInput.value=''; captionInput.value=''; status('');
     });
-
     sendBtn.addEventListener('click', ()=> uploadBatch());
   }
 
   async function searchClients(q){
     try{
+      const cols = [COL.users.id, COL.users.name, COL.users.email].join(', ');
+      const orClause = `${COL.users.name}.ilike.%${q}%,${COL.users.email}.ilike.%${q}%`;
       const { data, error } = await sb
-        .from('clients')
-        .select('id, full_name, email, auth_user_id')
-        .or(`full_name.ilike.%${q}%,email.ilike.%${q}%`)
+        .from(TABLE.users)
+        .select(cols)
+        .eq(COL.users.role, 'client')
+        .or(orClause)
         .limit(10);
       if(error){ console.error(error); return; }
       renderSuggestions(data||[]);
@@ -527,7 +505,9 @@ document.addEventListener('DOMContentLoaded', function(){
     list.forEach(c=>{
       const div = document.createElement('div');
       div.className='suggest-item';
-      div.textContent = `${c.full_name}${c.email? ' • '+c.email : ''}`;
+      const name = c[COL.users.name] || '(Sans nom)';
+      const email = c[COL.users.email] || '';
+      div.textContent = `${name}${email? ' • '+email : ''}`;
       div.addEventListener('click', ()=>{
         clientSuggest.classList.remove('open');
         setSelectedClient(c);
@@ -538,23 +518,22 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   function setSelectedClient(c){
-    activeClientUserId = c.auth_user_id;
-    clientSearch.value = `${c.full_name}${c.email? ' ('+c.email+')' : ''}`;
-    destBadge.innerHTML = `<span class="pill">Destinataire: ${c.full_name}</span>`;
+    activeClientUserId = c[COL.users.id];
+    const name = c[COL.users.name] || '';
+    const email = c[COL.users.email] ? ` (${c[COL.users.email]})` : '';
+    clientSearch.value = `${name}${email}`;
+    destBadge.innerHTML = `<span class="pill">Destinataire: ${name || '—'}</span>`;
     localStorage.setItem('renolix-selected-client', activeClientUserId);
     loadFeed();
     subscribeRealtime();
   }
 
-  // -------- Previews --------
   function addPreviews(files){
     const imgFiles = files.filter(f => f.type.startsWith('image/'));
     if(!imgFiles.length) return;
-    // limite 10 Mo par photo
     const valid = imgFiles.filter(f => f.size <= 10*1024*1024);
     const skipped = imgFiles.length - valid.length;
     if(skipped>0) status(`⚠️ ${skipped} photo(s) ignorée(s) (>10 Mo).`);
-
     previewFiles.push(...valid);
     renderThumbs();
   }
@@ -578,7 +557,6 @@ document.addEventListener('DOMContentLoaded', function(){
     return base.slice(0,10)+'…'+ext;
   }
 
-  // -------- Upload --------
   function status(msg){ statusMsg.textContent = msg || ''; }
 
   async function uploadBatch(){
@@ -602,23 +580,23 @@ document.addEventListener('DOMContentLoaded', function(){
         const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, { contentType:file.type, upsert:false });
         if(upErr){ console.error(upErr); continue; }
         const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
-        const { error: insErr } = await sb.from('chantier_photos').insert({
-          client_user_id: activeClientUserId,
-          uploader_user_id: currentUser.id,
-          uploader_role: 'artisan',
-          caption: caption,
-          storage_bucket: BUCKET,
-          storage_path: path,
-          public_url: pub?.publicUrl || null
-        });
+
+        const row = {};
+        row[COL.photos.clientId] = activeClientUserId;
+        row[COL.photos.uploaderId] = currentUser.id;
+        row[COL.photos.uploaderRole] = 'artisan';
+        row[COL.photos.caption] = caption;
+        row[COL.photos.bucket] = BUCKET;
+        row[COL.photos.path] = path;
+        row[COL.photos.publicUrl] = pub?.publicUrl || null;
+
+        const { error: insErr } = await sb.from(TABLE.photos).insert(row);
         if(insErr){ console.error(insErr); }
       }
 
       status('✅ Photos envoyées.');
-      // reset
       previewFiles = [];
       thumbList.innerHTML=''; fileInput.value=''; captionInput.value='';
-      // reload feed to be safe (realtime couvre déjà)
       await loadFeed();
     }catch(err){
       console.error(err);
@@ -629,7 +607,6 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  // -------- Feed --------
   async function loadFeed(){
     feed.innerHTML='';
     if(!activeClientUserId){
@@ -641,28 +618,36 @@ document.addEventListener('DOMContentLoaded', function(){
     feedInfo.textContent = currentRole==='artisan'
       ? 'Affichage du flux pour le client sélectionné.'
       : 'Vos photos de suivi envoyées par RENOLIX.';
+
+    const selectCols = [COL.photos.id, COL.photos.publicUrl, COL.photos.caption, COL.photos.createdAt, COL.photos.uploaderRole].join(', ');
     const { data, error } = await sb
-      .from('chantier_photos')
-      .select('id, public_url, caption, created_at, uploader_role')
-      .eq('client_user_id', activeClientUserId)
-      .order('created_at', { ascending:false })
+      .from(TABLE.photos)
+      .select(selectCols)
+      .eq(COL.photos.clientId, activeClientUserId)
+      .order(COL.photos.createdAt, { ascending:false })
       .limit(200);
+
     if(error){ console.error(error); feedEmpty.style.display='block'; return; }
     if(!data || !data.length){ feedEmpty.style.display='block'; return; }
+
     feedEmpty.style.display='none';
     data.forEach(renderCard);
   }
 
   function renderCard(item, {prepend=false}={}){
-    const d = new Date(item.created_at);
+    const d = new Date(item[COL.photos.createdAt]);
     const when = d.toLocaleString('fr-FR', { dateStyle:'medium', timeStyle:'short' });
+    const imgUrl = item[COL.photos.publicUrl];
+    const caption = item[COL.photos.caption] || '';
+    const uploaderRole = item[COL.photos.uploaderRole];
+
     const div = document.createElement('div');
     div.className='card-photo';
     div.innerHTML = `
-      <img src="${item.public_url}" alt="Photo chantier">
+      <img src="${imgUrl}" alt="Photo chantier">
       <div class="meta">
-        <div class="when">${when} ${item.uploader_role==='artisan' ? '• par artisan' : ''}</div>
-        ${item.caption ? `<div class="caption">${escapeHTML(item.caption)}</div>` : ''}
+        <div class="when">${when} ${uploaderRole==='artisan' ? '• par artisan' : ''}</div>
+        ${caption ? `<div class="caption">${escapeHTML(caption)}</div>` : ''}
       </div>`;
     if(prepend && feed.firstChild){ feed.insertBefore(div, feed.firstChild); } else { feed.appendChild(div); }
   }
@@ -674,7 +659,6 @@ document.addEventListener('DOMContentLoaded', function(){
     feedEmpty.textContent = 'Choisissez un client dans la barre de recherche pour voir/envoyer des photos.';
   }
 
-  // -------- Realtime --------
   function subscribeRealtime(){
     if(rtChannel){ sb.removeChannel(rtChannel); rtChannel=null; }
     if(!activeClientUserId) return;
@@ -682,18 +666,11 @@ document.addEventListener('DOMContentLoaded', function(){
       .on('postgres_changes', {
         event: 'INSERT',
         schema: 'public',
-        table: 'chantier_photos',
-        filter: 'client_user_id=eq.'+activeClientUserId
+        table: TABLE.photos,
+        filter: `${COL.photos.clientId}=eq.${activeClientUserId}`
       }, (payload)=>{
         const row = payload.new;
-        // si on regarde bien le même client, on insère
-        renderCard({
-          id: row.id,
-          public_url: row.public_url,
-          caption: row.caption,
-          created_at: row.created_at,
-          uploader_role: row.uploader_role
-        }, {prepend:true});
+        renderCard(row, {prepend:true});
         feedEmpty.style.display='none';
       })
       .subscribe();
