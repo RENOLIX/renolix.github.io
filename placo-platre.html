@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function(){
       a.addEventListener('click', guardAuthLink);
     });
 
-    // Update profile link based on session
+    // Met à jour le lien Profil/Se connecter selon la session
     function updateProfileLink(){
       var a = document.getElementById('bn-profile');
       var lbl = document.getElementById('bn-profile-label');
@@ -464,15 +464,39 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       });
     }
+
+    // Attend que Supabase soit prêt puis s'abonne aux changements d'auth
+    function whenSupabaseReady(cb){
+      var fired = false;
+      function done(sb){ if(fired) return; fired = true; cb(sb); }
+      var iv = setInterval(function(){
+        var sb = getSb();
+        if(sb){ clearInterval(iv); done(sb); }
+      }, 50);
+      document.addEventListener('DOMContentLoaded', function(){
+        var sb = getSb();
+        if(sb){ clearInterval(iv); done(sb); }
+      });
+      window.addEventListener('load', function(){
+        var sb = getSb();
+        if(sb){ clearInterval(iv); done(sb); }
+      });
+      setTimeout(function(){ clearInterval(iv); done(getSb()); }, 10000); // sécurité 10s
+    }
+
+    // État initial (fallback)
     updateProfileLink();
-    var sb = getSb();
-    if(sb && sb.auth && sb.auth.onAuthStateChange){ sb.auth.onAuthStateChange(updateProfileLink); }
+
+    // Une fois prêt: mise à jour + écoute
+    whenSupabaseReady(function(sb){
+      updateProfileLink();
+      if(sb && sb.auth && sb.auth.onAuthStateChange){
+        sb.auth.onAuthStateChange(updateProfileLink);
+      }
+    });
   })();
 </script>
 <!-- === /Bottom Nav RENOLIX === -->
 
 </body>
 </html>
-
-
-
