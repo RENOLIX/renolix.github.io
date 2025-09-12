@@ -7,7 +7,7 @@
 body {
   font-family: 'Montserrat', sans-serif;
   background: #fff;
-  color: #333;
+  color: #000;
   line-height: 1.6;
 }
 
@@ -22,14 +22,24 @@ header {
   top: 0;
   z-index: 1000;
 }
-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  color: #d4af37;
-}
 header .logo-container img {
-  width: 50px;
+  width: 60px;
   height: auto;
+}
+header .header-center a {
+  text-decoration: none;
+}
+header h1.renolix-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  background: linear-gradient(90deg, #d4af37, #fff, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+}
+@keyframes shine {
+  0% { background-position: -200px; }
+  100% { background-position: 200px; }
 }
 
 /* === NAVIGATION === */
@@ -44,6 +54,7 @@ nav {
 nav a {
   color: white;
   text-decoration: none;
+  font-weight: 500;
   transition: color 0.3s;
 }
 nav a:hover {
@@ -99,12 +110,46 @@ nav a:hover {
   background: #b8912c;
 }
 
+/* === ABOUT SECTION === */
+.about-renolix {
+  padding: 50px 20px;
+  text-align: center;
+}
+.about-renolix h2 {
+  color: #d4af37;
+  margin-bottom: 20px;
+}
+.about-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 800px;
+  margin: auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.about-card .btn {
+  display: inline-block;
+  margin-top: 15px;
+  background: #d4af37;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 /* === SERVICES SECTION === */
+.section-title {
+  text-align: center;
+  color: #d4af37;
+  margin-bottom: 20px;
+}
 .services {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  padding: 50px 20px;
+  padding: 20px;
 }
 .service-card {
   background: #fff;
@@ -130,30 +175,6 @@ nav a:hover {
   margin: 0 15px 15px;
 }
 
-/* === ABOUT SECTION === */
-.about-renolix {
-  padding: 50px 20px;
-}
-.about-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 800px;
-  margin: auto;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.about-card .btn {
-  display: inline-block;
-  margin-top: 15px;
-  background: #d4af37;
-  color: #000;
-  padding: 10px 20px;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: bold;
-}
-
 /* === WHY SECTION === */
 .why {
   padding: 50px 20px;
@@ -164,6 +185,28 @@ nav a:hover {
 .why h2 {
   color: #d4af37;
   margin-bottom: 20px;
+}
+
+/* === CALL TO ACTION === */
+.cta {
+  text-align: center;
+  padding: 50px 20px;
+  background: #f9f9f9;
+}
+.cta h2 {
+  color: #d4af37;
+  margin-bottom: 20px;
+}
+.cta .btn {
+  background: #d4af37;
+  color: #000;
+  padding: 12px 24px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.cta .btn:hover {
+  background: #b8912c;
 }
 
 /* === FOOTER === */
@@ -251,5 +294,30 @@ footer a:hover {
   }
   .menu-toggle {
     display: flex;
+  }
+}
+
+/* === BOTTOM NAV === */
+.bottom-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    padding: 10px 0;
+    border-top: 2px solid #d4af37;
+    z-index: 2000;
+  }
+  .bottom-nav a {
+    color: #d4af37;
+    font-size: 1.5rem;
+    text-decoration: none;
   }
 }
