@@ -13,7 +13,7 @@
   <div class="logo-container">
     <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
   </div>
-  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
+  <div class="header-center"><a href="index.html"><h1 class="renolix-title">RENOLIX</h1></a></div>
   <div class="menu">
     <nav id="nav-links">
       <a href="index.html">Accueil</a>
@@ -34,6 +34,7 @@
       <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
     </nav>
 
+    <!-- Profile -->
     <div class="profile" id="profile">
       <button class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -54,12 +55,14 @@
       </div>
     </div>
 
+    <!-- Menu burger -->
     <div class="menu-toggle" onclick="toggleMenu()">
       <div></div><div></div><div></div>
     </div>
   </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h2>Rénovation intérieure de luxe</h2>
@@ -68,16 +71,18 @@
   <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
 </section>
 
+<!-- ABOUT -->
 <section class="about-renolix">
-  <h2 style="text-align:center;color:#d4af37;">À propos de RENOLIX</h2>
+  <h2>À propos de RENOLIX</h2>
   <div class="about-card">
     <p>RENOLIX est une entreprise spécialisée dans la rénovation intérieure de luxe, alliant modernité et élégance pour créer des espaces uniques et raffinés. Notre mission est de transformer vos idées en réalisations haut de gamme avec une attention parfaite aux détails.</p>
     <a href="à-propos.html" class="btn">En savoir plus</a>
   </div>
 </section>
 
+<!-- SERVICES -->
 <section>
-  <h2 style="text-align:center;color:#d4af37;">Nos Services</h2>
+  <h2 class="section-title">Nos Services</h2>
   <div class="services">
     <div class="service-card" onclick="window.location.href='placo-platre.html'">
       <img src="https://i.ibb.co/V7mZB1b/vue-de-face-homme-travaillant-et-portant-des-equipements-de-protection.jpg" alt="Placo & Cloisons">
@@ -112,6 +117,7 @@
   </div>
 </section>
 
+<!-- WHY -->
 <section class="why">
   <h2>Pourquoi choisir RENOLIX ?</h2>
   <p>✔ Qualité supérieure des matériaux</p>
@@ -120,11 +126,13 @@
   <p>✔ Accompagnement personnalisé</p>
 </section>
 
-<section style="text-align:center;padding:50px 20px;background:#f9f9f9;">
-  <h2 style="color:#d4af37;margin-bottom:15px;">Prêt à transformer votre intérieur ?</h2>
+<!-- CALL TO ACTION -->
+<section class="cta">
+  <h2>Prêt à transformer votre intérieur ?</h2>
   <a href="contact.html" class="btn">Contactez-nous maintenant</a>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
   <p>
@@ -134,7 +142,15 @@
   </p>
 </footer>
 
-<!-- Supabase -->
+<!-- Barre navigation bas -->
+<div class="bottom-nav">
+  <a href="index.html">🏠</a>
+  <a href="realisations.html">📂</a>
+  <a href="contact.html">📞</a>
+  <a href="login.html">👤</a>
+</div>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="style.js"></script>
 
