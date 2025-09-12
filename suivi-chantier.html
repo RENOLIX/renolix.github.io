@@ -318,26 +318,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Rôle via RPC (corrigé) — fallback sur metadata ou table Users
   async function resolveRole(user){
+    // 1) Try RPC (if you have a custom function get_my_role)
     try{
       const { data, error } = await sb.rpc('get_my_role');
-      if(error) console.warn('get_my_role error:', error.message || error);
-      if(data === 'artisan' || data === 'client') return data;
+      console.log('RPC get_my_role =>', data, error);
+      if(!error && (data === 'artisan' || data === 'client')) return data;
     }catch(e){ console.warn('get_my_role exception:', e?.message || e); }
 
-    // fallback: try Users table
+    // 2) Try Users table: fetch the full row and detect any column named "role" (case-insensitive)
     try{
-      const { data } = await sb.from(TABLE.users).select(`${COL.users.role}`).eq(COL.users.id, user.id).limit(1).single();
-      if(data && data[COL.users.role]){
-        const r = String(data[COL.users.role]).toLowerCase().trim();
-        if(r==='artisan' || r==='client') return r;
+      const { data, error } = await sb.from(TABLE.users).select('*').eq('id', user.id).limit(1).single();
+      if(error){
+        console.warn('Users lookup error', error);
+      }else if(data){
+        console.log('Users row for role-detection:', data);
+        const roleKey = Object.keys(data).find(k => k.toLowerCase() === 'role');
+        if(roleKey){
+          const r = ('' + data[roleKey]).toLowerCase().trim();
+          if(r === 'artisan' || r === 'client') return r;
+        }
       }
-    }catch(e){ /* ignore */ }
+    }catch(e){ console.warn('Users lookup exception', e); }
 
-    // fallback to metadata
+    // 3) Fallback to metadata if present
     const metaRole = [user?.user_metadata?.role, user?.app_metadata?.role]
       .map(x => (typeof x === 'string' ? x.toLowerCase().trim() : null))
-      .find(x => x==='artisan' || x==='client');
-    return metaRole || 'client';
+      .find(x => x === 'artisan' || x === 'client');
+    if(metaRole) return metaRole;
+
+    // 4) Local override useful for testing (remove in production)
+    const forced = localStorage.getItem('renolix-force-role');
+    if(forced){ console.log('Using forced role from localStorage:', forced); return forced; }
+
+    // Default
+    return 'client';
   }
 
   function bindUI(){
