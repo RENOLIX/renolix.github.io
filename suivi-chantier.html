@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,129 +7,43 @@
 <style>
 :root{ --gold:#d4af37; --gold-dark:#b8860b; --text:#222; --muted:#555; --bg:#fff; --shadow:0 10px 25px rgba(0,0,0,0.12); }
 *{box-sizing:border-box}
-body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);padding-bottom:84px}
+body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);padding-bottom:84px}/* HEADER */ header{display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;left:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 10px rgba(0,0,0,0.08);backdrop-filter:saturate(120%) blur(6px)} .logo-container{display:flex;align-items:center;gap:8px} .logo-container img{width:50px;height:auto} .header-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center} .header-center a{text-decoration:none} .header-center h1{margin:0;font-size:24px;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;background:linear-gradient(-45deg,#000 20%,var(--gold) 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite} @keyframes luxuryShine{0%{background-position:200% 0}100%{background-position:-200% 0}} .menu{display:flex;align-items:center;gap:10px} header nav{display:flex;gap:15px;align-items:center} header nav a{color:var(--text);text-decoration:none;font-weight:500;transition:.25s} header nav a:hover{color:var(--gold)} .connexion-btn{display:inline-block;background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff !important;font-weight:bold;padding:8px 16px;border-radius:20px;text-decoration:none;transition:.25s;text-align:center} .connexion-btn:hover{box-shadow:0 0 15px var(--gold);transform:translateY(-1px)} .menu-toggle{display:none;flex-direction:column;cursor:pointer;padding:8px;margin-left:6px} .menu-toggle div{width:24px;height:3px;background:var(--text);margin:4px 0;transition:.3s}
 
-/* HEADER */
-header{display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;left:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 10px rgba(0,0,0,0.08);backdrop-filter:saturate(120%) blur(6px)}
-.logo-container{display:flex;align-items:center;gap:8px}
-.logo-container img{width:50px;height:auto}
-.header-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center}
-.header-center a{text-decoration:none}
-.header-center h1{margin:0;font-size:24px;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;background:linear-gradient(-45deg,#000 20%,var(--gold) 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite}
-@keyframes luxuryShine{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.menu{display:flex;align-items:center;gap:10px}
-header nav{display:flex;gap:15px;align-items:center}
-header nav a{color:var(--text);text-decoration:none;font-weight:500;transition:.25s}
-header nav a:hover{color:var(--gold)}
-.connexion-btn{display:inline-block;background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff !important;font-weight:bold;padding:8px 16px;border-radius:20px;text-decoration:none;transition:.25s;text-align:center}
-.connexion-btn:hover{box-shadow:0 0 15px var(--gold);transform:translateY(-1px)}
-.menu-toggle{display:none;flex-direction:column;cursor:pointer;padding:8px;margin-left:6px}
-.menu-toggle div{width:24px;height:3px;background:var(--text);margin:4px 0;transition:.3s}
+/* PROFILE MENU */ .profile{position:relative;z-index:1200} .profile-btn{width:38px;height:38px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--gold),var(--gold-dark)) border-box;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;box-shadow:0 2px 6px rgba(0,0,0,.1)} .profile-btn:hover{box-shadow:0 0 12px rgba(212,175,55,.8);transform:translateY(-1px)} .profile-btn svg{width:20px;height:20px;fill:var(--gold-dark)} .profile-dropdown{position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:14px;box-shadow:0 12px 26px rgba(0,0,0,.18);padding:8px;display:none;z-index:2000} .profile-dropdown.open{display:block;animation:submenuSlide .18s ease forwards} .profile-email{font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,.5);border-radius:8px} .profile-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600;transition:all .2s ease} .profile-item:hover{background:linear-gradient(90deg,#ffd700,var(--gold));color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px var(--gold)} .profile-divider{height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,var(--gold),transparent)} .hidden{display:none} @keyframes submenuSlide{0%{opacity:0;transform:translateY(-8px)}100%{opacity:1;transform:translateY(0)}}
 
-/* PROFILE MENU */
-.profile{position:relative;z-index:1200}
-.profile-btn{width:38px;height:38px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--gold),var(--gold-dark)) border-box;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.profile-btn:hover{box-shadow:0 0 12px rgba(212,175,55,.8);transform:translateY(-1px)}
-.profile-btn svg{width:20px;height:20px;fill:var(--gold-dark)}
-.profile-dropdown{position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:14px;box-shadow:0 12px 26px rgba(0,0,0,.18);padding:8px;display:none;z-index:2000}
-.profile-dropdown.open{display:block;animation:submenuSlide .18s ease forwards}
-.profile-email{font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,.5);border-radius:8px}
-.profile-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600;transition:all .2s ease}
-.profile-item:hover{background:linear-gradient(90deg,#ffd700,var(--gold));color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px var(--gold)}
-.profile-divider{height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.hidden{display:none}
-@keyframes submenuSlide{0%{opacity:0;transform:translateY(-8px)}100%{opacity:1;transform:translateY(0)}}
+/* Mobile nav dropdown */ @media(max-width:860px){ header nav{position:absolute;top:60px;right:12px;width:260px;flex-direction:column;display:none;padding:14px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.18)} header nav.active{display:flex} header nav a{padding:10px 12px;width:100%;border-radius:10px} header nav a:hover{background:linear-gradient(90deg,#ffd700,#fff2a6)} .menu-toggle{display:flex} }
 
-/* Mobile nav dropdown */
-@media(max-width:860px){
-  header nav{position:absolute;top:60px;right:12px;width:240px;flex-direction:column;display:none;padding:14px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.18)}
-  header nav.active{display:flex}
-  header nav a{padding:10px 12px;width:100%;border-radius:10px}
-  header nav a:hover{background:linear-gradient(90deg,#ffd700,#fff2a6)}
-  .menu-toggle{display:flex}
-}
+/* CONTENT */ section{padding:40px 10%;margin-top:80px} h2{color:var(--gold);text-align:center;margin-bottom:22px} .suivi-wrap{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start} @media(max-width:980px){.suivi-wrap{grid-template-columns:1fr}} .card{background:rgba(255,255,255,.98);backdrop-filter:blur(8px);border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:var(--shadow)} .card h3{margin:0 0 12px;font-size:18px;color:var(--gold-dark)} .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--gold);background:#faf7ef;color:#6a5600;font-weight:700;font-size:12px} .helper{color:var(--muted);font-size:13px;margin:8px 0 12px} .divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px 0} .input{width:100%;padding:10px 12px;border:1.5px solid #e5e2d6;border-radius:10px;outline:none;transition:.2s;background:#fff} .input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
 
-/* CONTENT */
-section{padding:40px 10%;margin-top:80px}
-h2{color:var(--gold);text-align:center;margin-bottom:22px}
-.suivi-wrap{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start}
-@media(max-width:980px){.suivi-wrap{grid-template-columns:1fr}}
-.card{background:rgba(255,255,255,.98);backdrop-filter:blur(8px);border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
-.card h3{margin:0 0 12px;font-size:18px;color:var(--gold-dark)}
-.badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--gold);background:#faf7ef;color:#6a5600;font-weight:700;font-size:12px}
-.helper{color:var(--muted);font-size:13px;margin:8px 0 12px}
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px 0}
-.input{width:100%;padding:10px 12px;border:1.5px solid #e5e2d6;border-radius:10px;outline:none;transition:.2s;background:#fff}
-.input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
+/* Suggestions */ .suggest-box{position:relative;margin-top:8px} .suggest-list{position:absolute;left:0;right:0;max-height:260px;overflow:auto;z-index:3000;background:#fff;border:1.5px solid var(--gold);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.18);display:none} .suggest-list.open{display:block} .suggest-item{Padding:10px 12px;cursor:pointer;border-bottom:1px dashed #f1e7bf} .suggest-item:last-child{border-bottom:none} .suggest-item:hover{background:linear-gradient(90deg,#ffd700,#fff4b0)} .suggest-empty{padding:10px 12px;color:#777}
 
-/* Suggestions */
-.suggest-box{position:relative;margin-top:8px}
-.suggest-list{position:absolute;left:0;right:0;max-height:260px;overflow:auto;z-index:3000;background:#fff;border:1.5px solid var(--gold);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.18);display:none}
-.suggest-list.open{display:block}
-.suggest-item{padding:10px 12px;cursor:pointer;border-bottom:1px dashed #f1e7bf}
-.suggest-item:last-child{border-bottom:none}
-.suggest-item:hover{background:linear-gradient(90deg,#ffd700,#fff4b0)}
-.suggest-empty{padding:10px 12px;color:#777}
+/* Dropzone */ .dropzone{border:2px dashed var(--gold);border-radius:14px;padding:16px;text-align:center;background:#fffdf4;transition:.2s} .dropzone.drag{background:#fff5bf;box-shadow:0 0 0 4px rgba(212,175,55,.15)} .thumb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:10px} .thumb{position:relative;border-radius:10px;overflow:hidden;background:#f5f5f5;border:1px solid #eee;height:90px} .thumb img{width:100%;height:100%;object-fit:cover} .thumb .name{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:3px 6px;border-radius:6px}
 
-/* Dropzone */
-.dropzone{border:2px dashed var(--gold);border-radius:14px;padding:16px;text-align:center;background:#fffdf4;transition:.2s}
-.dropzone.drag{background:#fff5bf;box-shadow:0 0 0 4px rgba(212,175,55,.15)}
-.thumb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:10px}
-.thumb{position:relative;border-radius:10px;overflow:hidden;background:#f5f5f5;border:1px solid #eee;height:90px}
-.thumb img{width:100%;height:100%;object-fit:cover}
-.thumb .name{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:3px 6px;border-radius:6px}
+/* Buttons */ .btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;border-radius:12px;padding:10px 16px;font-weight:700;letter-spacing:.3px;transition:.2s} .btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff} .btn.gold:hover{box-shadow:0 0 14px rgba(212,175,55,.6);transform:translateY(-1px)} .btn.ghost{background:#fff;border:2px solid var(--gold);color:#6a5600} .btn.sm{padding:7px 12px;border-radius:10px;font-size:12px}
 
-/* Buttons */
-.btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;border-radius:12px;padding:10px 16px;font-weight:700;letter-spacing:.3px;transition:.2s}
-.btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff}
-.btn.gold:hover{box-shadow:0 0 14px rgba(212,175,55,.6);transform:translateY(-1px)}
-.btn.ghost{background:#fff;border:2px solid var(--gold);color:#6a5600}
-.btn.sm{padding:7px 12px;border-radius:10px;font-size:12px}
+/* Feed */ .feed-empty{padding:18px;text-align:center;color:#666;border:1px dashed #e3d9a7;border-radius:12px;background:#fffdf5} .feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px} .card-photo{border:1.5px solid #e8e2c3;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.08)} .card-photo img{width:100%;height:200px;object-fit:cover;background:#f5f5f5} .card-photo .meta{padding:10px 12px} .meta .when{font-size:12px;color:#777} .filter-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px} .dest-badge{display:flex;gap:8px;align-items:center;flex-wrap:wrap} .dest-badge .pill{background:#faf7ef;border:1px solid #e8d277;border-radius:999px;padding:6px 10px;font-size:12px;color:#6a5600}
 
-/* Feed */
-.feed-empty{padding:18px;text-align:center;color:#666;border:1px dashed #e3d9a7;border-radius:12px;background:#fffdf5}
-.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-.card-photo{border:1.5px solid #e8e2c3;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.08)}
-.card-photo img{width:100%;height:200px;object-fit:cover;background:#f5f5f5}
-.card-photo .meta{padding:10px 12px}
-.meta .when{font-size:12px;color:#777}
-.filter-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
-.dest-badge{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.dest-badge .pill{background:#faf7ef;border:1px solid #e8d277;border-radius:999px;padding:6px 10px;font-size:12px;color:#6a5600}
+/* FOOTER */ footer{background:#f9f9f9;padding:25px;text-align:center;color:#555;font-size:14px;border-top:1px solid #eee;margin-top:30px} footer a{color:var(--gold);text-decoration:none;margin:0 10px}
 
-/* FOOTER */
-footer{background:#f9f9f9;padding:25px;text-align:center;color:#555;font-size:14px;border-top:1px solid #eee;margin-top:30px}
-footer a{color:var(--gold);text-decoration:none;margin:0 10px}
+/* BOTTOM NAV */ .bottom-nav{position:fixed;left:0;right:0;bottom:0;height:64px;padding-bottom:env(safe-area-inset-bottom,0);background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-around;z-index:995;box-shadow:0 -6px 18px rgba(0,0,0,.08)} .bottom-nav a,.bottom-nav button{appearance:none;border:none;background:none;color:#666;text-decoration:none;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;padding:6px 10px;border-radius:10px;cursor:pointer} .bottom-nav a.active,.bottom-nav button.active,.bottom-nav a:hover,.bottom-nav button:hover{color:var(--gold-dark);background:#fff8dc} .bottom-nav svg{width:22px;height:22px}
 
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;height:64px;padding-bottom:env(safe-area-inset-bottom,0);background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-around;z-index:995;box-shadow:0 -6px 18px rgba(0,0,0,.08)}
-.bottom-nav a,.bottom-nav button{appearance:none;border:none;background:none;color:#666;text-decoration:none;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;padding:6px 10px;border-radius:10px;cursor:pointer}
-.bottom-nav a.active,.bottom-nav button.active,.bottom-nav a:hover,.bottom-nav button:hover{color:var(--gold-dark);background:#fff8dc}
-.bottom-nav svg{width:22px;height:22px}
+.visually-hidden{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden} </style>
 
-.visually-hidden{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-</style>
 </head>
-<body>
-
-<header>
+<body><header>
   <div class="logo-container">
     <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
-  </div>
-
-  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
-
-  <div class="menu">
+  </div>  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>  <div class="menu">
     <nav id="nav-links" aria-label="Navigation principale">
       <a href="index.html">Accueil</a>
-      <div>
+      <div style="position:relative;">
         <a href="#" id="realisations-btn" aria-haspopup="true" aria-expanded="false">Réalisations ▼</a>
-        <div class="submenu" id="realisations-submenu" role="menu" style="display:none;">
-          <a href="placo-platre.html" role="menuitem">Placo & Plâtre</a>
-          <a href="Peinture.html" role="menuitem">Peinture</a>
-          <a href="dalle-de-sol.html" role="menuitem">Dalle de sol</a>
-          <a href="Plomberie.html" role="menuitem">Plomberie</a>
-          <a href="électricité.html" role="menuitem">Électricité</a>
+        <div class="submenu" id="realisations-submenu" role="menu" style="display:none;position:absolute;top:28px;left:0;background:#fff;padding:8px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);z-index:1200">
+          <a href="placo-platre.html" role="menuitem">Placo & Plâtre</a><br>
+          <a href="Peinture.html" role="menuitem">Peinture</a><br>
+          <a href="dalle-de-sol.html" role="menuitem">Dalle de sol</a><br>
+          <a href="Plomberie.html" role="menuitem">Plomberie</a><br>
+          <a href="électricité.html" role="menuitem">Électricité</a><br>
           <a href="cuisine-&-dressing.html" role="menuitem">Cuisine & Dressing</a>
         </div>
       </div>
@@ -138,94 +51,83 @@ footer a{color:var(--gold);text-decoration:none;margin:0 10px}
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
       <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login" aria-label="Connexion">Connexion</a>
-    </nav>
-
-    <div class="profile" id="profile">
-      <button type="button" class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path></svg>
-      </button>
-      <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
-        <div id="profile-logged-in" class="hidden">
-          <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
-          <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
-          <a href="parametres.html" class="profile-item" role="menuitem">Paramètres</a>
-          <div class="profile-divider"></div>
-          <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
-        </div>
-        <div id="profile-logged-out" class="hidden">
-          <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
-        </div>
-      </div>
+    </nav><div class="profile" id="profile">
+  <button type="button" class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path></svg>
+  </button>
+  <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
+    <div id="profile-logged-in" class="hidden">
+      <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
+      <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
+      <a href="parametres.html" class="profile-item" role="menuitem">Paramètres</a>
+      <div class="profile-divider"></div>
+      <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
     </div>
-
-    <div class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu"><div></div><div></div><div></div></div>
+    <div id="profile-logged-out" class="hidden">
+      <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
+    </div>
   </div>
-</header>
+</div>
 
-<section>
-  <h2>Suivi du chantier <span class="badge" id="roleBadge">…</span></h2>
+<div class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu"><div></div><div></div><div></div></div>
 
-  <div class="suivi-wrap">
+  </div>
+</header><section>
+  <h2>Suivi du chantier <span class="badge" id="roleBadge">…</span></h2>  <div class="suivi-wrap">
     <!-- Panneau ARTISAN -->
     <aside class="card" id="artisanPanel" style="display:none;">
       <h3>Envoi de photos (artisans)</h3>
-      <div class="helper">Recherchez le client, ajoutez vos photos et envoyez. Le client les verra instantanément.</div>
-
-      <label for="clientSearch"><strong>Destinataire</strong></label>
-      <div class="suggest-box">
-        <input id="clientSearch" class="input" type="text" placeholder="Rechercher un client (nom ou email)…" autocomplete="off">
-        <div id="clientSuggest" class="suggest-list"></div>
-      </div>
-      <div class="dest-badge" id="destBadge" style="margin-top:8px;"></div>
-
-      <div class="divider"></div>
-
-      <label><strong>Photos du chantier</strong></label>
-      <div id="dropzone" class="dropzone">
-        Glissez-déposez vos images ici ou
-        <button id="pickBtn" class="btn ghost sm" type="button" style="margin-left:6px;">Parcourir</button>
-        <button id="cameraBtn" class="btn ghost sm" type="button">Caméra</button>
-
-        <!-- Inputs réels (cachés) -->
-        <input id="fileInput" type="file" accept="image/*" multiple style="display:none;">
-        <input id="fileInputCam" type="file" accept="image/*" capture="environment" style="display:none;">
-
-        <div class="helper">Formats: JPG, PNG, HEIC (selon navigateur) – max 10 Mo/photo.</div>
-        <div class="thumb-list" id="thumbList"></div>
-      </div>
-
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
-        <button id="clearBtn" class="btn ghost">Vider</button>
-        <button id="sendBtn" class="btn gold">Envoyer</button>
-      </div>
-      <div class="helper" id="statusMsg" aria-live="polite"></div>
-    </aside>
-
-    <!-- Flux des photos -->
-    <main>
-      <div class="card">
-        <div class="filter-row">
-          <div class="dest-badge" id="viewerBadge"></div>
-          <div id="feedInfo" class="helper"></div>
-        </div>
-        <div id="feedEmpty" class="feed-empty" style="display:none;">Aucune photo pour le moment.</div>
-        <div id="feed" class="feed"></div>
-      </div>
-    </main>
+      <div class="helper">Recherchez le client, ajoutez vos photos et envoyez. Le client les verra instantanément.</div><label for="clientSearch"><strong>Destinataire</strong></label>
+  <div class="suggest-box">
+    <input id="clientSearch" class="input" type="text" placeholder="Rechercher un client (nom ou email)…" autocomplete="off">
+    <div id="clientSuggest" class="suggest-list"></div>
   </div>
-</section>
+  <div class="dest-badge" id="destBadge" style="margin-top:8px;"></div>
 
-<footer>
+  <div class="divider"></div>
+
+  <label><strong>Photos du chantier</strong></label>
+  <div id="dropzone" class="dropzone">
+    Glissez-déposez vos images ici ou
+    <button id="pickBtn" class="btn ghost sm" type="button" style="margin-left:6px;">Parcourir</button>
+    <button id="cameraBtn" class="btn ghost sm" type="button">Caméra</button>
+
+    <!-- Inputs réels (cachés) -->
+    <input id="fileInput" type="file" accept="image/*" multiple style="display:none;">
+    <input id="fileInputCam" type="file" accept="image/*" capture="environment" style="display:none;">
+
+    <div class="helper">Formats: JPG, PNG, HEIC (selon navigateur) – max 10 Mo/photo.</div>
+    <div class="thumb-list" id="thumbList"></div>
+  </div>
+
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
+    <button id="clearBtn" class="btn ghost">Vider</button>
+    <button id="sendBtn" class="btn gold">Envoyer</button>
+  </div>
+  <div class="helper" id="statusMsg" aria-live="polite"></div>
+</aside>
+
+<!-- Flux des photos -->
+<main>
+  <div class="card">
+    <div class="filter-row">
+      <div class="dest-badge" id="viewerBadge"></div>
+      <div id="feedInfo" class="helper"></div>
+    </div>
+    <div id="feedEmpty" class="feed-empty" style="display:none;">Aucune photo pour le moment.</div>
+    <div id="feed" class="feed"></div>
+  </div>
+</main>
+
+  </div>
+</section><footer>
   <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
   <p>
     <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank" rel="noopener">Instagram</a> |
     <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank" rel="noopener">Facebook</a> |
     <a href="https://wa.me/213542093648" target="_blank" rel="noopener">WhatsApp</a>
   </p>
-</footer>
-
-<!-- Bottom Navigation -->
-<nav class="bottom-nav" aria-label="Navigation bas">
+</footer><!-- Bottom Navigation --><nav class="bottom-nav" aria-label="Navigation bas">
   <a href="index.html" id="bn-home">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
     <span>Accueil</span>
@@ -246,11 +148,9 @@ footer a{color:var(--gold);text-decoration:none;margin:0 10px}
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"/></svg>
     <span>Profil</span>
   </button>
-</nav>
+</nav><!-- Supabase --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+// NOTE: Ce fichier est prêt à l'emploi. Adapte l'URL/KEY Supabase si besoin.
 
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
 document.addEventListener('DOMContentLoaded', () => {
   const { createClient } = supabase;
   const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
@@ -258,10 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const sb = createClient(supabaseUrl, supabaseKey);
   window._sb = sb;
 
-  // Helper : cite les colonnes à casse
+  // Helper quoting for select
   const q = (col) => /^[a-z0-9_]+$/.test(col) ? col : `"${col}"`;
 
-  // Mapping exact (schéma public, tables MAJUSCULES)
+  // Mapping (adapt to your actual table/col names)
   const BUCKET = 'chantier_photo';
   const TABLE = { users: 'Users', photos: 'Photos' };
   const COL = {
@@ -398,7 +298,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('artisanPanel').style.display = 'block';
       viewerBadge.innerHTML = '<span class="pill">Vue artisan</span>';
       const saved = localStorage.getItem('renolix-selected-client');
-      if(saved){ setSelectedClient({ id: saved, name:'Client sélectionné', email:'' }); }
+      if(saved){ // try to load basic info from users table
+        try{
+          const { data } = await sb.from(TABLE.users).select(`${COL.users.id},${COL.users.name},${COL.users.email}`).eq(COL.users.id, saved).limit(1).single();
+          if(data) setSelectedClient(data);
+          else localStorage.removeItem('renolix-selected-client');
+        }catch(e){ console.warn('load saved client failed', e); localStorage.removeItem('renolix-selected-client'); }
+      }
       updateFeedHint();
       bindUI();
     }else{
@@ -410,16 +316,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Rôle via RPC (corrigé)
+  // Rôle via RPC (corrigé) — fallback sur metadata ou table Users
   async function resolveRole(user){
     try{
       const { data, error } = await sb.rpc('get_my_role');
       if(error) console.warn('get_my_role error:', error.message || error);
       if(data === 'artisan' || data === 'client') return data;
-    }catch(e){
-      console.warn('get_my_role exception:', e?.message || e);
-    }
-    // Fallback éventuel si RPC indisponible
+    }catch(e){ console.warn('get_my_role exception:', e?.message || e); }
+
+    // fallback: try Users table
+    try{
+      const { data } = await sb.from(TABLE.users).select(`${COL.users.role}`).eq(COL.users.id, user.id).limit(1).single();
+      if(data && data[COL.users.role]){
+        const r = String(data[COL.users.role]).toLowerCase().trim();
+        if(r==='artisan' || r==='client') return r;
+      }
+    }catch(e){ /* ignore */ }
+
+    // fallback to metadata
     const metaRole = [user?.user_metadata?.role, user?.app_metadata?.role]
       .map(x => (typeof x === 'string' ? x.toLowerCase().trim() : null))
       .find(x => x==='artisan' || x==='client');
@@ -467,15 +381,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // Recherche clients (RPC -> "Users")
   async function searchClients(qv){
     try{
-      const { data, error } = await sb.rpc('search_clients', { q: qv });
-      if(error){ console.error('search_clients RPC error:', error); renderSuggestions([]); return; }
-      renderSuggestions(Array.isArray(data) ? data : []);
+      // Prefer RPC if available
+      const { data: rpcData, error: rpcErr } = await sb.rpc('search_clients', { q: qv });
+      if(!rpcErr && Array.isArray(rpcData)) return renderSuggestions(rpcData);
+    }catch(e){ /* ignore */ }
+
+    try{
+      const { data, error } = await sb.from(TABLE.users).select(`${COL.users.id},${COL.users.name},${COL.users.email}`).ilike(COL.users.name, `%${qv}%`).or(`${COL.users.email}.ilike.%${qv}%`).limit(20);
+      if(error){ console.error('search_clients fallback error', error); renderSuggestions([]); return; }
+      renderSuggestions(data || []);
     }catch(err){ console.error(err); renderSuggestions([]); }
   }
 
   function renderSuggestions(list){
     clientSuggest.innerHTML='';
-    if(!list.length){
+    if(!list || !list.length){
       const empty = document.createElement('div');
       empty.className = 'suggest-empty';
       empty.textContent = 'Aucun résultat';
@@ -511,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Previews
   function addPreviews(files){
-    const imgFiles = files.filter(f => f.type.startsWith('image/'));
+    const imgFiles = files.filter(f => f.type && f.type.startsWith && f.type.startsWith('image'));
     if(!imgFiles.length) return;
     const valid = imgFiles.filter(f => f.size <= 10*1024*1024);
     const skipped = imgFiles.length - valid.length;
@@ -530,6 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   function shortName(name){
+    if(!name) return 'photo';
     if(name.length<=16) return name;
     const dot = name.lastIndexOf('.');
        const base = dot>0 ? name.slice(0,dot) : name;
@@ -554,7 +475,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const dd = String(now.getDate()).padStart(2,'0');
 
       for(const file of previewFiles){
-        const clean = file.name.replace(/[^\w\-.]+/g,'_');
+        const clean = file.name.replace(/[^
+\w\-.]+/g,'_');
         const path = `${activeClientUserId}/${yyyy}/${mm}/${dd}/${crypto.randomUUID()}_${clean}`;
 
         const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, { contentType:file.type, upsert:false });
@@ -589,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
     feed.innerHTML='';
     if(!activeClientUserId){
       feedEmpty.style.display='block';
-      feedEmpty.textContent = 'Choisissez un client pour afficher son suivi.';
+      feedEmpty.textContent = currentRole==='artisan' ? 'Choisissez un client pour afficher son suivi.' : 'Aucune photo pour le moment.';
       feedInfo.textContent = '';
       return;
     }
@@ -635,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Realtime
   function subscribeRealtime(){
-    if(rtChannel){ sb.removeChannel(rtChannel); rtChannel=null; }
+    if(rtChannel){ try{ sb.removeChannel(rtChannel); }catch(e){}; rtChannel=null; }
     rtChannel = sb.channel('rt-Photos')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLE.photos }, (payload)=>{
         const row = payload.new;
@@ -646,8 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .subscribe();
   }
-});
-</script>
 
-</body>
+});
+</script></body>
 </html>
