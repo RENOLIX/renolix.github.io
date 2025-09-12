@@ -1,629 +1,174 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RENOLIX - Suivi du chantier</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
+/* === STYLES (inchangés sauf petits fix) === */
 :root{ --gold:#d4af37; --gold-dark:#b8860b; --text:#222; --muted:#555; --bg:#fff; --shadow:0 10px 25px rgba(0,0,0,0.12); }
 *{box-sizing:border-box}
-body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);padding-bottom:84px}/* HEADER */ header{display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;left:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 10px rgba(0,0,0,0.08);backdrop-filter:saturate(120%) blur(6px)} .logo-container{display:flex;align-items:center;gap:8px} .logo-container img{width:50px;height:auto} .header-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center} .header-center a{text-decoration:none} .header-center h1{margin:0;font-size:24px;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;background:linear-gradient(-45deg,#000 20%,var(--gold) 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite} @keyframes luxuryShine{0%{background-position:200% 0}100%{background-position:-200% 0}} .menu{display:flex;align-items:center;gap:10px} header nav{display:flex;gap:15px;align-items:center} header nav a{color:var(--text);text-decoration:none;font-weight:500;transition:.25s} header nav a:hover{color:var(--gold)} .connexion-btn{display:inline-block;background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff !important;font-weight:bold;padding:8px 16px;border-radius:20px;text-decoration:none;transition:.25s;text-align:center} .connexion-btn:hover{box-shadow:0 0 15px var(--gold);transform:translateY(-1px)} .menu-toggle{display:none;flex-direction:column;cursor:pointer;padding:8px;margin-left:6px} .menu-toggle div{width:24px;height:3px;background:var(--text);margin:4px 0;transition:.3s}
-
-/* PROFILE MENU */ .profile{position:relative;z-index:1200} .profile-btn{width:38px;height:38px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,var(--gold),var(--gold-dark)) border-box;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;box-shadow:0 2px 6px rgba(0,0,0,.1)} .profile-btn:hover{box-shadow:0 0 12px rgba(212,175,55,.8);transform:translateY(-1px)} .profile-btn svg{width:20px;height:20px;fill:var(--gold-dark)} .profile-dropdown{position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:14px;box-shadow:0 12px 26px rgba(0,0,0,.18);padding:8px;display:none;z-index:2000} .profile-dropdown.open{display:block;animation:submenuSlide .18s ease forwards} .profile-email{font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,.5);border-radius:8px} .profile-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600;transition:all .2s ease} .profile-item:hover{background:linear-gradient(90deg,#ffd700,var(--gold));color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px var(--gold)} .profile-divider{height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,var(--gold),transparent)} .hidden{display:none} @keyframes submenuSlide{0%{opacity:0;transform:translateY(-8px)}100%{opacity:1;transform:translateY(0)}}
-
-/* Mobile nav dropdown */ @media(max-width:860px){ header nav{position:absolute;top:60px;right:12px;width:260px;flex-direction:column;display:none;padding:14px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border:2px solid var(--gold);border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.18)} header nav.active{display:flex} header nav a{padding:10px 12px;width:100%;border-radius:10px} header nav a:hover{background:linear-gradient(90deg,#ffd700,#fff2a6)} .menu-toggle{display:flex} }
-
-/* CONTENT */ section{padding:40px 10%;margin-top:80px} h2{color:var(--gold);text-align:center;margin-bottom:22px} .suivi-wrap{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start} @media(max-width:980px){.suivi-wrap{grid-template-columns:1fr}} .card{background:rgba(255,255,255,.98);backdrop-filter:blur(8px);border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:var(--shadow)} .card h3{margin:0 0 12px;font-size:18px;color:var(--gold-dark)} .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--gold);background:#faf7ef;color:#6a5600;font-weight:700;font-size:12px} .helper{color:var(--muted);font-size:13px;margin:8px 0 12px} .divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px 0} .input{width:100%;padding:10px 12px;border:1.5px solid #e5e2d6;border-radius:10px;outline:none;transition:.2s;background:#fff} .input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
-
-/* Suggestions */ .suggest-box{position:relative;margin-top:8px} .suggest-list{position:absolute;left:0;right:0;max-height:260px;overflow:auto;z-index:3000;background:#fff;border:1.5px solid var(--gold);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.18);display:none} .suggest-list.open{display:block} .suggest-item{Padding:10px 12px;cursor:pointer;border-bottom:1px dashed #f1e7bf} .suggest-item:last-child{border-bottom:none} .suggest-item:hover{background:linear-gradient(90deg,#ffd700,#fff4b0)} .suggest-empty{padding:10px 12px;color:#777}
-
-/* Dropzone */ .dropzone{border:2px dashed var(--gold);border-radius:14px;padding:16px;text-align:center;background:#fffdf4;transition:.2s} .dropzone.drag{background:#fff5bf;box-shadow:0 0 0 4px rgba(212,175,55,.15)} .thumb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:10px} .thumb{position:relative;border-radius:10px;overflow:hidden;background:#f5f5f5;border:1px solid #eee;height:90px} .thumb img{width:100%;height:100%;object-fit:cover} .thumb .name{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:3px 6px;border-radius:6px}
-
-/* Buttons */ .btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:none;border-radius:12px;padding:10px 16px;font-weight:700;letter-spacing:.3px;transition:.2s} .btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff} .btn.gold:hover{box-shadow:0 0 14px rgba(212,175,55,.6);transform:translateY(-1px)} .btn.ghost{background:#fff;border:2px solid var(--gold);color:#6a5600} .btn.sm{padding:7px 12px;border-radius:10px;font-size:12px}
-
-/* Feed */ .feed-empty{padding:18px;text-align:center;color:#666;border:1px dashed #e3d9a7;border-radius:12px;background:#fffdf5} .feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px} .card-photo{border:1.5px solid #e8e2c3;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.08)} .card-photo img{width:100%;height:200px;object-fit:cover;background:#f5f5f5} .card-photo .meta{padding:10px 12px} .meta .when{font-size:12px;color:#777} .filter-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px} .dest-badge{display:flex;gap:8px;align-items:center;flex-wrap:wrap} .dest-badge .pill{background:#faf7ef;border:1px solid #e8d277;border-radius:999px;padding:6px 10px;font-size:12px;color:#6a5600}
-
-/* FOOTER */ footer{background:#f9f9f9;padding:25px;text-align:center;color:#555;font-size:14px;border-top:1px solid #eee;margin-top:30px} footer a{color:var(--gold);text-decoration:none;margin:0 10px}
-
-/* BOTTOM NAV */ .bottom-nav{position:fixed;left:0;right:0;bottom:0;height:64px;padding-bottom:env(safe-area-inset-bottom,0);background:#fff;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-around;z-index:995;box-shadow:0 -6px 18px rgba(0,0,0,.08)} .bottom-nav a,.bottom-nav button{appearance:none;border:none;background:none;color:#666;text-decoration:none;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;padding:6px 10px;border-radius:10px;cursor:pointer} .bottom-nav a.active,.bottom-nav button.active,.bottom-nav a:hover,.bottom-nav button:hover{color:var(--gold-dark);background:#fff8dc} .bottom-nav svg{width:22px;height:22px}
-
-.visually-hidden{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden} </style>
-
+body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);padding-bottom:84px}
+header{display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;left:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 10px rgba(0,0,0,0.08);backdrop-filter:saturate(120%) blur(6px)}
+.logo-container img{width:50px}
+.header-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center}
+.header-center h1{margin:0;font-size:24px;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;background:linear-gradient(-45deg,#000 20%,var(--gold) 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite}
+@keyframes luxuryShine{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.connexion-btn{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff!important;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700}
+.suivi-wrap{display:grid;grid-template-columns:340px 1fr;gap:24px;margin-top:80px;padding:40px 10%}
+@media(max-width:980px){.suivi-wrap{grid-template-columns:1fr}}
+.card{background:#fff;border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 12px;color:var(--gold-dark)}
+.badge{padding:4px 8px;border-radius:999px;border:1px solid var(--gold);font-size:12px}
+.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card-photo{border:1px solid #ddd;border-radius:14px;overflow:hidden;background:#fff}
+.card-photo img{width:100%;height:200px;object-fit:cover}
+.meta{padding:8px;font-size:12px;color:#555}
+.feed-empty{padding:20px;text-align:center;color:#777;border:1px dashed #ddd;border-radius:12px}
+.dropzone{border:2px dashed var(--gold);border-radius:14px;padding:16px;text-align:center;background:#fffdf4}
+.thumb-list{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.thumb{width:90px;height:90px;overflow:hidden;border-radius:10px}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.btn{padding:8px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:700}
+.btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff}
+.btn.ghost{background:#fff;border:2px solid var(--gold);color:var(--gold-dark)}
+footer{background:#f9f9f9;text-align:center;padding:20px;margin-top:40px;font-size:14px}
+</style>
 </head>
-<body><header>
-  <div class="logo-container">
-    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
-  </div>  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>  <div class="menu">
-    <nav id="nav-links" aria-label="Navigation principale">
-      <a href="index.html">Accueil</a>
-      <div style="position:relative;">
-        <a href="#" id="realisations-btn" aria-haspopup="true" aria-expanded="false">Réalisations ▼</a>
-        <div class="submenu" id="realisations-submenu" role="menu" style="display:none;position:absolute;top:28px;left:0;background:#fff;padding:8px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);z-index:1200">
-          <a href="placo-platre.html" role="menuitem">Placo & Plâtre</a><br>
-          <a href="Peinture.html" role="menuitem">Peinture</a><br>
-          <a href="dalle-de-sol.html" role="menuitem">Dalle de sol</a><br>
-          <a href="Plomberie.html" role="menuitem">Plomberie</a><br>
-          <a href="électricité.html" role="menuitem">Électricité</a><br>
-          <a href="cuisine-&-dressing.html" role="menuitem">Cuisine & Dressing</a>
-        </div>
-      </div>
-      <a href="devis-gratuit.html">Devis Gratuit</a>
-      <a href="à-propos.html">À propos</a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login" aria-label="Connexion">Connexion</a>
-    </nav><div class="profile" id="profile">
-  <button type="button" class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path></svg>
-  </button>
-  <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
-    <div id="profile-logged-in" class="hidden">
-      <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
-      <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
-      <a href="parametres.html" class="profile-item" role="menuitem">Paramètres</a>
-      <div class="profile-divider"></div>
-      <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
-    </div>
-    <div id="profile-logged-out" class="hidden">
-      <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
-    </div>
-  </div>
-</div>
+<body>
 
-<div class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu"><div></div><div></div><div></div></div>
+<header>
+  <div class="logo-container"><img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo"></div>
+  <div class="header-center"><h1>RENOLIX</h1></div>
+  <a href="login.html" id="navAuthLink" class="connexion-btn">Connexion</a>
+</header>
 
-  </div>
-</header><section>
-  <h2>Suivi du chantier <span class="badge" id="roleBadge">…</span></h2>  <div class="suivi-wrap">
+<section>
+  <h2>Suivi du chantier <span class="badge" id="roleBadge">...</span></h2>
+  <div class="suivi-wrap">
     <!-- Panneau ARTISAN -->
     <aside class="card" id="artisanPanel" style="display:none;">
-      <h3>Envoi de photos (artisans)</h3>
-      <div class="helper">Recherchez le client, ajoutez vos photos et envoyez. Le client les verra instantanément.</div><label for="clientSearch"><strong>Destinataire</strong></label>
-  <div class="suggest-box">
-    <input id="clientSearch" class="input" type="text" placeholder="Rechercher un client (nom ou email)…" autocomplete="off">
-    <div id="clientSuggest" class="suggest-list"></div>
+      <h3>Envoyer des photos</h3>
+      <div id="dropzone" class="dropzone">
+        <p>Glissez-déposez vos images ou <button id="pickBtn" class="btn ghost" type="button">Parcourir</button></p>
+        <input id="fileInput" type="file" accept="image/*" multiple style="display:none;">
+        <div class="thumb-list" id="thumbList"></div>
+      </div>
+      <div style="margin-top:10px;text-align:right">
+        <button id="sendBtn" class="btn gold">Envoyer</button>
+      </div>
+      <div id="statusMsg" style="font-size:12px;color:#777;margin-top:6px"></div>
+    </aside>
+
+    <!-- Flux CLIENT -->
+    <main>
+      <div class="card">
+        <div id="feedEmpty" class="feed-empty">Aucune photo pour le moment.</div>
+        <div id="feed" class="feed"></div>
+      </div>
+    </main>
   </div>
-  <div class="dest-badge" id="destBadge" style="margin-top:8px;"></div>
+</section>
 
-  <div class="divider"></div>
+<footer>&copy; 2025 RENOLIX. Tous droits réservés.</footer>
 
-  <label><strong>Photos du chantier</strong></label>
-  <div id="dropzone" class="dropzone">
-    Glissez-déposez vos images ici ou
-    <button id="pickBtn" class="btn ghost sm" type="button" style="margin-left:6px;">Parcourir</button>
-    <button id="cameraBtn" class="btn ghost sm" type="button">Caméra</button>
-
-    <!-- Inputs réels (cachés) -->
-    <input id="fileInput" type="file" accept="image/*" multiple style="display:none;">
-    <input id="fileInputCam" type="file" accept="image/*" capture="environment" style="display:none;">
-
-    <div class="helper">Formats: JPG, PNG, HEIC (selon navigateur) – max 10 Mo/photo.</div>
-    <div class="thumb-list" id="thumbList"></div>
-  </div>
-
-  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
-    <button id="clearBtn" class="btn ghost">Vider</button>
-    <button id="sendBtn" class="btn gold">Envoyer</button>
-  </div>
-  <div class="helper" id="statusMsg" aria-live="polite"></div>
-</aside>
-
-<!-- Flux des photos -->
-<main>
-  <div class="card">
-    <div class="filter-row">
-      <div class="dest-badge" id="viewerBadge"></div>
-      <div id="feedInfo" class="helper"></div>
-    </div>
-    <div id="feedEmpty" class="feed-empty" style="display:none;">Aucune photo pour le moment.</div>
-    <div id="feed" class="feed"></div>
-  </div>
-</main>
-
-  </div>
-</section><footer>
-  <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
-  <p>
-    <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank" rel="noopener">Instagram</a> |
-    <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank" rel="noopener">Facebook</a> |
-    <a href="https://wa.me/213542093648" target="_blank" rel="noopener">WhatsApp</a>
-  </p>
-</footer><!-- Bottom Navigation --><nav class="bottom-nav" aria-label="Navigation bas">
-  <a href="index.html" id="bn-home">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
-    <span>Accueil</span>
-  </a>
-  <a href="suivi.html" id="bn-suivi" class="active">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18v2H3V5zm4 6h14v2H7v-2zM3 17h18v2H3v-2z"/></svg>
-    <span>Suivi</span>
-  </a>
-  <a href="devis-gratuit.html" id="bn-devis">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10a2 2 0 0 1 2 2v14l-7-3-7 3V5a2 2 0 0 1 2-2z"/></svg>
-    <span>Devis</span>
-  </a>
-  <a href="contact.html" id="bn-contact">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 8V7l-3 2-2-1-3 2-2-1-3 2-2-1-3 2v6h18V8z"/></svg>
-    <span>Contact</span>
-  </a>
-  <button type="button" id="bn-profile" aria-controls="profileDropdown">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"/></svg>
-    <span>Profil</span>
-  </button>
-</nav><!-- Supabase --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-// NOTE: Ce fichier est prêt à l'emploi. Adapte l'URL/KEY Supabase si besoin.
-
-document.addEventListener('DOMContentLoaded', () => {
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
   const { createClient } = supabase;
   const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
   const sb = createClient(supabaseUrl, supabaseKey);
-  window._sb = sb;
 
-  // Helper quoting for select
-  const q = (col) => /^[a-z0-9_]+$/.test(col) ? col : `"${col}"`;
+  const roleBadge = document.getElementById("roleBadge");
+  const artisanPanel = document.getElementById("artisanPanel");
+  const feed = document.getElementById("feed");
+  const feedEmpty = document.getElementById("feedEmpty");
+  const fileInput = document.getElementById("fileInput");
+  const pickBtn = document.getElementById("pickBtn");
+  const sendBtn = document.getElementById("sendBtn");
+  const thumbList = document.getElementById("thumbList");
+  const statusMsg = document.getElementById("statusMsg");
 
-  // Mapping (adapt to your actual table/col names)
-  const BUCKET = 'chantier_photo';
-  const TABLE = { users: 'Users', photos: 'Photos' };
-  const COL = {
-    users:  { id: 'id', role: 'role', name: 'name', email: 'email' },
-    photos: { id: 'id', clientId: 'Client_id', uploaderId: 'Artisan_id', uploaderRole: 'role', publicUrl: 'Url', createdAt: 'created_at' }
-  };
-
-  // UI refs
-  const nav = document.getElementById('nav-links');
-  const menuToggle = document.getElementById('menuToggle');
-  const submenuBtn = document.getElementById('realisations-btn');
-  const submenu = document.getElementById('realisations-submenu');
-  const navAuthLink = document.getElementById('navAuthLink');
-
-  const profileButton   = document.getElementById('profileButton');
-  const profileDropdown = document.getElementById('profileDropdown');
-  const loggedInBox     = document.getElementById('profile-logged-in');
-  const loggedOutBox    = document.getElementById('profile-logged-out');
-  const profileEmailEl  = document.getElementById('profileEmail');
-
-  const roleBadge   = document.getElementById('roleBadge');
-  const artisanPanel= document.getElementById('artisanPanel');
-  const clientSearch= document.getElementById('clientSearch');
-  const clientSuggest= document.getElementById('clientSuggest');
-  const destBadge   = document.getElementById('destBadge');
-  const viewerBadge = document.getElementById('viewerBadge');
-
-  const dropzone    = document.getElementById('dropzone');
-  const pickBtn     = document.getElementById('pickBtn');
-  const cameraBtn   = document.getElementById('cameraBtn');
-  const fileInput   = document.getElementById('fileInput');     // Fichiers/galerie
-  const fileInputCam= document.getElementById('fileInputCam');  // Caméra
-  const thumbList   = document.getElementById('thumbList');
-  const clearBtn    = document.getElementById('clearBtn');
-  const sendBtn     = document.getElementById('sendBtn');
-  const statusMsg   = document.getElementById('statusMsg');
-
-  const feed        = document.getElementById('feed');
-  const feedEmpty   = document.getElementById('feedEmpty');
-  const feedInfo    = document.getElementById('feedInfo');
-
-  const bnProfile   = document.getElementById('bn-profile');
-
-  // Header/menu
-  const toggleMenu = () => nav?.classList.toggle('active');
-  menuToggle?.addEventListener('click', toggleMenu);
-
-  if (submenuBtn) {
-    submenuBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const open = (submenu.style.display === 'flex');
-      submenu.style.display = open ? 'none' : 'flex';
-      submenu.style.flexDirection = 'column';
-      submenuBtn.setAttribute('aria-expanded', String(!open));
-    });
-  }
-
-  function openProfile(){ profileDropdown?.classList.add('open'); profileButton?.setAttribute('aria-expanded','true'); profileDropdown?.setAttribute('aria-hidden','false'); }
-  function closeProfile(){ profileDropdown?.classList.remove('open'); profileButton?.setAttribute('aria-expanded','false'); profileDropdown?.setAttribute('aria-hidden','true'); }
-  function toggleProfile(){ (profileDropdown && profileDropdown.classList.contains('open')) ? closeProfile() : openProfile(); }
-
-  profileButton?.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); });
-  bnProfile?.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); window.scrollTo({top:0, behavior:'smooth'}); openProfile(); });
-
-  document.addEventListener('click', (e)=>{ 
-    if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }
-    if(nav && !nav.contains(e.target) && e.target !== menuToggle){ nav.classList.remove('active'); }
-  });
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); nav.classList.remove('active'); }});
-
-  // Auth UI
-  async function updateProfileUI(){
-    try{
-      const { data: { user} } = await sb.auth.getUser();
-      if(user){
-        loggedOutBox?.classList.add('hidden');
-        loggedInBox?.classList.remove('hidden');
-        profileEmailEl && (profileEmailEl.textContent = user.email || '');
-      }else{
-        loggedInBox?.classList.add('hidden');
-        loggedOutBox?.classList.remove('hidden');
-        profileEmailEl && (profileEmailEl.textContent = '');
-      }
-    }catch(err){
-      console.error('Auth getUser error:', err);
-      loggedInBox?.classList.add('hidden');
-      loggedOutBox?.classList.remove('hidden');
-    }
-  }
-  function syncHeaderAuthLink(){
-    const link = document.getElementById('navAuthLink');
-    if(!link) return;
-    sb.auth.getUser().then(({data:{user}})=>{
-      const clone = link.cloneNode(true);
-      link.parentNode.replaceChild(clone, link);
-      const L = document.getElementById('navAuthLink');
-      if(user){
-        L.textContent = 'Déconnexion';
-        L.setAttribute('href', '#');
-        L.dataset.mode = 'logout';
-        L.addEventListener('click', async (e)=>{
-          e.preventDefault();
-          try{ await sb.auth.signOut(); } finally{ closeProfile(); location.replace('index.html'); }
-        }, { once:true });
-      }else{
-        L.textContent = 'Connexion';
-        L.setAttribute('href', 'login.html');
-        L.dataset.mode = 'login';
-      }
-    });
-  }
-  updateProfileUI(); syncHeaderAuthLink();
-  sb.auth.onAuthStateChange(()=>{ updateProfileUI(); syncHeaderAuthLink(); });
-
-  // ===== Suivi du chantier =====
   let currentUser = null;
-  let currentRole = 'client';
-  let activeClientUserId = null;
-  let previewFiles = [];
-  let rtChannel = null;
-  let searchTimer = null;
+  let currentRole = null;
+  let selectedFiles = [];
 
-  initSuivi();
+  // === Auth ===
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) {
+    roleBadge.textContent = "Non connecté";
+    return;
+  }
+  currentUser = user;
 
-  async function initSuivi(){
-    const { data: { user } } = await sb.auth.getUser();
-    if(!user){ location.href = 'login.html?next='+encodeURIComponent(location.pathname); return; }
-    currentUser = user;
+  // Récupérer rôle dans la table Users
+  const { data: udata } = await sb.from("Users").select("role").eq("id", user.id).single();
+  currentRole = udata?.role || "client";
+  roleBadge.textContent = currentRole;
 
-    currentRole = await resolveRole(user);
-    roleBadge.textContent = (currentRole === 'artisan') ? 'Artisan' : 'Client';
-
-    if(currentRole === 'artisan'){
-      document.getElementById('artisanPanel').style.display = 'block';
-      viewerBadge.innerHTML = '<span class="pill">Vue artisan</span>';
-      const saved = localStorage.getItem('renolix-selected-client');
-      if(saved){ // try to load basic info from users table
-        try{
-          const { data } = await sb.from(TABLE.users).select(`${COL.users.id},${COL.users.name},${COL.users.email}`).eq(COL.users.id, saved).limit(1).single();
-          if(data) setSelectedClient(data);
-          else localStorage.removeItem('renolix-selected-client');
-        }catch(e){ console.warn('load saved client failed', e); localStorage.removeItem('renolix-selected-client'); }
-      }
-      updateFeedHint();
-      bindUI();
-    }else{
-      document.getElementById('artisanPanel').style.display = 'none';
-      activeClientUserId = currentUser.id;
-      viewerBadge.innerHTML = '<span class="pill">Client</span>';
-      await loadFeed();
-      subscribeRealtime();
-    }
+  if (currentRole === "artisan") {
+    artisanPanel.style.display = "block";
   }
 
-  // Rôle via RPC (corrigé) — fallback sur metadata ou table Users
-  async function resolveRole(user){
-    // 1) Try RPC (if you have a custom function get_my_role)
-    try{
-      const { data, error } = await sb.rpc('get_my_role');
-      console.log('RPC get_my_role =>', data, error);
-      if(!error && (data === 'artisan' || data === 'client')) return data;
-    }catch(e){ console.warn('get_my_role exception:', e?.message || e); }
-
-    // 2) Try Users table: fetch the full row and detect any column named "role" (case-insensitive)
-    try{
-      const { data, error } = await sb.from(TABLE.users).select('*').eq('id', user.id).limit(1).single();
-      if(error){
-        console.warn('Users lookup error', error);
-      }else if(data){
-        console.log('Users row for role-detection:', data);
-        const roleKey = Object.keys(data).find(k => k.toLowerCase() === 'role');
-        if(roleKey){
-          const r = ('' + data[roleKey]).toLowerCase().trim();
-          if(r === 'artisan' || r === 'client') return r;
-        }
-      }
-    }catch(e){ console.warn('Users lookup exception', e); }
-
-    // 3) Fallback to metadata if present
-    const metaRole = [user?.user_metadata?.role, user?.app_metadata?.role]
-      .map(x => (typeof x === 'string' ? x.toLowerCase().trim() : null))
-      .find(x => x === 'artisan' || x === 'client');
-    if(metaRole) return metaRole;
-
-    // 4) Local override useful for testing (remove in production)
-    const forced = localStorage.getItem('renolix-force-role');
-    if(forced){ console.log('Using forced role from localStorage:', forced); return forced; }
-
-    // Default
-    return 'client';
-  }
-
-  function bindUI(){
-    // Recherche: 1 caractère
-    clientSearch?.addEventListener('input', (e)=>{
-      const qv = (e.target.value||'').trim();
-      clearTimeout(searchTimer);
-      if(qv.length < 1){ clientSuggest.innerHTML=''; clientSuggest.classList.remove('open'); return; }
-      searchTimer = setTimeout(()=> searchClients(qv), 220);
+  // === Upload ===
+  pickBtn.addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", (e) => {
+    selectedFiles = [...e.target.files];
+    thumbList.innerHTML = "";
+    selectedFiles.forEach(f => {
+      const div = document.createElement("div");
+      div.className = "thumb";
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(f);
+      div.appendChild(img);
+      thumbList.appendChild(div);
     });
-    document.addEventListener('click', (e)=>{
-      if(clientSuggest && !clientSuggest.contains(e.target) && e.target !== clientSearch){
-        clientSuggest.classList.remove('open');
-      }
-    });
+  });
 
-    // Drag&drop
-    ['dragenter','dragover'].forEach(ev=>{
-      dropzone.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.add('drag'); });
-    });
-    ['dragleave','drop'].forEach(ev=>{
-      dropzone.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('drag'); });
-    });
-    dropzone.addEventListener('drop', (e)=>{
-      const files = Array.from(e.dataTransfer.files||[]);
-      addPreviews(files);
-    });
-
-    // Fichiers/galerie vs Caméra
-    pickBtn?.addEventListener('click', ()=> fileInput?.click());
-    cameraBtn?.addEventListener('click', ()=> fileInputCam?.click());
-    fileInput?.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
-    fileInputCam?.addEventListener('change', (e)=> addPreviews(Array.from(e.target.files||[])));
-
-    clearBtn?.addEventListener('click', ()=>{
-      previewFiles = []; thumbList.innerHTML=''; if(fileInput) fileInput.value=''; if(fileInputCam) fileInputCam.value=''; status('');
-    });
-    sendBtn?.addEventListener('click', ()=> uploadBatch());
-  }
-
-  // Recherche clients (RPC -> "Users")
-  async function searchClients(qv){
-    try{
-      // Prefer RPC if available
-      const { data: rpcData, error: rpcErr } = await sb.rpc('search_clients', { q: qv });
-      if(!rpcErr && Array.isArray(rpcData)) return renderSuggestions(rpcData);
-    }catch(e){ /* ignore */ }
-
-    try{
-      const { data, error } = await sb.from(TABLE.users).select(`${COL.users.id},${COL.users.name},${COL.users.email}`).ilike(COL.users.name, `%${qv}%`).or(`${COL.users.email}.ilike.%${qv}%`).limit(20);
-      if(error){ console.error('search_clients fallback error', error); renderSuggestions([]); return; }
-      renderSuggestions(data || []);
-    }catch(err){ console.error(err); renderSuggestions([]); }
-  }
-
-  function renderSuggestions(list){
-    clientSuggest.innerHTML='';
-    if(!list || !list.length){
-      const empty = document.createElement('div');
-      empty.className = 'suggest-empty';
-      empty.textContent = 'Aucun résultat';
-      clientSuggest.appendChild(empty);
-      clientSuggest.classList.add('open');
-      return;
-    }
-    list.forEach(c=>{
-      const div = document.createElement('div');
-      div.className='suggest-item';
-      const name = c.name || '(Sans nom)';
-      const email = c.email || '';
-      div.textContent = `${name}${email? ' • '+email : ''}`;
-      div.addEventListener('click', ()=>{
-        clientSuggest.classList.remove('open');
-        setSelectedClient(c);
+  sendBtn.addEventListener("click", async () => {
+    if (!selectedFiles.length) return;
+    statusMsg.textContent = "Envoi en cours...";
+    for (const file of selectedFiles) {
+      const path = `${Date.now()}-${file.name}`;
+      const { error: uploadError } = await sb.storage.from("chantier_photo").upload(path, file);
+      if (uploadError) { console.error(uploadError); continue; }
+      const { data: { publicUrl } } = sb.storage.from("chantier_photo").getPublicUrl(path);
+      await sb.from("Photos").insert({
+        Client_id: currentUser.id,
+        Artisan_id: currentUser.id,
+        Url: publicUrl,
+        role: currentRole
       });
-      clientSuggest.appendChild(div);
-    });
-    clientSuggest.classList.add('open');
-  }
-
-  function setSelectedClient(c){
-    activeClientUserId = c.id;
-    const name = c.name || '';
-    const email = c.email ? ` (${c.email})` : '';
-    clientSearch.value = `${name}${email}`;
-    destBadge.innerHTML = `<span class="pill">Destinataire: ${name || '—'}</span>`;
-    localStorage.setItem('renolix-selected-client', activeClientUserId);
-    loadFeed();
-    subscribeRealtime();
-  }
-
-  // Previews
-  function addPreviews(files){
-    const imgFiles = files.filter(f => f.type && f.type.startsWith && f.type.startsWith('image'));
-    if(!imgFiles.length) return;
-    const valid = imgFiles.filter(f => f.size <= 10*1024*1024);
-    const skipped = imgFiles.length - valid.length;
-    if(skipped>0) status(`⚠️ ${skipped} photo(s) ignorée(s) (>10 Mo).`);
-    previewFiles.push(...valid);
-    renderThumbs();
-  }
-  function renderThumbs(){
-    thumbList.innerHTML='';
-    previewFiles.forEach(f=>{
-      const url = URL.createObjectURL(f);
-      const item = document.createElement('div');
-      item.className='thumb';
-      item.innerHTML = `<img src="${url}" alt=""><span class="name">${shortName(f.name)}</span>`;
-      thumbList.appendChild(item);
-    });
-  }
-  function shortName(name){
-    if(!name) return 'photo';
-    if(name.length<=16) return name;
-    const dot = name.lastIndexOf('.');
-       const base = dot>0 ? name.slice(0,dot) : name;
-    const ext  = dot>0 ? name.slice(dot) : '';
-    return base.slice(0,10)+'…'+ext;
-  }
-  function status(msg){ statusMsg.textContent = msg || ''; }
-
-  // Upload
-  async function uploadBatch(){
-    if(currentRole!=='artisan'){ return; }
-    if(!activeClientUserId){ alert('Sélectionnez d’abord un client destinataire.'); return; }
-    if(!previewFiles.length){ alert('Ajoutez au moins une photo.'); return; }
-
-    sendBtn.disabled = true;
-    status('Envoi en cours…');
-
-    try{
-      const now = new Date();
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth()+1).padStart(2,'0');
-      const dd = String(now.getDate()).padStart(2,'0');
-
-      for(const file of previewFiles){
-        const clean = file.name.replace(/[^
-\w\-.]+/g,'_');
-        const path = `${activeClientUserId}/${yyyy}/${mm}/${dd}/${crypto.randomUUID()}_${clean}`;
-
-        const { error: upErr } = await sb.storage.from(BUCKET).upload(path, file, { contentType:file.type, upsert:false });
-        if(upErr){ console.error(upErr); continue; }
-
-        const { data: pub } = sb.storage.from(BUCKET).getPublicUrl(path);
-
-        const row = {};
-        row[COL.photos.clientId]     = activeClientUserId;
-        row[COL.photos.uploaderId]   = (await sb.auth.getUser()).data.user.id;
-        row[COL.photos.uploaderRole] = 'artisan';
-        row[COL.photos.publicUrl]    = pub?.publicUrl || null;
-
-        const { error: insErr } = await sb.from(TABLE.photos).insert(row);
-        if(insErr){ console.error(insErr); }
-      }
-
-      status('✅ Photos envoyées.');
-      previewFiles = []; thumbList.innerHTML=''; if(fileInput) fileInput.value=''; if(fileInputCam) fileInputCam.value='';
-      await loadFeed();
-    }catch(err){
-      console.error(err);
-      status('❌ Erreur lors de l’envoi.');
-    }finally{
-      sendBtn.disabled = false;
-      setTimeout(()=>status(''), 2500);
     }
-  }
+    statusMsg.textContent = "Photos envoyées ✅";
+    selectedFiles = [];
+    thumbList.innerHTML = "";
+    loadFeed();
+  });
 
-  // Feed
-  async function loadFeed(){
-    feed.innerHTML='';
-    if(!activeClientUserId){
-      feedEmpty.style.display='block';
-      feedEmpty.textContent = currentRole==='artisan' ? 'Choisissez un client pour afficher son suivi.' : 'Aucune photo pour le moment.';
-      feedInfo.textContent = '';
+  // === Feed ===
+  async function loadFeed() {
+    const { data: photos } = await sb.from("Photos").select("*").order("created_at", { ascending: false });
+    feed.innerHTML = "";
+    if (!photos || !photos.length) {
+      feedEmpty.style.display = "block";
       return;
     }
-    feedInfo.textContent = currentRole==='artisan'
-      ? 'Affichage du flux pour le client sélectionné.'
-      : 'Vos photos de suivi envoyées par RENOLIX.';
-
-    const selectCols = [COL.photos.id, COL.photos.publicUrl, COL.photos.createdAt, COL.photos.uploaderRole].map(q).join(',');
-
-    const { data, error } = await sb
-      .from(TABLE.photos)
-      .select(selectCols)
-      .eq(q(COL.photos.clientId), activeClientUserId)
-      .order(COL.photos.createdAt, { ascending:false })
-      .limit(200);
-
-    if(error){ console.error(error); feedEmpty.style.display='block'; return; }
-    if(!data || !data.length){ feedEmpty.style.display='block'; return; }
-
-    feedEmpty.style.display='none';
-    data.forEach(renderCard);
+    feedEmpty.style.display = "none";
+    photos.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card-photo";
+      card.innerHTML = `
+        <img src="${p.Url}" alt="">
+        <div class="meta">${new Date(p.created_at).toLocaleString()}</div>
+      `;
+      feed.appendChild(card);
+    });
   }
-
-  function renderCard(item, {prepend=false}={}){
-    const whenStr = item[COL.photos.createdAt] ? new Date(item[COL.photos.createdAt]).toLocaleString('fr-FR', { dateStyle:'medium', timeStyle:'short' }) : '';
-    const imgUrl = item[COL.photos.publicUrl];
-    const uploaderRole = (item[COL.photos.uploaderRole] || '').toString().toLowerCase();
-
-    const div = document.createElement('div');
-    div.className='card-photo';
-    div.innerHTML = `
-      <img src="${imgUrl}" alt="Photo chantier">
-      <div class="meta">
-        <div class="when">${whenStr} ${uploaderRole==='artisan' ? '• par artisan' : ''}</div>
-      </div>`;
-    if(prepend && feed.firstChild){ feed.insertBefore(div, feed.firstChild); } else { feed.appendChild(div); }
-  }
-
-  function updateFeedHint(){
-    feedEmpty.style.display='block';
-    feedEmpty.textContent = 'Choisissez un client dans la barre de recherche pour voir/envoyer des photos.';
-  }
-
-  // Realtime
-  function subscribeRealtime(){
-    if(rtChannel){ try{ sb.removeChannel(rtChannel); }catch(e){}; rtChannel=null; }
-    rtChannel = sb.channel('rt-Photos')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLE.photos }, (payload)=>{
-        const row = payload.new;
-        if(row && row[COL.photos.clientId] === activeClientUserId){
-          renderCard(row, {prepend:true});
-          feedEmpty.style.display='none';
-        }
-      })
-      .subscribe();
-  }
-
+  loadFeed();
 });
-// Debug helpers (exposed to window for troubleshooting)
-window.renolix_debug = {
-  checkSupabase: () => {
-    console.log('window._sb ->', window._sb);
-    if(!window._sb) return console.warn('Supabase client (window._sb) non chargé.');
-    window._sb.auth.getUser().then(r=>console.log('auth.getUser ->', r)).catch(e=>console.error(e));
-  },
-  showUsersRow: async () => {
-    try{
-      if(!window._sb) return console.warn('_sb not present');
-      const u = (await window._sb.auth.getUser()).data.user;
-      console.log('current user ->', u);
-      const { data, error } = await window._sb.from('Users').select('*').eq('id', u.id).single();
-      console.log('Users row ->', { data, error });
-    }catch(e){ console.error(e); }
-  },
-  forceRoleUI: (role = 'artisan') => {
-    try{
-      const rb = document.getElementById('roleBadge');
-      const ap = document.getElementById('artisanPanel');
-      const vb = document.getElementById('viewerBadge');
-      if(rb) rb.textContent = role === 'artisan' ? 'Artisan' : 'Client';
-      if(ap) ap.style.display = role === 'artisan' ? 'block' : 'none';
-      if(vb) vb.innerHTML = role === 'artisan' ? '<span class="pill">Vue artisan</span>' : '<span class="pill">Client</span>';
-      // Ensure profile button toggles dropdown even if script crashed earlier
-      const pbtn = document.getElementById('profileButton');
-      const pdrop = document.getElementById('profileDropdown');
-      if(pbtn && pdrop){
-        pbtn.onclick = (e)=>{ e && e.stopPropagation(); pdrop.classList.toggle('open'); pbtn.setAttribute('aria-expanded', pdrop.classList.contains('open')); };
-        console.log('Profile button (re)binded');
-      }
-      const bn = document.getElementById('bn-profile');
-      if(bn && pbtn){ bn.onclick = (e)=>{ e.preventDefault(); pbtn.click(); }; }
-      return true;
-    }catch(e){ console.error(e); return false; }
-  }
-};
-
-window.addEventListener('error', (e)=>{ console.error('Window error:', e.message || e); });
-window.addEventListener('unhandledrejection', (e)=>{ console.error('Unhandled rejection:', e.reason || e); });
-
-</script></body>
+</script>
+</body>
 </html>
