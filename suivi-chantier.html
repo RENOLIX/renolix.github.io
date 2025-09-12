@@ -584,5 +584,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+// Debug helpers (exposed to window for troubleshooting)
+window.renolix_debug = {
+  checkSupabase: () => {
+    console.log('window._sb ->', window._sb);
+    if(!window._sb) return console.warn('Supabase client (window._sb) non chargé.');
+    window._sb.auth.getUser().then(r=>console.log('auth.getUser ->', r)).catch(e=>console.error(e));
+  },
+  showUsersRow: async () => {
+    try{
+      if(!window._sb) return console.warn('_sb not present');
+      const u = (await window._sb.auth.getUser()).data.user;
+      console.log('current user ->', u);
+      const { data, error } = await window._sb.from('Users').select('*').eq('id', u.id).single();
+      console.log('Users row ->', { data, error });
+    }catch(e){ console.error(e); }
+  },
+  forceRoleUI: (role = 'artisan') => {
+    try{
+      const rb = document.getElementById('roleBadge');
+      const ap = document.getElementById('artisanPanel');
+      const vb = document.getElementById('viewerBadge');
+      if(rb) rb.textContent = role === 'artisan' ? 'Artisan' : 'Client';
+      if(ap) ap.style.display = role === 'artisan' ? 'block' : 'none';
+      if(vb) vb.innerHTML = role === 'artisan' ? '<span class="pill">Vue artisan</span>' : '<span class="pill">Client</span>';
+      // Ensure profile button toggles dropdown even if script crashed earlier
+      const pbtn = document.getElementById('profileButton');
+      const pdrop = document.getElementById('profileDropdown');
+      if(pbtn && pdrop){
+        pbtn.onclick = (e)=>{ e && e.stopPropagation(); pdrop.classList.toggle('open'); pbtn.setAttribute('aria-expanded', pdrop.classList.contains('open')); };
+        console.log('Profile button (re)binded');
+      }
+      const bn = document.getElementById('bn-profile');
+      if(bn && pbtn){ bn.onclick = (e)=>{ e.preventDefault(); pbtn.click(); }; }
+      return true;
+    }catch(e){ console.error(e); return false; }
+  }
+};
+
+window.addEventListener('error', (e)=>{ console.error('Window error:', e.message || e); });
+window.addEventListener('unhandledrejection', (e)=>{ console.error('Unhandled rejection:', e.reason || e); });
+
 </script></body>
 </html>
