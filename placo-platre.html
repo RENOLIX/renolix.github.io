@@ -213,118 +213,140 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-  // Supabase
-  const { createClient } = supabase;
-  const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
-  const sb = createClient(supabaseUrl, supabaseKey);
-  window._sb = sb; // pour la bottom-nav
+// Init Supabase
+const { createClient } = supabase;
+const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+const sb = createClient(supabaseUrl, supabaseKey);
+window._sb = sb; // dispo globalement (utile pour les extensions de scripts)
 
-  // Header/menu
-  const nav = document.getElementById('nav-links');
-  window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
+// Header/menu
+const nav = document.getElementById('nav-links');
+window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
 
-  const submenuBtn = document.getElementById('realisations-btn');
+const submenuBtn = document.getElementById('realisations-btn');
+if(submenuBtn) submenuBtn.addEventListener('click', function(e){
+  e.preventDefault();
   const submenu = document.getElementById('realisations-submenu');
-  if(submenuBtn){
-    submenuBtn.addEventListener('click', function(e){
-      e.preventDefault();
-      if(!submenu) return;
-      submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
-      submenu.style.flexDirection = "column";
+  if(!submenu) return;
+  submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
+  submenu.style.flexDirection = "column";
+});
+
+// Profil dropdown
+const profileButton = document.getElementById('profileButton');
+if(profileButton) {
+  const profileDropdown = document.getElementById('profileDropdown');
+  const loggedInBox   = document.getElementById('profile-logged-in');
+  const loggedOutBox  = document.getElementById('profile-logged-out');
+  const profileEmailEl= document.getElementById('profileEmail');
+
+  if(profileDropdown) {
+    function openProfile(){ 
+      profileDropdown.classList.add('open'); 
+      profileButton.setAttribute('aria-expanded','true'); 
+      profileDropdown.setAttribute('aria-hidden','false'); 
+    }
+    function closeProfile(){ 
+      profileDropdown.classList.remove('open'); 
+      profileButton.setAttribute('aria-expanded','false'); 
+      profileDropdown.setAttribute('aria-hidden','true'); 
+    }
+    function toggleProfile(){ 
+      profileDropdown.classList.contains('open') ? closeProfile() : openProfile(); 
+    }
+
+    profileButton.addEventListener('click', (e)=>{
+      e.stopPropagation(); toggleProfile(); 
+    });
+
+    document.addEventListener('click', (e)=>{
+      if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){ closeProfile(); }
     });
   }
-
-  // Profil dropdown
-  const profileButton   = document.getElementById('profileButton');
-  const profileDropdown = document.getElementById('profileDropdown');
-  const loggedInBox     = document.getElementById('profile-logged-in');
-  const loggedOutBox    = document.getElementById('profile-logged-out');
-  const profileEmailEl  = document.getElementById('profileEmail');
-  const logoutBtn       = document.getElementById('logoutBtn');
-
-  function openProfile(){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); }
-  function closeProfile(){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); }
-  function toggleProfile(){ profileDropdown.classList.contains('open') ? closeProfile() : openProfile(); }
-
-  if(profileButton){ profileButton.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); }); }
-  document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
 
   // Auth UI dropdown
   async function updateProfileUI(){
-    try{
+    try {
       const { data: { user } } = await sb.auth.getUser();
       if(user){
-        loggedOutBox?.classList.add('hidden');
-        loggedInBox?.classList.remove('hidden');
+        if(loggedOutBox) loggedOutBox.classList.add('hidden');
+        if(loggedInBox)   loggedInBox.classList.remove('hidden');
         if(profileEmailEl) profileEmailEl.textContent = user.email || '';
-      }else{
-        loggedInBox?.classList.add('hidden');
-        loggedOutBox?.classList.remove('hidden');
+      } else {
+        if(loggedInBox)   loggedInBox.classList.add('hidden');
+        if(loggedOutBox)  loggedOutBox.classList.remove('hidden');
         if(profileEmailEl) profileEmailEl.textContent = '';
       }
-    }catch(err){
+    } catch(err) {
       console.error("Erreur récupération utilisateur:", err);
-      loggedInBox?.classList.add('hidden');
-      loggedOutBox?.classList.remove('hidden');
+      if(loggedInBox) loggedInBox.classList.add('hidden');
+      if(loggedOutBox)  loggedOutBox.classList.remove('hidden');
     }
   }
+}
 
-  // Header Connexion -> Déconnexion
-  const navAuthLink = document.getElementById('navAuthLink');
-  function closeMenu(){ nav && nav.classList.remove('active'); }
+// Header Connexion -> Déconnexion
+const navAuthLink = document.getElementById('navAuthLink');
+function closeMenu(){ if(nav) nav.classList.remove('active'); }
 
-  function syncHeaderAuthLink(){
-    if(!navAuthLink) return;
-    sb.auth.getUser().then(({data:{user}})=>{
-      // purge anciens listeners
-      const clone = navAuthLink.cloneNode(true);
-      navAuthLink.parentNode.replaceChild(clone, navAuthLink);
-      const link = document.getElementById('navAuthLink');
+function syncHeaderAuthLink(){
+  if(!navAuthLink) return;
+  sb.auth.getUser().then(({data:{user}})=>{
+    // purge listeners en clonant
+    const clone = navAuthLink.cloneNode(true);
+    navAuthLink.parentNode.replaceChild(clone, navAuthLink);
+    const link = document.getElementById('navAuthLink');
 
-      if(user){
-        link.textContent = 'Déconnexion';
-        link.setAttribute('href', '#');
-        link.dataset.mode = 'logout';
-        link.addEventListener('click', async (e)=>{
-          e.preventDefault();
-          await signOutAndGoHome();
-        });
-      }else{
-        link.textContent = 'Connexion';
-        link.setAttribute('href', 'login.html');
-        link.dataset.mode = 'login';
-      }
-    });
-  }
-
-  async function signOutAndGoHome(){
-    try{ await sb.auth.signOut(); }
-    catch(err){ console.error('Erreur déconnexion:', err); }
-    finally{
-      closeProfile();
-      closeMenu();
-      location.replace('index.html'); // refresh + redirection
+    if(user){
+      link.textContent = 'Déconnexion';
+      link.href = '#';
+      link.dataset.mode = 'logout';
+      link.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        await signOutAndGoHome();
+      });
+    } else {
+      link.textContent = 'Connexion';
+      link.href = 'login.html';
+      link.dataset.mode = 'login';
     }
-  }
-
-  if(logoutBtn){
-    logoutBtn.addEventListener('click', async (e)=>{
-      e.preventDefault();
-      await signOutAndGoHome();
-    });
-  }
-
-  // Init + écoute des changements
-  updateProfileUI();
-  syncHeaderAuthLink();
-  sb.auth.onAuthStateChange((_event,_session)=>{
-    updateProfileUI();
-    syncHeaderAuthLink();
   });
-});
+}
+
+async function signOutAndGoHome(){
+  try { await sb.auth.signOut(); }
+  catch(err) { console.error('Erreur déconnexion:', err); }
+  finally {
+    if(profileDropdown) closeProfile();
+    closeMenu();
+    location.replace('index.html');
+  }
+}
+
+// Bouton Déconnexion du dropdown
+const logoutBtn = document.getElementById('logoutBtn');
+if(logoutBtn) {
+  logoutBtn.addEventListener('click', async (e)=>{
+    e.preventDefault();
+    await signOutAndGoHome();
+  });
+}
+
+// Ecoute générale auth
+function initAuth(){
+  if(updateProfileUI) updateProfileUI();
+  if(syncHeaderAuthLink) syncHeaderAuthLink();
+  sb.auth.onAuthStateChange((_,_)=>{
+    if(updateProfileUI) updateProfileUI();
+    if(syncHeaderAuthLink) syncHeaderAuthLink();
+  });
+}
+if(sb.auth) initAuth();
+
 </script>
 
 <!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro, Devis uniforme, Profil dynamique === -->
@@ -430,21 +452,49 @@ document.addEventListener('DOMContentLoaded', function(){
 </nav>
 
 <script>
-  // Détecte si l'utilisateur est connecté (à adapter à ton système)
-  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+// Bottom-nav: gestion de l'état avec Supabase
+(function(){
+  const sb = window._sb;
+  if(!sb || !sb.auth) return console.warn("Supabase non disponible pour la bottom-nav.");
 
   const profileBtn = document.getElementById('bn-profile');
   const profileLabel = document.getElementById('bn-profile-label');
 
-  if(isLoggedIn){
-    profileLabel.textContent = 'Profil';
-    profileBtn.href = 'profil.html';
-  } else {
-    profileLabel.textContent = 'Se connecter';
-    profileBtn.href = 'login.html';
+  // Mise à jour UI
+  function setLoggedOut(){
+    if(profileLabel) profileLabel.textContent = 'Se connecter';
+    if(profileBtn){
+      profileBtn.href = 'login.html';
+      profileBtn.dataset.route = 'login.html';
+      profileBtn.setAttribute('aria-label','Se connecter');
+    }
   }
+  function setLoggedIn(){
+    if(profileLabel) profileLabel.textContent = 'Profil';
+    if(profileBtn){
+      profileBtn.href = 'profil.html';
+      profileBtn.dataset.route = 'profil.html';
+      profileBtn.setAttribute('aria-label','Profil');
+    }
+  }
+
+  // Rafraîchit l'état
+  async function refreshNavAuth(){
+    try{
+      const { data: { user } } = await sb.auth.getUser();
+      if(user) setLoggedIn();
+      else setLoggedOut();
+    }catch(e){
+      console.error("Erreur bottom-nav: ", e);
+      setLoggedOut();
+    }
+  }
+
+  // Initialiser et écouter les changements
+  refreshNavAuth();
+  sb.auth.onAuthStateChange(()=> refreshNavAuth());
+})();
 </script>
 <!-- === /Bottom Nav RENOLIX === -->
-
 </body>
 </html>
