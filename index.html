@@ -145,31 +145,26 @@
 <!-- Conteneur pour la barre de navigation -->
 <div id="barre-nav-container"></div>
 
-<!-- Script pour charger barre-nav.html et mettre en surbrillance le bouton actif -->
 <script>
-  fetch('barre-nav.html') // Chemin vers ton fichier barre-nav.html
+  fetch('barre-nav.html') // Vérifie que le chemin est correct
     .then(response => response.text())
     .then(data => {
-      // Insérer la barre dans le conteneur
+      // Insérer le HTML + CSS de barre-nav.html
       document.getElementById('barre-nav-container').innerHTML = data;
 
-      // Mettre le bouton actif
+      // Activer le bouton correspondant à la page
       const navLinks = document.querySelectorAll('.bottom-nav a');
       const currentPage = window.location.pathname.split('/').pop();
 
       navLinks.forEach(link => {
         const linkPage = link.getAttribute('href');
-        if (linkPage === currentPage || (linkPage === 'index.html' && currentPage === '')) {
+        if(linkPage === currentPage || (linkPage === 'index.html' && currentPage === '')) {
           link.classList.add('active');
         }
       });
     })
     .catch(err => console.error('Erreur chargement barre :', err));
 </script>
-
-<!-- Lien vers le fichier CSS de la barre -->
-<link rel="stylesheet" href="barre-nav.css">
-
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="style.js"></script>
