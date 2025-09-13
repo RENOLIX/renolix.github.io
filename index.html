@@ -8,102 +8,76 @@
 <style>
 body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
 
-/* HEADER - PRO */
-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 15px;
-  height:60px;
-  position:fixed;
-  width:100%;
-  top:0;
-  z-index:1000;
-  background:#1c1c1c;
-  color:#fff;
-  box-shadow:0 2px 10px rgba(0,0,0,0.3);
-}
-.logo-container img {width:50px;height:auto;}
-.header-center {position:absolute;left:50%;transform:translateX(-50%);text-align:center;}
-.header-center h1 {
-  margin:0;
-  font-size:26px;
-  letter-spacing:2px;
-  font-family:'Playfair Display',serif;
-  font-weight:700;
-  color:#d4af37;
-}
-.menu {display:flex;align-items:center;gap:10px;}
-header nav {
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-header nav a {
-  color:#fff;
-  text-decoration:none;
-  font-weight:500;
-  padding:8px 12px;
-  border-radius:6px;
-  transition:0.3s;
-}
-header nav a:hover {background:#d4af37;color:#1c1c1c;}
-.connexion-btn {background:#d4af37;color:#1c1c1c;font-weight:bold;padding:6px 14px;border-radius:14px;}
-.menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;}
-.menu-toggle div {width:22px;height:3px;background:#fff;margin:3px 0;transition:0.3s;}
-.submenu {display:none;flex-direction:column;padding-left:0;margin-top:5px;}
-.submenu a {padding:8px 12px;font-weight:500;border-radius:6px;}
-.submenu a:hover {background:#ffd700;color:#1c1c1c;}
+/* HEADER */
+header {display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;z-index:1000;background:rgba(255,255,255,0.95);box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+.logo-container {display:flex;align-items:center;}
+.logo-container img{width:50px;height:auto;}
+.header-center {position:absolute;left:46%;transform:translateX(-50%);text-align:center;}
+.header-center a {text-decoration:none;}
+.header-center h1 {margin:0;font-size:28.5px;letter-spacing:2px;font-family:'Playfair Display',serif;font-weight:700;background:linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite;}
+@keyframes luxuryShine {0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.menu {display:flex;align-items:center;padding-right:25px;}
+
+/* IMPORTANT: cibler uniquement la nav du header */
+header nav {display:flex;gap:15px;align-items:center;}
+header nav a {color:#222;text-decoration:none;font-weight:500;transition:.3s;}
+header nav a:hover {color:#d4af37;}
+.connexion-btn {display:inline-block;background:linear-gradient(90deg,#d4af37,#b8860b);color:#fff !important;font-weight:bold;padding:8px 18px;border-radius:20px;text-decoration:none;margin-top:10px;transition:0.3s;text-align:center;}
+.connexion-btn:hover {box-shadow:0 0 15px #d4af37;}
+.menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
+.menu-toggle div {width:25px;height:3px;background:#222;margin:4px 0;transition:0.3s;}
+.submenu {display:none;flex-direction:column;padding-left:15px;margin-top:5px;border-left:2px solid #d4af37;animation:submenuSlide 0.4s ease forwards;}
+.submenu a {padding:8px 15px;font-weight:500;border-radius:8px;transition:all 0.3s ease;}
+.submenu a:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#222;box-shadow:0 0 8px #ffd700, 0 0 15px #d4af37;}
+@keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
 @media(max-width:768px){
-  header nav {position:absolute;top:60px;right:0;width:220px;flex-direction:column;display:none;padding:15px;background:#222;border-radius:10px;}
+  header nav {position:absolute;top:60px;right:10px;width:220px;flex-direction:column;display:none;padding:15px 20px;background:rgba(255,255,255,0.3);backdrop-filter:blur(12px);border:2px solid #d4af37;border-radius:20px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:1050;transition:all 0.4s ease;}
   header nav.active {display:flex;}
-  header nav a {margin:5px 0;padding:10px;}
+  header nav a {margin:5px 0;padding:10px 15px;font-weight:600;color:#222;text-transform:uppercase;letter-spacing:1px;border-radius:10px;transition:all 0.3s ease;}
+  header nav a:hover {background:linear-gradient(90deg,#d4af37,#ffd700);color:#fff;box-shadow:0 0 10px #ffd700,0 0 20px #d4af37;}
   .menu-toggle {display:flex;}
 }
 
 /* HERO */
-.hero {
-  height:80vh;
-  background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  color:white;
-  position:relative;
-  padding:20px;
-}
-.hero::after {
-  content:"";
-  position:absolute;
-  top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.5);
-  z-index:1;
-}
-.hero-content {position:relative;z-index:2;}
-.hero-content h2 {font-size:40px;color:#d4af37;margin-bottom:20px;}
-.hero-content p {font-size:16px;margin-bottom:40px;color:#fff;}
-.hero-btn {z-index:2;margin-top:20px;}
-.btn {display:inline-block;padding:12px 28px;background:#d4af37;color:#1c1c1c;font-weight:bold;border-radius:30px;text-decoration:none;transition:.3s;}
-.btn:hover {background:#b8860b;color:#fff;}
+.hero {height:80vh;background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;display:flex;flex-direction:column;justify-content:space-between;align-items:center;text-align:center;color:white;position:relative;padding:20px;overflow:hidden;}
+.hero::before {content:"";position:absolute;top:50%;left:50%;width:80%;height:100px;background:rgba(0,0,0,0.6);filter:blur(35px);transform:translate(-50%,-50%);z-index:2;border-radius:50%;}
+.hero::after {content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:1;}
+.hero-content {position:relative;z-index:3;max-width:700px;margin-top:150px;}
+.hero-content h2 {font-size:40px;color:#d4af37;margin-bottom:70px;text-transform:uppercase;}
+.hero-content p {position:relative;z-index:3;font-size:16px;margin-top:5px;margin-bottom:60px;color:#fff;}
+.hero-btn {position:relative;z-index:3;margin-bottom:90px;}
+.btn {display:inline-block;padding:12px 28px;background:linear-gradient(90deg,#d4af37,#b8860b);color:#fff;font-weight:bold;border-radius:30px;text-decoration:none;transition:.3s;}
+.btn:hover {box-shadow:0 0 15px #d4af37;}
 
 /* SECTIONS */
 section {padding:40px 10%;}
 .services,.about-renolix {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
-.service-card,.about-card {background:#fff;padding:25px;border-radius:12px;text-align:center;transition:.3s;box-shadow:0 6px 18px rgba(0,0,0,0.12);cursor:pointer;}
-.service-card:hover,.about-card:hover {transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.18);}
-.service-card img {width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:12px;}
-.service-card h3,.about-card h3 {color:#d4af37;margin-bottom:10px;}
+.service-card,.about-card {background:#fff;padding:25px;border-radius:15px;text-align:center;transition:.3s;border:1px solid #eee;box-shadow:0 8px 18px rgba(0,0,0,0.15);cursor:pointer;}
+.service-card:hover,.about-card:hover {transform:translateY(-8px);box-shadow:0 12px 25px rgba(0,0,0,0.2);}
+.service-card img {width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:15px;}
+.service-card h3,.about-card h3 {color:#d4af37;margin-bottom:12px;}
 .why {text-align:center;}
 .why h2 {color:#d4af37;margin-bottom:15px;}
 .gallery {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;}
-.gallery img {width:100%;height:250px;object-fit:cover;border-radius:10px;transition:.3s;box-shadow:0 6px 15px rgba(0,0,0,0.12);}
-.gallery img:hover {transform:scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,0.18);}
+.gallery img {width:100%;height:250px;object-fit:cover;border-radius:10px;transition:.3s;box-shadow:0 8px 18px rgba(0,0,0,0.15);}
+.gallery img:hover {transform:scale(1.05);box-shadow:0 12px 25px rgba(0,0,0,0.2);}
 
 /* FOOTER */
-footer {background:#1c1c1c;padding:20px;text-align:center;color:#fff;font-size:14px;}
-footer a {color:#d4af37;text-decoration:none;margin:0 6px;}
+footer {background:#f9f9f9;padding:25px;text-align:center;color:#555;font-size:14px;border-top:1px solid #eee;}
+footer a {color:#d4af37;text-decoration:none;margin:0 10px;}
+
+/* PROFILE MENU */
+.profile {position:relative;margin:0 8px 0 6px;z-index:1100;}
+.profile-btn {width:38px;height:38px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#d4af37,#b8860b) border-box;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s ease;}
+.profile-btn:hover {box-shadow:0 0 12px rgba(212,175,55,0.8);transform:translateY(-2px);}
+.profile-btn svg {width:20px;height:20px;fill:#b8860b;}
+.profile-dropdown {position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border:2px solid #d4af37;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,0.2);padding:8px;display:none;}
+.profile-dropdown.open {display:block;animation:submenuSlide 0.25s ease forwards;}
+.profile-email {font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,0.5);border-radius:8px;}
+.profile-item {display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:#222;text-decoration:none;font-weight:600;transition:all 0.3s ease;}
+.profile-item:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px #d4af37;}
+.profile-divider {height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,#d4af37,transparent);}
+.hidden {display:none;}
 </style>
 </head>
 <body>
@@ -130,10 +104,34 @@ footer a {color:#d4af37;text-decoration:none;margin:0 6px;}
       <a href="devis-gratuit.html">Devis Gratuit</a>
       <a href="à-propos.html">À propos</a>
       <a href="contact.html">Contact</a>
+      <!-- id pour MAJ dynamique -->
       <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
     </nav>
 
-    <div class="menu-toggle" onclick="toggleMenu()"><div></div><div></div><div></div></div>
+    <!-- Icône Profil -->
+    <div class="profile" id="profile">
+      <button class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path>
+        </svg>
+      </button>
+      <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
+        <div id="profile-logged-in" class="hidden">
+          <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
+          <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
+          <a href="parametres.html" class="profile-item" role="menuitem">Paramètres</a>
+          <div class="profile-divider"></div>
+          <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
+        </div>
+        <div id="profile-logged-out" class="hidden">
+          <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
   </div>
 </header>
 
@@ -141,8 +139,8 @@ footer a {color:#d4af37;text-decoration:none;margin:0 6px;}
   <div class="hero-content">
     <h2>Rénovation intérieure de luxe</h2>
     <p>Avec RENOLIX, transformez vos espaces en véritables œuvres d'art modernes et élégantes.</p>
-    <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
   </div>
+  <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
 </section>
 
 <section class="about-renolix">
@@ -171,211 +169,299 @@ footer a {color:#d4af37;text-decoration:none;margin:0 6px;}
       <h3>Dalle de sol & Faïence</h3>
       <p>Pose de sols élégants et durables pour tous types d’intérieurs.</p>
     </div>
-  </div>
-</section>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RENOLIX - Rénovation de luxe</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-<style>
-body {margin:0;font-family:'Montserrat',sans-serif;background:#fff;color:#222;}
-
-/* HEADER */
-header {display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;z-index:1000;background:rgba(30,30,30,0.95);box-shadow:0 2px 12px rgba(0,0,0,0.2);}
-.logo-container {display:flex;align-items:center;}
-.logo-container img{width:50px;height:auto;}
-.header-center {position:absolute;left:50%;transform:translateX(-50%);text-align:center;}
-.header-center a {text-decoration:none;}
-.header-center h1 {margin:0;font-size:28.5px;letter-spacing:2px;font-family:'Playfair Display',serif;font-weight:700;color:#f5c242;}
-.menu {display:flex;align-items:center;}
-
-/* NAV */
-header nav {display:flex;gap:15px;align-items:center;}
-header nav a {color:#f5f5f5;text-decoration:none;font-weight:500;transition:.3s;}
-header nav a:hover {color:#f5c242;}
-.connexion-btn {display:inline-block;background:#f5c242;color:#222;font-weight:bold;padding:8px 18px;border-radius:20px;text-decoration:none;margin-top:10px;transition:0.3s;text-align:center;}
-.connexion-btn:hover {box-shadow:0 0 15px #f5c242;}
-.menu-toggle {display:none;flex-direction:column;cursor:pointer;padding:8px;margin-right:10px;}
-.menu-toggle div {width:25px;height:3px;background:#f5f5f5;margin:4px 0;transition:0.3s;}
-.submenu {display:none;flex-direction:column;padding-left:15px;margin-top:5px;border-left:2px solid #f5c242;animation:submenuSlide 0.4s ease forwards;}
-.submenu a {padding:8px 15px;font-weight:500;border-radius:8px;transition:all 0.3s ease;}
-.submenu a:hover {background:#f5c242;color:#222;box-shadow:0 0 8px #f5c242, 0 0 15px #f5c242;}
-@keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
-@media(max-width:768px){
-  header nav {position:absolute;top:60px;right:0;width:220px;flex-direction:column;display:none;padding:15px 20px;background:rgba(30,30,30,0.95);border-radius:0 0 0 12px;box-shadow:0 10px 25px rgba(0,0,0,0.25);z-index:1050;transition:all 0.4s ease;}
-  header nav.active {display:flex;}
-  header nav a {margin:5px 0;padding:10px 15px;font-weight:600;color:#f5f5f5;text-transform:uppercase;letter-spacing:1px;border-radius:5px;}
-  header nav a:hover {background:#f5c242;color:#222;box-shadow:0 0 10px #f5c242;}
-  .menu-toggle {display:flex;}
-}
-
-/* HERO */
-.hero {height:80vh;background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;display:flex;flex-direction:column;justify-content:space-between;align-items:center;text-align:center;color:white;position:relative;padding:20px;overflow:hidden;}
-.hero::before {content:"";position:absolute;top:50%;left:50%;width:80%;height:100px;background:rgba(0,0,0,0.6);filter:blur(35px);transform:translate(-50%,-50%);z-index:2;border-radius:50%;}
-.hero::after {content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);z-index:1;}
-.hero-content {position:relative;z-index:3;max-width:700px;margin-top:150px;}
-.hero-content h2 {font-size:40px;color:#f5c242;margin-bottom:70px;text-transform:uppercase;}
-.hero-content p {position:relative;z-index:3;font-size:16px;margin-top:5px;margin-bottom:60px;color:#fff;}
-.hero-btn {position:relative;z-index:3;margin-bottom:90px;}
-.btn {display:inline-block;padding:12px 28px;background:#f5c242;color:#222;font-weight:bold;border-radius:30px;text-decoration:none;transition:.3s;}
-.btn:hover {box-shadow:0 0 15px #f5c242;}
-
-/* SECTIONS */
-section {padding:40px 10%;}
-.services,.about-renolix {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
-.service-card,.about-card {background:#fff;padding:25px;border-radius:15px;text-align:center;transition:.3s;border:1px solid #eee;box-shadow:0 8px 18px rgba(0,0,0,0.15);cursor:pointer;}
-.service-card:hover,.about-card:hover {transform:translateY(-8px);box-shadow:0 12px 25px rgba(0,0,0,0.2);}
-.service-card img {width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:15px;}
-.service-card h3,.about-card h3 {color:#f5c242;margin-bottom:12px;}
-.why {text-align:center;}
-.why h2 {color:#f5c242;margin-bottom:15px;}
-.gallery {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;}
-.gallery img {width:100%;height:250px;object-fit:cover;border-radius:10px;transition:.3s;box-shadow:0 8px 18px rgba(0,0,0,0.15);}
-.gallery img:hover {transform:scale(1.05);box-shadow:0 12px 25px rgba(0,0,0,0.2);}
-
-/* FOOTER */
-footer {background:#1e1e1e;padding:25px;text-align:center;color:#f5f5f5;font-size:14px;border-top:1px solid #333;}
-footer a {color:#f5c242;text-decoration:none;margin:0 10px;}
-</style>
-</head>
-<body>
-
-<header>
-  <div class="logo-container">
-    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
-  </div>
-  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
-  <div class="menu">
-    <nav id="nav-links">
-      <a href="index.html">Accueil</a>
-      <div>
-        <a href="#" id="realisations-btn">Réalisations ▼</a>
-        <div class="submenu" id="realisations-submenu">
-          <a href="placo-platre.html">Placo & Plâtre</a>
-          <a href="Peinture.html">Peinture</a>
-          <a href="dalle-de-sol.html">Dalle de sol</a>
-          <a href="Plomberie.html">Plomberie</a>
-          <a href="électricité.html">Électricité</a>
-          <a href="cuisine-&-dressing.html">Cuisine & Dressing</a>
-        </div>
-      </div>
-      <a href="devis-gratuit.html">Devis Gratuit</a>
-      <a href="à-propos.html">À propos</a>
-      <a href="contact.html">Contact</a>
-      <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
-    </nav>
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <div></div><div></div><div></div>
-    </div>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="hero-content">
-    <h2>Rénovation intérieure de luxe</h2>
-    <p>Avec RENOLIX, transformez vos espaces en véritables œuvres d'art modernes et élégantes.</p>
-  </div>
-  <a href="devis-gratuit.html" class="btn hero-btn">Demande de devis gratuit</a>
-</section>
-
-<section class="about-renolix">
-  <h2 style="text-align:center;color:#f5c242;">À propos de RENOLIX</h2>
-  <div class="about-card">
-    <p>RENOLIX est une entreprise spécialisée dans la rénovation intérieure de luxe, alliant modernité et élégance pour créer des espaces uniques et raffinés. Notre mission est de transformer vos idées en réalisations haut de gamme avec une attention parfaite aux détails.</p>
-    <a href="à-propos.html" class="btn">En savoir plus</a>
-  </div>
-</section>
-
-<section>
-  <h2 style="text-align:center;color:#f5c242;">Nos Services</h2>
-  <div class="services">
-    <div class="service-card" onclick="window.location.href='placo-platre.html'">
-      <img src="https://i.ibb.co/V7mZB1b/vue-de-face-homme-travaillant-et-portant-des-equipements-de-protection.jpg" alt="Placo & Cloisons">
-      <h3>Placo & Cloisons</h3>
-      <p>Création d’espaces modernes avec des finitions haut de gamme.</p>
-    </div>
-<div class="service-card" onclick="window.location.href='Peinture.html'">
-      <img src="https://i.ibb.co/6RkSzGt/peinture.jpg" alt="Peinture">
-      <h3>Peinture</h3>
-      <p>Finitions parfaites pour vos murs et plafonds avec des couleurs modernes.</p>
-    </div>
-    <div class="service-card" onclick="window.location.href='dalle-de-sol.html'">
-      <img src="https://i.ibb.co/4J2D1KM/dalle-sol.jpg" alt="Dalle de sol">
-      <h3>Dalle de sol</h3>
-      <p>Pose de sols élégants, résistants et durables.</p>
-    </div>
     <div class="service-card" onclick="window.location.href='Plomberie.html'">
-      <img src="https://i.ibb.co/NFqKqDt/plomberie.jpg" alt="Plomberie">
+      <img src="https://i.ibb.co/hxrRDNJd/travailleur-d-entretien-de-service-reparant.jpg" alt="Plomberie">
       <h3>Plomberie</h3>
-      <p>Installation et réparation de systèmes modernes et fiables.</p>
+      <p>Installations fiables et soignées pour un confort optimal.</p>
     </div>
     <div class="service-card" onclick="window.location.href='électricité.html'">
-      <img src="https://i.ibb.co/2h2B8y0/electricite.jpg" alt="Électricité">
+      <img src="https://i.ibb.co/bRLHLs9w/un-electricien-qui-travaille-dans-un-central-electrique-avec-des-fusibles.jpg" alt="Électricité">
       <h3>Électricité</h3>
-      <p>Solutions électriques sécurisées et sur-mesure pour tous vos espaces.</p>
+      <p>Installations sûres et élégantes avec un design raffiné.</p>
     </div>
     <div class="service-card" onclick="window.location.href='cuisine-&-dressing.html'">
-      <img src="https://i.ibb.co/qx1Yb9s/cuisine-dressing.jpg" alt="Cuisine & Dressing">
-      <h3>Cuisine & Dressing</h3>
-      <p>Design et aménagement de cuisines et dressings modernes et pratiques.</p>
+      <img src="https://i.ibb.co/7dyRW82x/point-de-vue-d-un-jeune-homme-a-tout-faire-a-l-aide-d-une-perceuse-electrique-pour-fixer-une-porte-d.jpg" alt="Cuisines & Dressing">
+      <h3>Cuisines & Dressing</h3>
+      <p>Conception sur mesure alliant praticité et élégance.</p>
     </div>
   </div>
 </section>
 
-<section>
-  <h2 style="text-align:center;color:#f5c242;">Galerie</h2>
-  <div class="gallery">
-    <img src="https://i.ibb.co/FK6tR7x/renovation1.jpg" alt="Rénovation 1">
-    <img src="https://i.ibb.co/dKx3Z0t/renovation2.jpg" alt="Rénovation 2">
-    <img src="https://i.ibb.co/kx1F5ZB/renovation3.jpg" alt="Rénovation 3">
-    <img src="https://i.ibb.co/3TS6qPB/renovation4.jpg" alt="Rénovation 4">
-  </div>
+<section class="why">
+  <h2>Pourquoi choisir RENOLIX ?</h2>
+  <p>✔ Qualité supérieure des matériaux</p>
+  <p>✔ Finitions parfaites</p>
+  <p>✔ Respect des délais</p>
+  <p>✔ Accompagnement personnalisé</p>
+</section>
+
+<section style="text-align:center;padding:50px 20px;background:#f9f9f9;">
+  <h2 style="color:#d4af37;margin-bottom:15px;">Prêt à transformer votre intérieur ?</h2>
+  <a href="contact.html" class="btn">Contactez-nous maintenant</a>
 </section>
 
 <footer>
-  &copy; 2025 RENOLIX | Tous droits réservés | 
-  <a href="https://instagram.com">Instagram</a> | 
-  <a href="https://facebook.com">Facebook</a> | 
-  <a href="contact.html">Contact</a>
+  <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
+  <p>
+    <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank">Facebook</a> | 
+    <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank">Instagram</a> | 
+    <a href="https://wa.me/213542093648" target="_blank">WhatsApp</a>
+  </p>
 </footer>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Script principal -->
 <script>
-// Toggle submenu
-document.getElementById('realisations-btn').addEventListener('click', function(e){
-  e.preventDefault();
-  document.getElementById('realisations-submenu').classList.toggle('submenu-active');
-  if(document.getElementById('realisations-submenu').style.display === "flex"){
-    document.getElementById('realisations-submenu').style.display = "none";
-  } else {
-    document.getElementById('realisations-submenu').style.display = "flex";
-  }
-});
+document.addEventListener('DOMContentLoaded', function(){
+  // --- Supabase ---
+  const { createClient } = supabase;
+  const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
+  const sb = window.supabase.createClient(supabaseUrl, supabaseKey);
+window._sb = sb; // global (utile si d’autres scripts)
 
-// Toggle mobile menu
-function toggleMenu(){
-  document.getElementById('nav-links').classList.toggle('active');
-}
+  // --- Sélecteurs header / profil ---
+  const nav = document.getElementById('nav-links');
+  const navAuthLink = document.getElementById('navAuthLink'); // Connexion/Déconnexion header
+  const submenuBtn = document.getElementById('realisations-btn');
+  const submenu = document.getElementById('realisations-submenu');
 
-// Connexion / Déconnexion simulation
-const navAuthLink = document.getElementById('navAuthLink');
-navAuthLink.addEventListener('click', function(e){
-  e.preventDefault();
-  let mode = navAuthLink.getAttribute('data-mode');
-  if(mode === 'login'){
-    // Simuler connexion (plus tard remplacer par Supabase)
-    navAuthLink.textContent = 'Déconnexion';
-    navAuthLink.setAttribute('data-mode','logout');
-    alert('Vous êtes connecté !');
-  } else {
-    navAuthLink.textContent = 'Connexion';
-    navAuthLink.setAttribute('data-mode','login');
-    alert('Vous êtes déconnecté !');
+  const profileButton   = document.getElementById('profileButton');
+  const profileDropdown = document.getElementById('profileDropdown');
+  const loggedInBox     = document.getElementById('profile-logged-in');
+  const loggedOutBox    = document.getElementById('profile-logged-out');
+  const profileEmailEl  = document.getElementById('profileEmail');
+  const logoutBtn       = document.getElementById('logoutBtn');
+
+  // --- Sélecteurs bottom-nav ---
+  const bnProfile = document.getElementById('bn-profile');
+  const bnProfileLabel = document.getElementById('bn-profile-label');
+
+  // --- Helpers UI ---
+  function openProfile(){ if(profileDropdown){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); } }
+  function closeProfile(){ if(profileDropdown){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); } }
+  function toggleProfile(){ profileDropdown && (profileDropdown.classList.contains('open') ? closeProfile() : openProfile()); }
+  function closeMenu(){ nav && nav.classList.remove('active'); }
+  window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
+
+  function setActiveBottomNav(){
+    const path = (location.pathname || "").toLowerCase();
+    document.querySelectorAll('.bottom-nav .bn-item').forEach(a=>{
+      const route = (a.getAttribute('data-route')||"").toLowerCase();
+      if(route && (path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path==='')))){
+        a.classList.add('active');
+      }
+    });
   }
+
+  // Guard auth pour liens avec data-auth="required" (délégation)
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('.bottom-nav a[data-auth="required"]');
+    if(!a) return;
+    e.preventDefault();
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){ location.href = a.getAttribute('href'); }
+      else{
+        const next = encodeURIComponent(a.getAttribute('href'));
+        location.href = 'login.html?next='+next;
+      }
+    }).catch(()=>{
+      const next = encodeURIComponent(a.getAttribute('href'));
+      location.href = 'login.html?next='+next;
+    });
+  });
+
+  // --- Sous-menu Réalisations ---
+  if(submenuBtn){
+    submenuBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(!submenu) return;
+      submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
+      submenu.style.flexDirection = "column";
+    });
+  }
+
+  // --- Profil dropdown bindings ---
+  if(profileButton){
+    profileButton.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); });
+  }
+  document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
+
+  // --- Auth UI sync ---
+  async function updateProfileUI(){
+    try{
+      const { data: { user } } = await sb.auth.getUser();
+      if(user){
+        loggedOutBox && loggedOutBox.classList.add('hidden');
+        loggedInBox  && loggedInBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = user.email || '';
+      }else{
+        loggedInBox  && loggedInBox.classList.add('hidden');
+        loggedOutBox && loggedOutBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = '';
+      }
+    }catch(err){
+      console.error("Erreur récupération utilisateur:", err);
+      loggedInBox  && loggedInBox.classList.add('hidden');
+      loggedOutBox && loggedOutBox.classList.remove('hidden');
+    }
+  }
+
+  function syncHeaderAuthLink(){
+    if(!navAuthLink) return;
+    sb.auth.getUser().then(({data:{user}})=>{
+      // Purger anciens listeners
+      const clone = navAuthLink.cloneNode(true);
+      navAuthLink.parentNode.replaceChild(clone, navAuthLink);
+      const link = document.getElementById('navAuthLink');
+
+      if(user){
+        link.textContent = 'Déconnexion';
+        link.setAttribute('href', '#');
+        link.dataset.mode = 'logout';
+        link.addEventListener('click', async (e)=>{
+          e.preventDefault();
+          await signOutAndRefresh();
+        });
+      }else{
+        link.textContent = 'Connexion';
+        link.setAttribute('href', 'login.html');
+        link.dataset.mode = 'login';
+      }
+    });
+  }
+
+  function updateBottomNavAuthUI(){
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(!bnProfile || !bnProfileLabel) return;
+      if(user){
+        bnProfile.setAttribute('href','profil.html');
+        bnProfileLabel.textContent = 'Profil';
+        bnProfile.removeAttribute('data-auth');
+      }else{
+        bnProfile.setAttribute('href','login.html');
+        bnProfileLabel.textContent = 'Se connecter';
+        bnProfile.setAttribute('data-auth','required');
+      }
+    });
+  }
+
+  async function signOutAndRefresh(){
+    try{
+      // Empêcher les clics pendant la déconnexion
+      if(profileDropdown) profileDropdown.style.pointerEvents = 'none';
+      await sb.auth.signOut();
+    }catch(err){
+      console.error('Erreur déconnexion:', err);
+    }finally{
+      if(profileDropdown) profileDropdown.style.pointerEvents = '';
+      // Fermer les overlays avant reload
+      closeProfile();
+      closeMenu();
+      // Rafraîchissement demandé après déconnexion
+      location.reload();
+    }
+  }
+
+  // Bouton Déconnexion dans le dropdown
+  if(logoutBtn){
+    logoutBtn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      await signOutAndRefresh();
+    });
+  }
+
+  // Init
+  setActiveBottomNav();
+  updateProfileUI();
+  syncHeaderAuthLink();
+  updateBottomNavAuthUI();
+
+  // Réagir aux changements d’état (login/logout)
+  sb.auth.onAuthStateChange((_event, _session)=>{
+    updateProfileUI();
+    syncHeaderAuthLink();
+    updateBottomNavAuthUI();
+  });
 });
 </script>
+
+<!-- === Bottom Nav RENOLIX === -->
+<style>
+  :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
+  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+
+  .bottom-nav{
+    position:fixed; left:50%; transform:translateX(-50%);
+    top:auto !important;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    width:min(900px, calc(100% - 20px));
+    height:68px;
+    display:grid; grid-template-columns:repeat(4,1fr);
+    background:var(--glass); backdrop-filter:blur(12px);
+    border:2px solid var(--gold); border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.22);
+    z-index:1100;
+  }
+  .bn-item{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+    text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px;
+    -webkit-tap-highlight-color:transparent; transition:transform .15s ease;
+  }
+  .bn-item:active{ transform:translateY(1px); }
+  .bn-icon svg{ width:22px; height:22px; fill:#666; transition:transform .2s ease, filter .2s ease, fill .2s ease; }
+  .bn-item:hover .bn-icon svg{ filter:drop-shadow(0 0 8px rgba(212,175,55,.5)); transform:translateY(-2px); }
+
+  .bn-item.active .bn-icon svg,
+  .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
+
+  .bn-cta{
+    margin:8px; border-radius:14px;
+    background:linear-gradient(90deg,var(--gold),var(--gold2));
+    box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4);
+    color:#fff;
+  }
+  .bn-cta .bn-icon svg{ fill:#fff; }
+  .bn-cta .bn-label{ color:#fff; }
+
+  @media (prefers-reduced-motion: reduce){
+    .bn-item,.bn-icon svg{ transition:none !important; }
+  }
+</style>
+
+<nav class="bottom-nav" role="navigation" aria-label="Navigation inférieure">
+  <a href="index.html" class="bn-item" data-route="index.html" aria-label="Accueil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 3 3 11v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4h2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-8Z"/></svg>
+    </span>
+    <span class="bn-label">Accueil</span>
+  </a>
+
+  <a href="suivi-chantier.html" class="bn-item" data-route="suivi-chantier.html" data-auth="required" aria-label="Suivi du chantier">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M9 7h10v2H9zM9 11h10v2H9zM9 15h10v2H9zM7.5 6 6 7.5 4.5 6 3 7.5 6 10.5 9 7.5z"/></svg>
+    </span>
+    <span class="bn-label">Suivi</span>
+  </a>
+
+  <a href="devis-gratuit.html" class="bn-item bn-cta" data-route="devis-gratuit.html" aria-label="Demander un devis">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#fff" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
+    </span>
+    <span class="bn-label">Devis</span>
+  </a>
+
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" aria-label="Profil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
+    </span>
+    <span class="bn-label" id="bn-profile-label">Se connecter</span>
+  </a>
+</nav>
+<!-- === /Bottom Nav RENOLIX === -->
 
 </body>
 </html>
