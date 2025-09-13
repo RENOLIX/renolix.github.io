@@ -170,5 +170,125 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadFeed();
 });
 </script>
+
+<!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro, Devis uniforme, Profil dynamique === -->
+<style>
+  :root{
+    --bg-nav:#f5f5f5;         
+    --text:#333;               
+    --accent:#333;             
+    --glow:rgba(0,0,0,0.15);   
+  }
+
+  body {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom));
+    margin:0;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .bottom-nav{
+    position:fixed;
+    left:0; right:0;
+    bottom:0;
+    width:100%;
+    height:68px;
+    display:grid; 
+    grid-template-columns:repeat(4,1fr);
+    background:var(--bg-nav); 
+    box-shadow: 0 -6px 20px var(--glow), 0 0 12px rgba(0,0,0,0.05);
+    border-radius:16px 16px 0 0;
+    z-index:1100;
+  }
+
+  .bn-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    text-decoration:none; 
+    color:var(--text); 
+    font-weight:600; 
+    font-size:12px; 
+    letter-spacing:.2px;
+    transition: transform 0.2s ease, color 0.2s ease, filter 0.2s ease;
+    position:relative;
+  }
+
+  .bn-item:active{
+    transform: scale(0.92) translateY(2px);
+  }
+
+  .bn-icon svg{
+    width:22px; height:22px; 
+    fill:var(--text); 
+    transition: transform .2s ease, fill .2s ease, filter .2s ease;
+  }
+
+  .bn-item:hover .bn-icon svg{
+    transform:translateY(-2px);
+    filter:drop-shadow(0 0 6px rgba(0,0,0,0.15));
+  }
+
+  .bn-item.active .bn-icon svg,
+  .bn-item.active .bn-label{
+    color:var(--accent);
+    fill:var(--accent);
+    text-shadow: 0 0 6px rgba(0,0,0,0.1);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bn-item,.bn-icon svg{ transition:none !important; }
+  }
+</style>
+
+<nav class="bottom-nav" role="navigation" aria-label="Navigation inférieure">
+  <a href="index.html" class="bn-item" data-route="index.html" aria-label="Accueil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 3 3 11v8a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4h2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-8Z"/></svg>
+    </span>
+    <span class="bn-label">Accueil</span>
+  </a>
+
+  <a href="suivi-chantier.html" class="bn-item" data-route="suivi-chantier.html" data-auth="required" aria-label="Suivi du chantier">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M9 7h10v2H9zM9 11h10v2H9zM9 15h10v2H9zM7.5 6 6 7.5 4.5 6 3 7.5 6 10.5 9 7.5z"/></svg>
+    </span>
+    <span class="bn-label">Suivi</span>
+  </a>
+
+  <a href="devis-gratuit.html" class="bn-item" data-route="devis-gratuit.html" aria-label="Demander un devis">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="currentColor" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
+    </span>
+    <span class="bn-label">Devis</span>
+  </a>
+
+  <!-- Initialement Se connecter (après login => Profil) -->
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Profil">
+    <span class="bn-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
+    </span>
+    <span class="bn-label" id="bn-profile-label">Se connecter</span>
+  </a>
+</nav>
+
+<script>
+  // Détecte si l'utilisateur est connecté (à adapter à ton système)
+  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+  const profileBtn = document.getElementById('bn-profile');
+  const profileLabel = document.getElementById('bn-profile-label');
+
+  if(isLoggedIn){
+    profileLabel.textContent = 'Profil';
+    profileBtn.href = 'profil.html';
+  } else {
+    profileLabel.textContent = 'Se connecter';
+    profileBtn.href = 'login.html';
+  }
+</script>
+<!-- === /Bottom Nav RENOLIX === -->
+
 </body>
 </html>
