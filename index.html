@@ -389,7 +389,7 @@ window._sb = sb; // global (utile si d’autres scripts)
 });
 </script>
 
-<!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro avec Effets === -->
+<!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro, Devis uniforme === -->
 <style>
   :root{
     --bg-nav:#f5f5f5;         /* fond clair */
@@ -456,26 +456,6 @@ window._sb = sb; // global (utile si d’autres scripts)
     text-shadow: 0 0 6px rgba(0,0,0,0.1);
   }
 
-  .bn-cta{
-    margin:0;
-    border-radius:12px;
-    background:var(--text);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:4px;
-    transition: transform .2s ease, box-shadow .2s ease;
-  }
-  .bn-cta .bn-icon svg{ fill:#fff; }
-  .bn-cta .bn-label{ color:#fff; }
-
-  /* Effet rebond CTA */
-  .bn-cta:active{
-    transform: scale(0.92) translateY(2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15), 0 0 6px rgba(0,0,0,0.05) inset;
-  }
-
   @media (prefers-reduced-motion: reduce){
     .bn-item,.bn-icon svg{ transition:none !important; }
   }
@@ -496,9 +476,9 @@ window._sb = sb; // global (utile si d’autres scripts)
     <span class="bn-label">Suivi</span>
   </a>
 
-  <a href="devis-gratuit.html" class="bn-item bn-cta" data-route="devis-gratuit.html" aria-label="Demander un devis">
+  <a href="devis-gratuit.html" class="bn-item" data-route="devis-gratuit.html" aria-label="Demander un devis">
     <span class="bn-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#fff" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="currentColor" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
     </span>
     <span class="bn-label">Devis</span>
   </a>
