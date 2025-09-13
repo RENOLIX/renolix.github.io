@@ -309,7 +309,7 @@ logoutBtn.addEventListener('click', async (e)=>{
   await signOutAndGoHome();
 });
 
-/* Init + écoute des changements */
+/* Init + écoute des changements (HEADER) */
 updateProfileUI();
 syncHeaderAuthLink();
 supabaseClient.auth.onAuthStateChange((_event,_session)=>{
@@ -412,7 +412,7 @@ supabaseClient.auth.onAuthStateChange((_event,_session)=>{
   </a>
 
   <!-- Initialement Se connecter (après login => Profil) -->
-  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Profil">
+  <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Se connecter">
     <span class="bn-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
     </span>
@@ -421,19 +421,49 @@ supabaseClient.auth.onAuthStateChange((_event,_session)=>{
 </nav>
 
 <script>
-  // Détecte si l'utilisateur est connecté (à adapter à ton système)
-  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+/* Bottom-nav: synchro avec Supabase (plus de localStorage) */
+(function initBottomNavAuth(){
+  const el = document.getElementById('bn-profile');
+  const label = document.getElementById('bn-profile-label');
 
-  const profileBtn = document.getElementById('bn-profile');
-  const profileLabel = document.getElementById('bn-profile-label');
-
-  if(isLoggedIn){
-    profileLabel.textContent = 'Profil';
-    profileBtn.href = 'profil.html';
-  } else {
-    profileLabel.textContent = 'Se connecter';
-    profileBtn.href = 'login.html';
+  function setLoggedOut(){
+    if(label) label.textContent = 'Se connecter';
+    if(el){
+      el.href = 'login.html';
+      el.dataset.route = 'login.html';
+      el.setAttribute('aria-label','Se connecter');
+    }
   }
+  function setLoggedIn(){
+    if(label) label.textContent = 'Profil';
+    if(el){
+      el.href = 'profil.html';
+      el.dataset.route = 'profil.html';
+      el.setAttribute('aria-label','Profil');
+    }
+  }
+
+  const sb = window._sb;
+  if(!sb || !sb.auth){
+    console.warn('Supabase non initialisé pour la bottom-nav, bascule par défaut sur "Se connecter".');
+    setLoggedOut();
+    return;
+  }
+
+  async function refresh(){
+    try{
+      const { data:{ user } } = await sb.auth.getUser();
+      user ? setLoggedIn() : setLoggedOut();
+    }catch(e){
+      console.error('BottomNav auth refresh error:', e);
+      setLoggedOut();
+    }
+  }
+
+  // Mise à jour immédiate + sur changement d’état
+  refresh();
+  sb.auth.onAuthStateChange(()=>{ refresh(); });
+})();
 </script>
 <!-- === /Bottom Nav RENOLIX === -->
 
