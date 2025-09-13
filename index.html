@@ -389,12 +389,13 @@ window._sb = sb; // global (utile si d’autres scripts)
 });
 </script>
 
-<!-- === Bottom Nav RENOLIX - Thème Clair Pro === -->
+<!-- === Bottom Nav RENOLIX - Thème Clair Pro avec Glow === -->
 <style>
   :root{
     --bg-nav:#f5f5f5;         /* fond clair */
     --text:#000;               /* texte et icônes */
     --accent:#000;             /* couleur active */
+    --glow:rgba(0,0,0,0.15);   /* glow ombre */
   }
 
   body {
@@ -412,7 +413,7 @@ window._sb = sb; // global (utile si d’autres scripts)
     display:grid; 
     grid-template-columns:repeat(4,1fr);
     background:var(--bg-nav); 
-    box-shadow: 0 -6px 20px rgba(0,0,0,0.15), 0 0 12px rgba(0,0,0,0.05);
+    box-shadow: 0 -6px 20px var(--glow), 0 0 12px rgba(0,0,0,0.05);
     border-radius:16px 16px 0 0;
     z-index:1100;
   }
@@ -428,23 +429,27 @@ window._sb = sb; // global (utile si d’autres scripts)
     font-weight:600; 
     font-size:12px; 
     letter-spacing:.2px;
-    transition:transform .15s ease, color .2s ease;
+    transition:transform .15s ease, color .2s ease, box-shadow .2s ease;
+    position:relative;
   }
   .bn-item:active{ transform:translateY(1px); }
 
   .bn-icon svg{
     width:22px; height:22px; 
     fill:var(--text); 
-    transition:transform .2s ease, fill .2s ease;
+    transition:transform .2s ease, fill .2s ease, filter .2s ease;
   }
+
   .bn-item:hover .bn-icon svg{
     transform:translateY(-2px);
+    filter:drop-shadow(0 0 6px rgba(0,0,0,0.2));
   }
 
   .bn-item.active .bn-icon svg,
   .bn-item.active .bn-label{
     color:var(--accent);
     fill:var(--accent);
+    text-shadow: 0 0 6px rgba(0,0,0,0.2);
   }
 
   .bn-cta{
@@ -456,9 +461,15 @@ window._sb = sb; // global (utile si d’autres scripts)
     align-items:center;
     justify-content:center;
     gap:4px;
+    transition: transform .2s ease, box-shadow .2s ease;
   }
   .bn-cta .bn-icon svg{ fill:#fff; }
   .bn-cta .bn-label{ color:#fff; }
+
+  .bn-cta:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.25), 0 0 8px rgba(0,0,0,0.1) inset;
+  }
 
   @media (prefers-reduced-motion: reduce){
     .bn-item,.bn-icon svg{ transition:none !important; }
@@ -495,5 +506,6 @@ window._sb = sb; // global (utile si d’autres scripts)
   </a>
 </nav>
 <!-- === /Bottom Nav RENOLIX === -->
+
 </body>
 </html>
