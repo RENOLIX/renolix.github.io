@@ -332,32 +332,71 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
-<!-- === Bottom Nav RENOLIX (Accueil > Suivi > Devis > Profil/Se connecter) === -->
+<!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro, Devis uniforme, Profil dynamique === -->
 <style>
-  :root{ --gold:#d4af37; --gold2:#ffd700; --ink:#222; --glass:rgba(255,255,255,0.92); }
-  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  :root{
+    --bg-nav:#f5f5f5;         
+    --text:#333;               
+    --accent:#333;             
+    --glow:rgba(0,0,0,0.15);   
+  }
+
+  body {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom));
+    margin:0;
+    font-family: 'Montserrat', sans-serif;
+  }
 
   .bottom-nav{
-    position:fixed; left:50%; transform:translateX(-50%);
-    top:auto !important;
-    bottom: calc(10px + env(safe-area-inset-bottom));
-    width:min(900px, calc(100% - 20px));
+    position:fixed;
+    left:0; right:0;
+    bottom:0;
+    width:100%;
     height:68px;
-    display:grid; grid-template-columns:repeat(4,1fr);
-    background:var(--glass); backdrop-filter:blur(12px);
-    border:2px solid var(--gold); border-radius:18px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.22);
+    display:grid; 
+    grid-template-columns:repeat(4,1fr);
+    background:var(--bg-nav); 
+    box-shadow: 0 -6px 20px var(--glow), 0 0 12px rgba(0,0,0,0.05);
+    border-radius:16px 16px 0 0;
     z-index:1100;
   }
-  .bn-item{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; text-decoration:none; color:var(--ink); font-weight:700; font-size:12px; letter-spacing:.2px; -webkit-tap-highlight-color:transparent; transition:transform .15s ease; }
-  .bn-item:active{ transform:translateY(1px); }
-  .bn-icon svg{ width:22px; height:22px; fill:#666; transition:transform .2s ease, filter .2s ease, fill .2s ease; }
-  .bn-item:hover .bn-icon svg{ filter:drop-shadow(0 0 8px rgba(212,175,55,.5)); transform:translateY(-2px); }
-  .bn-item.active .bn-icon svg, .bn-item.active .bn-label{ color:var(--gold); fill:var(--gold); }
 
-  .bn-cta{ margin:8px; border-radius:14px; background:linear-gradient(90deg,var(--gold),var(--gold2)); box-shadow:0 0 12px rgba(212,175,55,.55), inset 0 1px 0 rgba(255,255,255,.4); color:#fff; }
-  .bn-cta .bn-icon svg{ fill:#fff; }
-  .bn-cta .bn-label{ color:#fff; }
+  .bn-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    text-decoration:none; 
+    color:var(--text); 
+    font-weight:600; 
+    font-size:12px; 
+    letter-spacing:.2px;
+    transition: transform 0.2s ease, color 0.2s ease, filter 0.2s ease;
+    position:relative;
+  }
+
+  .bn-item:active{
+    transform: scale(0.92) translateY(2px);
+  }
+
+  .bn-icon svg{
+    width:22px; height:22px; 
+    fill:var(--text); 
+    transition: transform .2s ease, fill .2s ease, filter .2s ease;
+  }
+
+  .bn-item:hover .bn-icon svg{
+    transform:translateY(-2px);
+    filter:drop-shadow(0 0 6px rgba(0,0,0,0.15));
+  }
+
+  .bn-item.active .bn-icon svg,
+  .bn-item.active .bn-label{
+    color:var(--accent);
+    fill:var(--accent);
+    text-shadow: 0 0 6px rgba(0,0,0,0.1);
+  }
 
   @media (prefers-reduced-motion: reduce){
     .bn-item,.bn-icon svg{ transition:none !important; }
@@ -379,14 +418,14 @@ document.addEventListener('DOMContentLoaded', function(){
     <span class="bn-label">Suivi</span>
   </a>
 
-  <a href="devis-gratuit.html" class="bn-item bn-cta" data-route="devis-gratuit.html" aria-label="Demander un devis">
+  <a href="devis-gratuit.html" class="bn-item" data-route="devis-gratuit.html" aria-label="Demander un devis">
     <span class="bn-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="#fff" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path fill="currentColor" d="M14 2v6h6"/><path d="M8 12h6M8 16h8"/></svg>
     </span>
     <span class="bn-label">Devis</span>
   </a>
 
-  <!-- Initialement: Se connecter (après login => Profil) -->
+  <!-- Initialement Se connecter (après login => Profil) -->
   <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Profil">
     <span class="bn-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
@@ -394,6 +433,22 @@ document.addEventListener('DOMContentLoaded', function(){
     <span class="bn-label" id="bn-profile-label">Se connecter</span>
   </a>
 </nav>
+
+<script>
+  // Détecte si l'utilisateur est connecté (à adapter à ton système)
+  const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+  const profileBtn = document.getElementById('bn-profile');
+  const profileLabel = document.getElementById('bn-profile-label');
+
+  if(isLoggedIn){
+    profileLabel.textContent = 'Profil';
+    profileBtn.href = 'profil.html';
+  } else {
+    profileLabel.textContent = 'Se connecter';
+    profileBtn.href = 'login.html';
+  }
+</script>
 <!-- === /Bottom Nav RENOLIX === -->
 
 </body>
