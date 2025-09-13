@@ -389,13 +389,12 @@ window._sb = sb; // global (utile si d’autres scripts)
 });
 </script>
 
-<!-- === Bottom Nav RENOLIX - Thème Pro === -->
+<!-- === Bottom Nav RENOLIX - Thème Clair Pro === -->
 <style>
   :root{
-    --primary:#1e1e1e;        /* fond principal du nav */
-    --secondary:#2a2a2a;      /* couleur des items */
-    --accent:#4da6ff;         /* couleur active / CTA */
-    --glass:rgba(30,30,30,0.95);
+    --bg-nav:#f5f5f5;         /* fond clair */
+    --text:#000;               /* texte et icônes */
+    --accent:#000;             /* couleur active */
   }
 
   body {
@@ -409,14 +408,12 @@ window._sb = sb; // global (utile si d’autres scripts)
     left:0; right:0;
     bottom:0;
     width:100%;
-    max-width:none;
     height:68px;
     display:grid; 
     grid-template-columns:repeat(4,1fr);
-    background:var(--glass); 
-    backdrop-filter:blur(10px);
-    border-top:1px solid #333;
-    box-shadow:0 -4px 12px rgba(0,0,0,0.3);
+    background:var(--bg-nav); 
+    box-shadow: 0 -6px 20px rgba(0,0,0,0.15), 0 0 12px rgba(0,0,0,0.05);
+    border-radius:16px 16px 0 0;
     z-index:1100;
   }
 
@@ -427,7 +424,7 @@ window._sb = sb; // global (utile si d’autres scripts)
     justify-content:center;
     gap:4px;
     text-decoration:none; 
-    color:var(--secondary); 
+    color:var(--text); 
     font-weight:600; 
     font-size:12px; 
     letter-spacing:.2px;
@@ -437,12 +434,11 @@ window._sb = sb; // global (utile si d’autres scripts)
 
   .bn-icon svg{
     width:22px; height:22px; 
-    fill:var(--secondary); 
+    fill:var(--text); 
     transition:transform .2s ease, fill .2s ease;
   }
   .bn-item:hover .bn-icon svg{
     transform:translateY(-2px);
-    fill:var(--accent);
   }
 
   .bn-item.active .bn-icon svg,
@@ -454,9 +450,12 @@ window._sb = sb; // global (utile si d’autres scripts)
   .bn-cta{
     margin:0;
     border-radius:12px;
-    background:var(--accent);
-    box-shadow:0 4px 8px rgba(77,166,255,0.4);
+    background:var(--text);
     color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
   }
   .bn-cta .bn-icon svg{ fill:#fff; }
   .bn-cta .bn-label{ color:#fff; }
@@ -496,6 +495,5 @@ window._sb = sb; // global (utile si d’autres scripts)
   </a>
 </nav>
 <!-- === /Bottom Nav RENOLIX === -->
-
 </body>
 </html>
