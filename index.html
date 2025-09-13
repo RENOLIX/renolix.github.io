@@ -389,12 +389,12 @@ window._sb = sb; // global (utile si d’autres scripts)
 });
 </script>
 
-<!-- === Bottom Nav RENOLIX - Thème Clair Pro avec Glow === -->
+<!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro avec Effets === -->
 <style>
   :root{
     --bg-nav:#f5f5f5;         /* fond clair */
-    --text:#000;               /* texte et icônes */
-    --accent:#000;             /* couleur active */
+    --text:#333;               /* texte et icônes gris foncé */
+    --accent:#333;             /* couleur active */
     --glow:rgba(0,0,0,0.15);   /* glow ombre */
   }
 
@@ -429,27 +429,31 @@ window._sb = sb; // global (utile si d’autres scripts)
     font-weight:600; 
     font-size:12px; 
     letter-spacing:.2px;
-    transition:transform .15s ease, color .2s ease, box-shadow .2s ease;
+    transition: transform 0.2s ease, color 0.2s ease, filter 0.2s ease;
     position:relative;
   }
-  .bn-item:active{ transform:translateY(1px); }
+
+  /* Effet rebond sur appui */
+  .bn-item:active{
+    transform: scale(0.92) translateY(2px);
+  }
 
   .bn-icon svg{
     width:22px; height:22px; 
     fill:var(--text); 
-    transition:transform .2s ease, fill .2s ease, filter .2s ease;
+    transition: transform .2s ease, fill .2s ease, filter .2s ease;
   }
 
   .bn-item:hover .bn-icon svg{
     transform:translateY(-2px);
-    filter:drop-shadow(0 0 6px rgba(0,0,0,0.2));
+    filter:drop-shadow(0 0 6px rgba(0,0,0,0.15));
   }
 
   .bn-item.active .bn-icon svg,
   .bn-item.active .bn-label{
     color:var(--accent);
     fill:var(--accent);
-    text-shadow: 0 0 6px rgba(0,0,0,0.2);
+    text-shadow: 0 0 6px rgba(0,0,0,0.1);
   }
 
   .bn-cta{
@@ -466,9 +470,10 @@ window._sb = sb; // global (utile si d’autres scripts)
   .bn-cta .bn-icon svg{ fill:#fff; }
   .bn-cta .bn-label{ color:#fff; }
 
-  .bn-cta:hover{
-    transform:translateY(-2px);
-    box-shadow:0 4px 12px rgba(0,0,0,0.25), 0 0 8px rgba(0,0,0,0.1) inset;
+  /* Effet rebond CTA */
+  .bn-cta:active{
+    transform: scale(0.92) translateY(2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15), 0 0 6px rgba(0,0,0,0.05) inset;
   }
 
   @media (prefers-reduced-motion: reduce){
