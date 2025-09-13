@@ -142,16 +142,33 @@
   </p>
 </footer>
 
-<!-- Barre navigation bas -->
-<nav class="bottom-nav">
-  <ul>
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="suivi.html">Suivi</a></li>
-    <li><a href="devis.html">Devis</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="profil.html">Profil</a></li>
-  </ul>
-</nav>
+<!-- Conteneur pour la barre de navigation -->
+<div id="barre-nav-container"></div>
+
+<!-- Script pour charger barre-nav.html et mettre en surbrillance le bouton actif -->
+<script>
+  fetch('barre-nav.html') // Chemin vers ton fichier barre-nav.html
+    .then(response => response.text())
+    .then(data => {
+      // Insérer la barre dans le conteneur
+      document.getElementById('barre-nav-container').innerHTML = data;
+
+      // Mettre le bouton actif
+      const navLinks = document.querySelectorAll('.bottom-nav a');
+      const currentPage = window.location.pathname.split('/').pop();
+
+      navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (linkPage === currentPage || (linkPage === 'index.html' && currentPage === '')) {
+          link.classList.add('active');
+        }
+      });
+    })
+    .catch(err => console.error('Erreur chargement barre :', err));
+</script>
+
+<!-- Lien vers le fichier CSS de la barre -->
+<link rel="stylesheet" href="barre-nav.css">
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
