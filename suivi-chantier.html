@@ -158,7 +158,8 @@ input[type="file"]{
 }
 .button{
   background:linear-gradient(90deg,#d4af37,#b8860b);color:#fff;border:none;border-radius:12px;
-  padding:10px 16px;font-weight:700;cursor:pointer;transition:.2s;
+  padding:10px 16px;font-weight:700;cursor:pointer;transition:.2s;text-decoration:none;
+  display:inline-block;
 }
 .button:hover{box-shadow:0 0 14px rgba(212,175,55,0.6);transform:translateY(-1px);}
 .button[disabled]{opacity:.5;cursor:not-allowed;box-shadow:none;transform:none;}
@@ -181,7 +182,10 @@ input[type="file"]{
 .info{
   border:1px solid #eee;background:#fafafa;border-radius:12px;padding:14px;color:#555;
 }
-.center{text-align:center;}
+.info.center { text-align:center; }
+.info-actions { margin-top:10px; }
+.info .button { margin-top:6px; }
+
 .muted{color:#777;}
 .hidden{display:none;}
 
@@ -280,7 +284,10 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
 
       <!-- État non connecté -->
       <div id="suivi-anon" class="info center hidden">
-        Vous devez être connecté pour accéder au suivi. <a href="login.html" class="button" style="margin-left:8px;">Se connecter</a>
+        <div>Vous devez être connecté pour accéder au suivi.</div>
+        <div class="info-actions">
+          <a href="login.html" class="button">Se connecter</a>
+        </div>
       </div>
 
       <!-- Bandeau rôle -->
@@ -311,14 +318,14 @@ footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
         </div>
       </div>
 
-      <!-- Galerie CLIENT (toutes les photos reçues) -->
+      <!-- Zone CLIENT -->
       <div id="client-view" class="hidden">
         <div class="info">
           Voici les photos envoyées par votre artisan. Elles sont classées de la plus récente à la plus ancienne.
         </div>
       </div>
 
-      <!-- Galerie (réutilisée côté client et artisan) -->
+      <!-- Galerie -->
       <div id="galleryWrap">
         <div id="galleryInfo" class="info hidden"></div>
         <div id="gallery" class="gallery"></div>
@@ -345,7 +352,17 @@ document.addEventListener('DOMContentLoaded', function(){
   const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
   const sb = createClient(supabaseUrl, supabaseKey);
-  window._sb = sb; // debug facultatif
+  window._sb = sb;
+
+  // Helpers auth robustes
+  async function getSessionUser(){
+    try{
+      const { data: { session } } = await sb.auth.getSession();
+      if(session?.user) return session.user;
+      const { data: { user } } = await sb.auth.getUser();
+      return user || null;
+    }catch(_){ return null; }
+  }
 
   // UI header/menu existants
   const nav = document.getElementById('nav-links');
@@ -382,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Auth UI (dropdown)
   async function updateProfileUI(){
     try{
-      const { data: { user } } = await sb.auth.getUser();
+      const user = await getSessionUser();
       if(user){
         loggedOutBox && loggedOutBox.classList.add('hidden');
         loggedInBox  && loggedInBox.classList.remove('hidden');
@@ -402,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function(){
   // Header/hamburger: Connexion -> Déconnexion
   function syncHeaderAuthLink(){
     if(!navAuthLink) return;
-    sb.auth.getUser().then(({data:{user}})=>{
+    getSessionUser().then((user)=>{
       const clone = navAuthLink.cloneNode(true);
       navAuthLink.parentNode.replaceChild(clone, navAuthLink);
       const link = document.getElementById('navAuthLink');
@@ -429,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   function updateBottomNavAuthUI(){
     if(!bnProfile || !bnProfileLabel) return;
-    sb.auth.getUser().then(({data:{user}})=>{
+    getSessionUser().then((user)=>{
       if(user){
         bnProfile.setAttribute('href','profil.html');
         bnProfileLabel.textContent = 'Profil';
@@ -477,7 +494,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const a = e.target.closest('.bottom-nav a[data-auth="required"]');
     if(!a) return;
     e.preventDefault();
-    sb.auth.getUser().then(({data:{user}})=>{
+    getSessionUser().then((user)=>{
       if(user){ location.href = a.getAttribute('href'); }
       else{
         const next = encodeURIComponent(a.getAttribute('href'));
@@ -489,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   });
 
-  // Init + listeners (header)
+  // Init header
   updateProfileUI();
   syncHeaderAuthLink();
   updateBottomNavAuthUI();
@@ -498,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function(){
     updateProfileUI();
     syncHeaderAuthLink();
     updateBottomNavAuthUI();
-    initSuiviChantier(); // re-init l'interface de suivi si session change
+    initSuiviChantier(); // re-init suivi si session change
   });
 
   // =======================
@@ -526,20 +543,18 @@ document.addEventListener('DOMContentLoaded', function(){
     me: null,         // row Users
     role: null,       // 'artisan' | 'client' | null
     bucket: 'Photos_chantiers',
-    bucketFallbackTried: false,
     selectedClient: null,
   };
 
-  // Tentative de détection du bon nom de bucket (Photos_chantiers ou Photos_chantiers.)
+  // Bucket: test "Photos_chantiers." si besoin
   async function detectBucket(){
     const candidates = ['Photos_chantiers','Photos_chantiers.'];
     for(const name of candidates){
       try{
-        const { data, error } = await sb.storage.from(name).list('', { limit: 1 });
+        const { error } = await sb.storage.from(name).list('', { limit: 1 });
         if(!error){ state.bucket = name; return name; }
       }catch(_){}
     }
-    // si rien ne marche, on garde la valeur par défaut
     return state.bucket;
   }
 
@@ -548,26 +563,60 @@ document.addEventListener('DOMContentLoaded', function(){
   function hide(el){ el && el.classList.add('hidden'); }
   function setText(el, t){ if(el) el.textContent = t; }
   function clearNode(el){ if(!el) return; while(el.firstChild) el.removeChild(el.firstChild); }
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m])); }
 
-  // Récupérer mon rôle depuis table "Users" (U majuscule)
-  async function fetchMyProfile(){
-    const { data: { user } } = await sb.auth.getUser();
+  function guessNameFromEmail(email){
+    if(!email) return '';
+    const base = email.split('@')[0] || '';
+    return base.replace(/[._-]/g,' ').replace(/\b\w/g, c=>c.toUpperCase());
+  }
+
+  // Assurer un profil Users; si manquant => création par défaut (role=client)
+  async function ensureProfile(){
+    const user = await getSessionUser();
     state.user = user || null;
     if(!user) return null;
-    const { data, error } = await sb.from('Users').select('id,email,name,role').eq('id', user.id).single();
+
+    const { data, error } = await sb.from('Users')
+      .select('id,email,name,role')
+      .eq('id', user.id)
+      .maybeSingle();
+
     if(error){
-      console.error('Erreur chargement profil Users:', error);
+      console.warn('Users maybeSingle erreur:', error);
+    }
+
+    if(data){
+      return data;
+    }
+
+    // Auto-provisioning du profil s’il n’existe pas
+    const newRow = {
+      id: user.id,
+      email: user.email,
+      name: user.user_metadata?.full_name || user.user_metadata?.name || guessNameFromEmail(user.email),
+      role: 'client',
+      created_at: new Date().toISOString()
+    };
+
+    const { data: created, error: upErr } = await sb.from('Users')
+      .upsert(newRow, { onConflict: 'id' })
+      .select('id,email,name,role')
+      .single();
+
+    if(upErr){
+      console.error('Impossible de créer le profil Users (vérifiez RLS):', upErr);
       return null;
     }
-    state.me = data;
-    state.role = (data.role || '').toLowerCase().trim();
-    return data;
+    return created;
   }
 
   // Chargement des photos + rendu
   async function listPhotosForClient(clientId){
-    // Client connecté (voit tout ce reçu) OU Artisan avec client sélectionné (voit ce qu'il a envoyé à ce client)
-    let query = sb.from('Photo').select('id,Artisan_id,Client_id,Url,Created_at').order('Created_at',{ascending:false});
+    let query = sb.from('Photo')
+      .select('id,Artisan_id,Client_id,Url,Created_at')
+      .order('Created_at',{ascending:false});
+
     if(state.role === 'client'){
       query = query.eq('Client_id', state.user.id);
     }else if(state.role === 'artisan'){
@@ -576,19 +625,20 @@ document.addEventListener('DOMContentLoaded', function(){
       }
       query = query.eq('Artisan_id', state.user.id).eq('Client_id', clientId);
     }
+
     const { data, error } = await query;
     if(error){
       console.error('Erreur listing Photo:', error);
-      return renderGallery([], 'Impossible de charger les photos. Réessayez.');
+      return renderGallery([], 'Impossible de charger les photos. Vérifiez les règles RLS.');
     }
-    // Générer URLs signées (1h)
+
+    // URLs signées (1h)
     const paths = (data || []).map(r => r.Url);
     let signed = [];
     if(paths.length){
       const { data: signedRes, error: signErr } = await sb.storage.from(state.bucket).createSignedUrls(paths, 3600);
       if(signErr){
         console.warn('Erreur URL signées:', signErr);
-        // fallback: aucune image affichée si bucket privé
         signed = paths.map(_ => ({ signedUrl: null }));
       }else{
         signed = signedRes;
@@ -607,9 +657,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
   async function fetchArtisanName(artisanId){
     if(!artisanId) return '';
-    const { data, error } = await sb.from('Users').select('name,email').eq('id', artisanId).single();
+    const { data, error } = await sb.from('Users').select('name,email').eq('id', artisanId).maybeSingle();
     if(error) return '';
-    return data.name || data.email || '';
+    return data?.name || data?.email || '';
   }
 
   async function renderGallery(rows, infoText){
@@ -617,7 +667,6 @@ document.addEventListener('DOMContentLoaded', function(){
     if(infoText){ setText(ui.galleryInfo, infoText); show(ui.galleryInfo); } else { hide(ui.galleryInfo); }
 
     if(!rows || !rows.length){
-      // petit placeholder visuel
       const empty = document.createElement('div');
       empty.className = 'info center';
       empty.innerHTML = 'Rien à afficher pour le moment.';
@@ -625,10 +674,7 @@ document.addEventListener('DOMContentLoaded', function(){
       return;
     }
 
-    // Si côté client, on affiche aussi l’artisan (meta)
     const needByLine = (state.role === 'client');
-
-    // Optionnel: précharger noms artisans pour limiter les requêtes successives
     const byCache = {};
     for(const r of rows){
       const card = document.createElement('div');
@@ -680,8 +726,8 @@ document.addEventListener('DOMContentLoaded', function(){
     const flike = `%${q}%`;
     const { data, error } = await sb
       .from('Users')
-      .select('id,name,email')
-      .eq('role','client')
+      .select('id,name,email,role')
+      .ilike('role','client') // insensible à la casse
       .or(`name.ilike.${flike},email.ilike.${flike}`)
       .limit(20);
     if(error){
@@ -689,7 +735,7 @@ document.addEventListener('DOMContentLoaded', function(){
       ui.clientResults.style.display = 'none';
       return;
     }
-    renderClientResults(data||[]);
+    renderClientResults((data||[]).filter(u => (u.role||'').toString().toLowerCase()==='client'));
   }
 
   function renderClientResults(rows){
@@ -731,18 +777,16 @@ document.addEventListener('DOMContentLoaded', function(){
     }
   }
 
-  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m])); }
-
   // Upload (artisans uniquement)
   async function uploadPhotos(){
     const files = ui.fileInput.files;
     if(!files || !files.length) { ui.uploadProgress.textContent = 'Veuillez choisir au moins une image.'; return; }
     if(!state.selectedClient){ ui.uploadProgress.textContent = 'Sélectionnez un client avant d’envoyer.'; return; }
+    if(state.role!=='artisan'){ ui.uploadProgress.textContent = 'Seuls les artisans peuvent envoyer des photos.'; return; }
 
     ui.uploadBtn.disabled = true;
     ui.uploadProgress.textContent = 'Téléversement en cours...';
 
-    // Détection bucket si besoin
     await detectBucket();
 
     let ok = 0, fail = 0;
@@ -751,43 +795,29 @@ document.addEventListener('DOMContentLoaded', function(){
       const fname = `${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
       const path = `artisans/${state.user.id}/clients/${state.selectedClient.id}/${fname}`;
 
-      // Upload Storage
       const { error: upErr } = await sb.storage.from(state.bucket).upload(path, file, {
-        cacheControl: '3600',
-        upsert: false,
-        contentType: file.type || 'image/jpeg'
+        cacheControl: '3600', upsert: false, contentType: file.type || 'image/jpeg'
       });
-      if(upErr){
-        console.error('Upload erreur:', upErr);
-        fail++;
-        continue;
-      }
+      if(upErr){ console.error('Upload erreur:', upErr); fail++; continue; }
 
-      // Insert table Photo (P majuscule)
       const { error: insErr } = await sb.from('Photo').insert({
         Artisan_id: state.user.id,
         Client_id: state.selectedClient.id,
         Url: path,
         Created_at: new Date().toISOString()
       });
-      if(insErr){
-        console.error('Insert Photo erreur:', insErr);
-        fail++;
-      }else{
-        ok++;
-      }
+      if(insErr){ console.error('Insert Photo erreur:', insErr); fail++; } else { ok++; }
     }
 
     ui.uploadProgress.textContent = `Terminé: ${ok} envoyé(s), ${fail} échec(s).`;
     ui.uploadBtn.disabled = false;
     ui.fileInput.value = '';
-    // Rafraîchir la galerie du client sélectionné
     if(state.selectedClient){ listPhotosForClient(state.selectedClient.id); }
   }
 
   // Init principal
   async function initSuiviChantier(){
-    // Réinitialiser UI
+    // Reset UI
     hide(ui.anon); hide(ui.roleBadge); hide(ui.artisanTools); hide(ui.clientView);
     setText(ui.roleLabel, '');
     updateSelectedClientUI();
@@ -796,23 +826,27 @@ document.addEventListener('DOMContentLoaded', function(){
     clearNode(ui.gallery);
     hide(ui.galleryInfo);
 
-    // Session
-    const { data: { user } } = await sb.auth.getUser();
+    const user = await getSessionUser();
     if(!user){
       show(ui.anon);
       return;
     }
 
-    // Détecter bucket en amont (optionnel, rapide)
+    // Bucket (asynchrone, non bloquant)
     detectBucket().catch(()=>{});
 
     // Profil / rôle
-    const me = await fetchMyProfile();
+    const me = await ensureProfile();
     if(!me){
+      // connecté mais profil non accessible
       show(ui.anon);
+      ui.anon.firstElementChild.textContent = "Votre profil n'est pas accessible. Contactez l’administrateur.";
       return;
     }
-    setText(ui.roleLabel, (state.role==='artisan' ? 'Artisan' : (state.role==='client' ? 'Client' : 'Utilisateur')));
+
+    state.me = me;
+    state.role = (me.role || '').toLowerCase().trim();
+    setText(ui.roleLabel, state.role==='artisan' ? 'Artisan' : (state.role==='client' ? 'Client' : 'Utilisateur'));
     show(ui.roleBadge);
 
     if(state.role === 'artisan'){
@@ -822,9 +856,8 @@ document.addEventListener('DOMContentLoaded', function(){
     }else if(state.role === 'client'){
       hide(ui.artisanTools);
       show(ui.clientView);
-      await listPhotosForClient(); // charge tout pour ce client
+      await listPhotosForClient();
     }else{
-      // rôle inconnu: accès lecture par défaut = rien
       renderGallery([], 'Votre rôle n’est pas reconnu. Contactez l’administrateur.');
     }
   }
@@ -954,7 +987,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </nav>
 
 <script>
-  // Détecte si l'utilisateur est connecté (existant: peut être conservé ou retiré)
+  // Détection locale (facultative)
   const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
   const profileBtn = document.getElementById('bn-profile');
   const profileLabel = document.getElementById('bn-profile-label');
