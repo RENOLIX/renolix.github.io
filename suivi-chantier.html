@@ -3,175 +3,856 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RENOLIX - Suivi du chantier</title>
+<title>RENOLIX - Suivi de chantier</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <style>
-/* === STYLES (inchangés sauf petits fix) === */
-:root{ --gold:#d4af37; --gold-dark:#b8860b; --text:#222; --muted:#555; --bg:#fff; --shadow:0 10px 25px rgba(0,0,0,0.12); }
-*{box-sizing:border-box}
-body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);padding-bottom:84px}
-header{display:flex;align-items:center;justify-content:space-between;padding:5px 20px;height:60px;position:fixed;width:100%;top:0;left:0;z-index:1000;background:rgba(255,255,255,0.97);box-shadow:0 2px 10px rgba(0,0,0,0.08);backdrop-filter:saturate(120%) blur(6px)}
-.logo-container img{width:50px}
-.header-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center}
-.header-center h1{margin:0;font-size:24px;font-family:'Playfair Display',serif;font-weight:700;letter-spacing:1px;background:linear-gradient(-45deg,#000 20%,var(--gold) 50%,#000 80%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:luxuryShine 2.2s linear infinite}
-@keyframes luxuryShine{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.connexion-btn{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff!important;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700}
-.suivi-wrap{display:grid;grid-template-columns:340px 1fr;gap:24px;margin-top:80px;padding:40px 10%}
-@media(max-width:980px){.suivi-wrap{grid-template-columns:1fr}}
-.card{background:#fff;border:2px solid var(--gold);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
-.card h3{margin:0 0 12px;color:var(--gold-dark)}
-.badge{padding:4px 8px;border-radius:999px;border:1px solid var(--gold);font-size:12px}
-.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-.card-photo{border:1px solid #ddd;border-radius:14px;overflow:hidden;background:#fff}
-.card-photo img{width:100%;height:200px;object-fit:cover}
-.meta{padding:8px;font-size:12px;color:#555}
-.feed-empty{padding:20px;text-align:center;color:#777;border:1px dashed #ddd;border-radius:12px}
-.dropzone{border:2px dashed var(--gold);border-radius:14px;padding:16px;text-align:center;background:#fffdf4}
-.thumb-list{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-.thumb{width:90px;height:90px;overflow:hidden;border-radius:10px}
-.thumb img{width:100%;height:100%;object-fit:cover}
-.btn{padding:8px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:700}
-.btn.gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#fff}
-.btn.ghost{background:#fff;border:2px solid var(--gold);color:var(--gold-dark)}
-footer{background:#f9f9f9;text-align:center;padding:20px;margin-top:40px;font-size:14px}
+/* Structure globale pour footer collé en bas */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family:'Montserrat',sans-serif;
+  background:#fff;
+  color:#222;
+}
+
+main { flex: 1; }
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  height: 60px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.logo-container {display:flex;align-items:center;}
+.logo-container img{width:50px;height:auto;}
+.header-center {position: absolute; left: 46%; letter-spacing: 2px; transform: translateX(-50%); text-align: center;}
+.header-center a { text-decoration: none; }
+.header-center h1 {
+  margin:0;font-size:28.5px;font-family:'Playfair Display', serif;font-weight:700;
+  background: linear-gradient(-45deg,#000 20%,#d4af37 50%,#000 80%);
+  background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation: luxuryShine 2.2s linear infinite;
+}
+@keyframes luxuryShine {0% {background-position:200% 0;}100% {background-position:-200% 0;}}
+.menu { display: flex; align-items: center; padding-right: 25px; }
+
+/* IMPORTANT: cibler uniquement la nav du header (pour ne pas affecter la bottom-nav) */
+header nav { display:flex; gap:15px; align-items:center; }
+header nav a { color:#222; text-decoration:none; font-weight:500; transition:.3s; }
+header nav a:hover { color:#d4af37; }
+
+/* Bouton Connexion (même style que l’accueil) */
+.connexion-btn {
+  display:inline-block;
+  background:linear-gradient(90deg,#d4af37,#b8860b);
+  color:#fff !important;
+  font-weight:bold;
+  padding:8px 18px;
+  border-radius:20px;
+  text-decoration:none;
+  margin-top:10px;
+  transition:0.3s;
+  text-align:center;
+}
+.connexion-btn:hover { box-shadow:0 0 15px #d4af37; }
+
+/* Hamburger */
+.menu-toggle { display:none; flex-direction:column; cursor:pointer; padding:8px; margin-right:10px; }
+.menu-toggle div { width:25px; height:3px; background:#222; margin:4px 0; transition:0.3s; }
+
+/* Sous-menu Réalisations */
+.submenu {
+  display:none;
+  flex-direction:column;
+  padding-left:15px;
+  margin-top:5px;
+  border-left:2px solid #d4af37;
+  animation:submenuSlide 0.4s ease forwards;
+}
+.submenu a { padding:8px 15px; font-weight:500; border-radius:8px; transition:all 0.3s ease; }
+.submenu a:hover { background:linear-gradient(90deg,#ffd700,#d4af37); color:#222; box-shadow:0 0 8px #ffd700, 0 0 15px #d4af37; }
+@keyframes submenuSlide {0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
+
+/* Mobile */
+@media(max-width:768px){
+  header nav {
+    position:absolute; top:60px; right:10px; width:220px; flex-direction:column; display:none;
+    padding:15px 20px; background: rgba(255,255,255,0.3); backdrop-filter: blur(12px);
+    border: 2px solid #d4af37; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 1050;
+    transition: all 0.4s ease;
+  }
+  header nav.active {display:flex; flex-direction:column;}
+  header nav a { margin:5px 0; padding:10px 15px; font-weight: 600; color:#222; text-transform: uppercase;
+          letter-spacing: 1px; border-radius: 10px; transition: all 0.3s ease; }
+  header nav a:hover { background: linear-gradient(90deg,#d4af37,#ffd700); color:#fff; 
+               box-shadow: 0 0 10px #ffd700, 0 0 20px #d4af37; }
+  .menu-toggle {display:flex;}
+}
+
+/* Section générique + Suivi */
+section { padding:60px 10%; }
+.suivi-section { padding: 120px 10% 90px; }
+h2 { text-align:center; margin-bottom:25px; font-size:28px; }
+
+.suivi-wrap{
+  max-width:1100px;margin:0 auto;
+  display:flex;flex-direction:column;gap:18px;
+}
+
+.role-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid #e8e8e8;border-radius:999px;
+  padding:8px 12px;background:#fafafa;color:#333;font-weight:600;width:max-content;
+}
+
+.helper{
+  color:#666;font-size:14px;line-height:1.5;margin-top:-6px;
+}
+
+/* Zone Artisan: recherche + sélection client */
+.client-search{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  background:#fff;border:1px solid #eee;border-radius:12px;padding:12px 14px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
+}
+.client-search input{
+  flex:1;min-width:220px;border:1px solid #ddd;border-radius:10px;padding:10px 12px;
+  outline:none;transition:.2s;
+}
+.client-search input:focus{border-color:#d4af37;box-shadow:0 0 0 4px rgba(212,175,55,0.12);}
+.client-results{
+  border:1px solid #eee;border-radius:12px;overflow:hidden;background:#fff;
+  max-height:260px;overflow-y:auto;display:none;
+}
+.client-item{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:10px 14px;border-bottom:1px solid #f4f4f4;cursor:pointer;
+}
+.client-item:hover{background:#fff8e6;}
+.client-item strong{color:#333;}
+.client-item small{color:#777;}
+.selected-chip{
+  display:inline-flex;align-items:center;gap:8px;background:#faf7ef;border:1px dashed rgba(212,175,55,0.5);
+  padding:8px 12px;border-radius:999px;font-weight:600;color:#6b5a22;
+}
+
+/* Upload card (artisans uniquement) */
+.upload-card{
+  border:1px solid #eee;border-radius:14px;padding:14px;background:#fff;
+  box-shadow:0 10px 22px rgba(0,0,0,0.07);
+}
+.upload-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+input[type="file"]{
+  border:1px dashed #ccc;padding:10px;border-radius:10px;background:#fafafa;
+}
+.button{
+  background:linear-gradient(90deg,#d4af37,#b8860b);color:#fff;border:none;border-radius:12px;
+  padding:10px 16px;font-weight:700;cursor:pointer;transition:.2s;
+}
+.button:hover{box-shadow:0 0 14px rgba(212,175,55,0.6);transform:translateY(-1px);}
+.button[disabled]{opacity:.5;cursor:not-allowed;box-shadow:none;transform:none;}
+.progress{
+  font-size:13px;color:#666;margin-top:8px;
+}
+
+/* Galerie */
+.gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+.card{
+  background:#fff;border:1px solid #eee;border-radius:12px;overflow:hidden;
+  box-shadow:0 8px 18px rgba(0,0,0,0.08);
+}
+.card img{width:100%;height:200px;object-fit:cover;display:block;}
+.card .meta{padding:10px 12px;font-size:12px;color:#666;display:flex;justify-content:space-between;gap:8px;align-items:center;}
+.meta .time{white-space:nowrap;}
+.meta .by{color:#333;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* Placeholder / états */
+.info{
+  border:1px solid #eee;background:#fafafa;border-radius:12px;padding:14px;color:#555;
+}
+.center{text-align:center;}
+.muted{color:#777;}
+.hidden{display:none;}
+
+/* Footer */
+footer { 
+  background:#f9f9f9; 
+  padding:25px; 
+  text-align:center; 
+  color:#555; 
+  font-size:14px; 
+  border-top:1px solid #eee; 
+  margin-top:auto;
+}
+footer a { color:#d4af37; text-decoration:none; margin:0 10px; }
+
+/* PROFILE MENU */
+.profile {position:relative;margin:0 8px 0 6px;z-index:1100;}
+.profile-btn {
+  width:38px;height:38px;border-radius:50%;border:2px solid transparent;
+  background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#333,#333) border-box;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s ease;
+}
+.profile-btn:hover {box-shadow:0 0 12px rgba(212,175,55,0.8);transform:translateY(-2px);}
+.profile-btn svg {width:20px;height:20px;fill:#333;}
+.profile-dropdown {
+  position:absolute;top:46px;right:0;min-width:230px;background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);border:2px solid #d4af37;border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);padding:8px;display:none;
+}
+.profile-dropdown.open {display:block;animation:submenuSlide 0.25s ease forwards;}
+.profile-email {font-size:13px;color:#444;margin:4px 8px 8px;padding:6px 8px;background:#faf7ef;border:1px dashed rgba(212,175,55,0.5);border-radius:8px;}
+.profile-item {display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;color:#222;text-decoration:none;font-weight:600;transition:all 0.3s ease;}
+.profile-item:hover {background:linear-gradient(90deg,#ffd700,#d4af37);color:#fff;box-shadow:0 0 10px #ffd700,0 0 18px #d4af37;}
+.profile-divider {height:1px;margin:6px 4px;background:linear-gradient(90deg,transparent,#d4af37,transparent);}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo-container"><img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo"></div>
-  <div class="header-center"><h1>RENOLIX</h1></div>
-  <a href="login.html" id="navAuthLink" class="connexion-btn">Connexion</a>
+  <div class="logo-container">
+    <img src="https://i.postimg.cc/hjNvjvcc/Logo-Cosm-tiques-Minimaliste-Luxe-Noir-Blanc-Dor-20250711-192039-0000.png" alt="Logo Renolix">
+  </div>
+  <div class="header-center"><a href="index.html"><h1>RENOLIX</h1></a></div>
+  <div class="menu">
+    <nav id="nav-links">
+      <a href="index.html">Accueil</a>
+      <div>
+        <a href="#" id="realisations-btn">Réalisations ▼</a>
+        <div class="submenu" id="realisations-submenu">
+          <a href="placo-platre.html">Placo & Plâtre</a>
+          <a href="Peinture.html">Peinture</a>
+          <a href="dalle-de-sol.html">Dalle de sol</a>
+          <a href="Plomberie.html">Plomberie</a>
+          <a href="électricité.html">Électricité</a>
+          <a href="cuisine-&-dressing.html">Cuisine & Dressing</a>
+        </div>
+      </div>
+      <a href="devis-gratuit.html">Devis Gratuit</a>
+      <a href="à-propos.html">À propos</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" id="navAuthLink" class="connexion-btn" data-mode="login">Connexion</a>
+    </nav>
+
+    <!-- Icône Profil -->
+    <div class="profile" id="profile">
+      <button class="profile-btn" id="profileButton" aria-label="Ouvrir le menu profil" aria-haspopup="menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.69-8 6v1h16v-1c0-3.31-3.58-6-8-6Z"></path>
+        </svg>
+      </button>
+      <div class="profile-dropdown" id="profileDropdown" role="menu" aria-hidden="true">
+        <div id="profile-logged-in" class="hidden">
+          <div class="profile-email"><strong>Email:</strong> <span id="profileEmail"></span></div>
+          <a href="profil.html" class="profile-item" role="menuitem">Profil</a>
+          <a href="parametres.html" class="profile-item" role="menuitem">Paramètres</a>
+          <div class="profile-divider"></div>
+          <a href="#" id="logoutBtn" class="profile-item" role="menuitem">Déconnexion</a>
+        </div>
+        <div id="profile-logged-out" class="hidden">
+          <a href="login.html" class="profile-item" role="menuitem">Connexion / Inscription</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </div>
 </header>
 
-<section>
-  <h2>Suivi du chantier <span class="badge" id="roleBadge">...</span></h2>
-  <div class="suivi-wrap">
-    <!-- Panneau ARTISAN -->
-    <aside class="card" id="artisanPanel" style="display:none;">
-      <h3>Envoyer des photos</h3>
-      <div id="dropzone" class="dropzone">
-        <p>Glissez-déposez vos images ou <button id="pickBtn" class="btn ghost" type="button">Parcourir</button></p>
-        <input id="fileInput" type="file" accept="image/*" multiple style="display:none;">
-        <div class="thumb-list" id="thumbList"></div>
-      </div>
-      <div style="margin-top:10px;text-align:right">
-        <button id="sendBtn" class="btn gold">Envoyer</button>
-      </div>
-      <div id="statusMsg" style="font-size:12px;color:#777;margin-top:6px"></div>
-    </aside>
+<main>
+  <!-- Section Suivi de chantier -->
+  <section class="suivi-section" id="suivi">
+    <div class="suivi-wrap">
+      <h2>Suivi de chantier</h2>
 
-    <!-- Flux CLIENT -->
-    <main>
-      <div class="card">
-        <div id="feedEmpty" class="feed-empty">Aucune photo pour le moment.</div>
-        <div id="feed" class="feed"></div>
+      <!-- État non connecté -->
+      <div id="suivi-anon" class="info center hidden">
+        Vous devez être connecté pour accéder au suivi. <a href="login.html" class="button" style="margin-left:8px;">Se connecter</a>
       </div>
-    </main>
-  </div>
-</section>
 
-<footer>&copy; 2025 RENOLIX. Tous droits réservés.</footer>
+      <!-- Bandeau rôle -->
+      <div id="role-badge" class="role-badge hidden">
+        <i class="bi bi-person-badge"></i>
+        <span id="role-label"></span>
+      </div>
 
+      <!-- Zone ARTISAN: recherche + upload -->
+      <div id="artisan-tools" class="hidden">
+        <div class="client-search">
+          <i class="bi bi-search" aria-hidden="true"></i>
+          <input id="clientQuery" type="text" placeholder="Rechercher un client (nom ou email)..." autocomplete="off" />
+          <button id="clearSelection" class="button" type="button" title="Effacer la sélection" style="background:#eee;color:#333;box-shadow:none;">Effacer</button>
+          <span id="selectedClientChip" class="selected-chip hidden"></span>
+        </div>
+        <div id="clientResults" class="client-results" role="listbox" aria-label="Résultats clients"></div>
+
+        <div class="upload-card" id="uploadCard">
+          <div class="helper" style="margin-bottom:6px;">
+            Sélectionnez un client puis ajoutez des photos à lui partager. Les fichiers sont stockés de façon sécurisée et horodatés.
+          </div>
+          <div class="upload-row">
+            <input id="fileInput" type="file" accept="image/*" multiple />
+            <button id="uploadBtn" class="button" type="button" disabled>Envoyer les photos</button>
+          </div>
+          <div id="uploadProgress" class="progress"></div>
+        </div>
+      </div>
+
+      <!-- Galerie CLIENT (toutes les photos reçues) -->
+      <div id="client-view" class="hidden">
+        <div class="info">
+          Voici les photos envoyées par votre artisan. Elles sont classées de la plus récente à la plus ancienne.
+        </div>
+      </div>
+
+      <!-- Galerie (réutilisée côté client et artisan) -->
+      <div id="galleryWrap">
+        <div id="galleryInfo" class="info hidden"></div>
+        <div id="gallery" class="gallery"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 RENOLIX. Tous droits réservés.</p>
+  <p>
+    <a href="https://www.instagram.com/renolix.dz?igsh=M3JsZXd0NTJjY3d6" target="_blank">Instagram</a> |
+    <a href="https://www.facebook.com/share/1724QHzM9r/" target="_blank">Facebook</a> |
+    <a href="https://wa.me/213542093648" target="_blank">WhatsApp</a>
+  </p>
+</footer>
+
+<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener('DOMContentLoaded', function(){
+  // Supabase client
   const { createClient } = supabase;
   const supabaseUrl = "https://kawlncpapaxdzjyhnhhz.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imthd2xuY3BhcGF4ZHpqeWhuaGh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4NjkwMjEsImV4cCI6MjA3MjQ0NTAyMX0.jm-6Ll26WU-y0EMCBMR7Zv_aX7XU3iPomuMZNofps2U";
   const sb = createClient(supabaseUrl, supabaseKey);
+  window._sb = sb; // debug facultatif
 
-  const roleBadge = document.getElementById("roleBadge");
-  const artisanPanel = document.getElementById("artisanPanel");
-  const feed = document.getElementById("feed");
-  const feedEmpty = document.getElementById("feedEmpty");
-  const fileInput = document.getElementById("fileInput");
-  const pickBtn = document.getElementById("pickBtn");
-  const sendBtn = document.getElementById("sendBtn");
-  const thumbList = document.getElementById("thumbList");
-  const statusMsg = document.getElementById("statusMsg");
-
-  let currentUser = null;
-  let currentRole = null;
-  let selectedFiles = [];
-
-  // === Auth ===
-  const { data: { user } } = await sb.auth.getUser();
-  if (!user) {
-    roleBadge.textContent = "Non connecté";
-    return;
-  }
-  currentUser = user;
-
-  // Récupérer rôle dans la table Users
-  const { data: udata } = await sb.from("Users").select("role").eq("id", user.id).single();
-  currentRole = udata?.role || "client";
-  roleBadge.textContent = currentRole;
-
-  if (currentRole === "artisan") {
-    artisanPanel.style.display = "block";
+  // UI header/menu existants
+  const nav = document.getElementById('nav-links');
+  const navAuthLink = document.getElementById('navAuthLink');
+  const submenuBtn = document.getElementById('realisations-btn');
+  const submenu = document.getElementById('realisations-submenu');
+  window.toggleMenu = function(){ if(nav){ nav.classList.toggle('active'); } };
+  function closeMenu(){ nav && nav.classList.remove('active'); }
+  if(submenuBtn){
+    submenuBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if(!submenu) return;
+      submenu.style.display = (submenu.style.display === "flex" ? "none" : "flex");
+      submenu.style.flexDirection = "column";
+    });
   }
 
-  // === Upload ===
-  pickBtn.addEventListener("click", () => fileInput.click());
-  fileInput.addEventListener("change", (e) => {
-    selectedFiles = [...e.target.files];
-    thumbList.innerHTML = "";
-    selectedFiles.forEach(f => {
-      const div = document.createElement("div");
-      div.className = "thumb";
-      const img = document.createElement("img");
-      img.src = URL.createObjectURL(f);
-      div.appendChild(img);
-      thumbList.appendChild(div);
+  // Profile dropdown
+  const profileButton   = document.getElementById('profileButton');
+  const profileDropdown = document.getElementById('profileDropdown');
+  const loggedInBox     = document.getElementById('profile-logged-in');
+  const loggedOutBox    = document.getElementById('profile-logged-out');
+  const profileEmailEl  = document.getElementById('profileEmail');
+  const logoutBtn       = document.getElementById('logoutBtn');
+
+  function openProfile(){ if(profileDropdown){ profileDropdown.classList.add('open'); profileButton.setAttribute('aria-expanded','true'); profileDropdown.setAttribute('aria-hidden','false'); } }
+  function closeProfile(){ if(profileDropdown){ profileDropdown.classList.remove('open'); profileButton.setAttribute('aria-expanded','false'); profileDropdown.setAttribute('aria-hidden','true'); } }
+  function toggleProfile(){ profileDropdown && (profileDropdown.classList.contains('open') ? closeProfile() : openProfile()); }
+
+  if(profileButton){ profileButton.addEventListener('click', (e)=>{ e.stopPropagation(); toggleProfile(); }); }
+  document.addEventListener('click', (e)=>{ if(profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileButton){ closeProfile(); }});
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ closeProfile(); }});
+
+  // Auth UI (dropdown)
+  async function updateProfileUI(){
+    try{
+      const { data: { user } } = await sb.auth.getUser();
+      if(user){
+        loggedOutBox && loggedOutBox.classList.add('hidden');
+        loggedInBox  && loggedInBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = user.email || '';
+      }else{
+        loggedInBox  && loggedInBox.classList.add('hidden');
+        loggedOutBox && loggedOutBox.classList.remove('hidden');
+        if(profileEmailEl) profileEmailEl.textContent = '';
+      }
+    }catch(err){
+      console.error("Erreur récupération utilisateur:", err);
+      loggedInBox  && loggedInBox.classList.add('hidden');
+      loggedOutBox && loggedOutBox.classList.remove('hidden');
+    }
+  }
+
+  // Header/hamburger: Connexion -> Déconnexion
+  function syncHeaderAuthLink(){
+    if(!navAuthLink) return;
+    sb.auth.getUser().then(({data:{user}})=>{
+      const clone = navAuthLink.cloneNode(true);
+      navAuthLink.parentNode.replaceChild(clone, navAuthLink);
+      const link = document.getElementById('navAuthLink');
+
+      if(user){
+        link.textContent = 'Déconnexion';
+        link.setAttribute('href', '#');
+        link.dataset.mode = 'logout';
+        link.addEventListener('click', async (e)=>{
+          e.preventDefault();
+          await signOutAndGoHome();
+        });
+      }else{
+        link.textContent = 'Connexion';
+        link.setAttribute('href', 'login.html');
+        link.dataset.mode = 'login';
+      }
+    });
+  }
+
+  // Bottom-nav: Se connecter -> Profil
+  const bnProfile = document.getElementById('bn-profile');
+  const bnProfileLabel = document.getElementById('bn-profile-label');
+
+  function updateBottomNavAuthUI(){
+    if(!bnProfile || !bnProfileLabel) return;
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){
+        bnProfile.setAttribute('href','profil.html');
+        bnProfileLabel.textContent = 'Profil';
+        bnProfile.removeAttribute('data-auth');
+      }else{
+        bnProfile.setAttribute('href','login.html');
+        bnProfileLabel.textContent = 'Se connecter';
+        bnProfile.setAttribute('data-auth','required');
+      }
+    });
+  }
+
+  // Déconnexion + redirection accueil (avec refresh)
+  async function signOutAndGoHome(){
+    try{
+      await sb.auth.signOut();
+    }catch(err){
+      console.error('Erreur déconnexion:', err);
+    }finally{
+      closeProfile();
+      closeMenu();
+      location.replace('index.html');
+    }
+  }
+
+  if(logoutBtn){
+    logoutBtn.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      await signOutAndGoHome();
+    });
+  }
+
+  // Bottom-nav: état actif + garde d’auth
+  (function setActiveBottomNav(){
+    const path = (location.pathname || "").toLowerCase();
+    document.querySelectorAll('.bottom-nav .bn-item').forEach(a=>{
+      const route = (a.getAttribute('data-route')||"").toLowerCase();
+      if(route && (path.endsWith(route) || (route==='index.html' && (path.endsWith('/') || path==='')))){
+        a.classList.add('active');
+      }
+    });
+  })();
+
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('.bottom-nav a[data-auth="required"]');
+    if(!a) return;
+    e.preventDefault();
+    sb.auth.getUser().then(({data:{user}})=>{
+      if(user){ location.href = a.getAttribute('href'); }
+      else{
+        const next = encodeURIComponent(a.getAttribute('href'));
+        location.href = 'login.html?next='+next;
+      }
+    }).catch(()=>{
+      const next = encodeURIComponent(a.getAttribute('href'));
+      location.href = 'login.html?next='+next;
     });
   });
 
-  sendBtn.addEventListener("click", async () => {
-    if (!selectedFiles.length) return;
-    statusMsg.textContent = "Envoi en cours...";
-    for (const file of selectedFiles) {
-      const path = `${Date.now()}-${file.name}`;
-      const { error: uploadError } = await sb.storage.from("chantier_photo").upload(path, file);
-      if (uploadError) { console.error(uploadError); continue; }
-      const { data: { publicUrl } } = sb.storage.from("chantier_photo").getPublicUrl(path);
-      await sb.from("Photos").insert({
-        Client_id: currentUser.id,
-        Artisan_id: currentUser.id,
-        Url: publicUrl,
-        role: currentRole
-      });
-    }
-    statusMsg.textContent = "Photos envoyées ✅";
-    selectedFiles = [];
-    thumbList.innerHTML = "";
-    loadFeed();
+  // Init + listeners (header)
+  updateProfileUI();
+  syncHeaderAuthLink();
+  updateBottomNavAuthUI();
+
+  sb.auth.onAuthStateChange((_event,_session)=>{
+    updateProfileUI();
+    syncHeaderAuthLink();
+    updateBottomNavAuthUI();
+    initSuiviChantier(); // re-init l'interface de suivi si session change
   });
 
-  // === Feed ===
-  async function loadFeed() {
-    const { data: photos } = await sb.from("Photos").select("*").order("created_at", { ascending: false });
-    feed.innerHTML = "";
-    if (!photos || !photos.length) {
-      feedEmpty.style.display = "block";
+  // =======================
+  //  Suivi de chantier
+  // =======================
+  const ui = {
+    anon: document.getElementById('suivi-anon'),
+    roleBadge: document.getElementById('role-badge'),
+    roleLabel: document.getElementById('role-label'),
+    artisanTools: document.getElementById('artisan-tools'),
+    clientView: document.getElementById('client-view'),
+    gallery: document.getElementById('gallery'),
+    galleryInfo: document.getElementById('galleryInfo'),
+    clientQuery: document.getElementById('clientQuery'),
+    clientResults: document.getElementById('clientResults'),
+    selectedClientChip: document.getElementById('selectedClientChip'),
+    clearSelection: document.getElementById('clearSelection'),
+    fileInput: document.getElementById('fileInput'),
+    uploadBtn: document.getElementById('uploadBtn'),
+    uploadProgress: document.getElementById('uploadProgress'),
+  };
+
+  const state = {
+    user: null,
+    me: null,         // row Users
+    role: null,       // 'artisan' | 'client' | null
+    bucket: 'Photos_chantiers',
+    bucketFallbackTried: false,
+    selectedClient: null,
+  };
+
+  // Tentative de détection du bon nom de bucket (Photos_chantiers ou Photos_chantiers.)
+  async function detectBucket(){
+    const candidates = ['Photos_chantiers','Photos_chantiers.'];
+    for(const name of candidates){
+      try{
+        const { data, error } = await sb.storage.from(name).list('', { limit: 1 });
+        if(!error){ state.bucket = name; return name; }
+      }catch(_){}
+    }
+    // si rien ne marche, on garde la valeur par défaut
+    return state.bucket;
+  }
+
+  // Helpers UI
+  function show(el){ el && el.classList.remove('hidden'); }
+  function hide(el){ el && el.classList.add('hidden'); }
+  function setText(el, t){ if(el) el.textContent = t; }
+  function clearNode(el){ if(!el) return; while(el.firstChild) el.removeChild(el.firstChild); }
+
+  // Récupérer mon rôle depuis table "Users" (U majuscule)
+  async function fetchMyProfile(){
+    const { data: { user } } = await sb.auth.getUser();
+    state.user = user || null;
+    if(!user) return null;
+    const { data, error } = await sb.from('Users').select('id,email,name,role').eq('id', user.id).single();
+    if(error){
+      console.error('Erreur chargement profil Users:', error);
+      return null;
+    }
+    state.me = data;
+    state.role = (data.role || '').toLowerCase().trim();
+    return data;
+  }
+
+  // Chargement des photos + rendu
+  async function listPhotosForClient(clientId){
+    // Client connecté (voit tout ce reçu) OU Artisan avec client sélectionné (voit ce qu'il a envoyé à ce client)
+    let query = sb.from('Photo').select('id,Artisan_id,Client_id,Url,Created_at').order('Created_at',{ascending:false});
+    if(state.role === 'client'){
+      query = query.eq('Client_id', state.user.id);
+    }else if(state.role === 'artisan'){
+      if(!clientId){
+        return renderGallery([], 'Sélectionnez un client pour voir/ajouter des photos.');
+      }
+      query = query.eq('Artisan_id', state.user.id).eq('Client_id', clientId);
+    }
+    const { data, error } = await query;
+    if(error){
+      console.error('Erreur listing Photo:', error);
+      return renderGallery([], 'Impossible de charger les photos. Réessayez.');
+    }
+    // Générer URLs signées (1h)
+    const paths = (data || []).map(r => r.Url);
+    let signed = [];
+    if(paths.length){
+      const { data: signedRes, error: signErr } = await sb.storage.from(state.bucket).createSignedUrls(paths, 3600);
+      if(signErr){
+        console.warn('Erreur URL signées:', signErr);
+        // fallback: aucune image affichée si bucket privé
+        signed = paths.map(_ => ({ signedUrl: null }));
+      }else{
+        signed = signedRes;
+      }
+    }
+    const rows = (data || []).map((r, i) => ({ ...r, signedUrl: signed[i]?.signedUrl || null }));
+    renderGallery(rows, rows.length ? null : (state.role==='client' ? "Aucune photo reçue pour l'instant." : "Aucune photo pour ce client."));
+  }
+
+  function fmtDate(iso){
+    try{
+      const d = new Date(iso);
+      return d.toLocaleString('fr-FR', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+    }catch(_){ return iso; }
+  }
+
+  async function fetchArtisanName(artisanId){
+    if(!artisanId) return '';
+    const { data, error } = await sb.from('Users').select('name,email').eq('id', artisanId).single();
+    if(error) return '';
+    return data.name || data.email || '';
+  }
+
+  async function renderGallery(rows, infoText){
+    clearNode(ui.gallery);
+    if(infoText){ setText(ui.galleryInfo, infoText); show(ui.galleryInfo); } else { hide(ui.galleryInfo); }
+
+    if(!rows || !rows.length){
+      // petit placeholder visuel
+      const empty = document.createElement('div');
+      empty.className = 'info center';
+      empty.innerHTML = 'Rien à afficher pour le moment.';
+      ui.gallery.appendChild(empty);
       return;
     }
-    feedEmpty.style.display = "none";
-    photos.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "card-photo";
-      card.innerHTML = `
-        <img src="${p.Url}" alt="">
-        <div class="meta">${new Date(p.created_at).toLocaleString()}</div>
-      `;
-      feed.appendChild(card);
+
+    // Si côté client, on affiche aussi l’artisan (meta)
+    const needByLine = (state.role === 'client');
+
+    // Optionnel: précharger noms artisans pour limiter les requêtes successives
+    const byCache = {};
+    for(const r of rows){
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const img = document.createElement('img');
+      img.alt = 'Photo de chantier';
+      img.loading = 'lazy';
+      if(r.signedUrl){ img.src = r.signedUrl; }
+      else { img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect width="100%" height="100%" fill="#f3f3f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="14" fill="#999">Aperçu indisponible</text></svg>'); }
+
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const when = document.createElement('span');
+      when.className = 'time';
+      when.textContent = fmtDate(r.Created_at);
+
+      const by = document.createElement('span');
+      by.className = 'by';
+      if(needByLine){
+        if(byCache[r.Artisan_id]){
+          by.textContent = byCache[r.Artisan_id];
+        }else{
+          by.textContent = '...';
+          fetchArtisanName(r.Artisan_id).then(name=>{
+            byCache[r.Artisan_id] = name || 'Artisan';
+            by.textContent = byCache[r.Artisan_id];
+          });
+        }
+      }else{
+        by.textContent = '';
+      }
+
+      meta.appendChild(when);
+      if(needByLine){ meta.appendChild(by); }
+
+      card.appendChild(img);
+      card.appendChild(meta);
+      ui.gallery.appendChild(card);
+    }
+  }
+
+  // Recherche clients (pour artisans)
+  function debounce(fn, ms){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), ms); }; }
+
+  async function searchClients(q){
+    q = (q||'').trim();
+    if(!q){ ui.clientResults.style.display = 'none'; ui.clientResults.innerHTML=''; return; }
+    const flike = `%${q}%`;
+    const { data, error } = await sb
+      .from('Users')
+      .select('id,name,email')
+      .eq('role','client')
+      .or(`name.ilike.${flike},email.ilike.${flike}`)
+      .limit(20);
+    if(error){
+      console.error('Recherche clients erreur:', error);
+      ui.clientResults.style.display = 'none';
+      return;
+    }
+    renderClientResults(data||[]);
+  }
+
+  function renderClientResults(rows){
+    const box = ui.clientResults;
+    box.innerHTML = '';
+    if(!rows.length){ box.style.display = 'none'; return; }
+    rows.forEach(r=>{
+      const item = document.createElement('div');
+      item.className = 'client-item';
+      item.setAttribute('role','option');
+      const left = document.createElement('div');
+      left.innerHTML = `<strong>${escapeHtml(r.name||'Sans nom')}</strong><br/><small>${escapeHtml(r.email||'')}</small>`;
+      const pick = document.createElement('button');
+      pick.className='button';
+      pick.type='button';
+      pick.textContent='Sélectionner';
+      pick.addEventListener('click', ()=>{
+        state.selectedClient = r;
+        updateSelectedClientUI();
+        box.style.display = 'none';
+        listPhotosForClient(r.id);
+      });
+      item.appendChild(left);
+      item.appendChild(pick);
+      box.appendChild(item);
+    });
+    box.style.display = 'block';
+  }
+
+  function updateSelectedClientUI(){
+    if(state.selectedClient){
+      ui.selectedClientChip.innerHTML = `<i class="bi bi-person"></i> ${escapeHtml(state.selectedClient.name||state.selectedClient.email||'Client')}`;
+      show(ui.selectedClientChip);
+      ui.uploadBtn.disabled = false;
+    }else{
+      ui.selectedClientChip.innerHTML = '';
+      hide(ui.selectedClientChip);
+      ui.uploadBtn.disabled = true;
+    }
+  }
+
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m])); }
+
+  // Upload (artisans uniquement)
+  async function uploadPhotos(){
+    const files = ui.fileInput.files;
+    if(!files || !files.length) { ui.uploadProgress.textContent = 'Veuillez choisir au moins une image.'; return; }
+    if(!state.selectedClient){ ui.uploadProgress.textContent = 'Sélectionnez un client avant d’envoyer.'; return; }
+
+    ui.uploadBtn.disabled = true;
+    ui.uploadProgress.textContent = 'Téléversement en cours...';
+
+    // Détection bucket si besoin
+    await detectBucket();
+
+    let ok = 0, fail = 0;
+    for(const file of files){
+      const ext = (file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'') || 'jpg';
+      const fname = `${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
+      const path = `artisans/${state.user.id}/clients/${state.selectedClient.id}/${fname}`;
+
+      // Upload Storage
+      const { error: upErr } = await sb.storage.from(state.bucket).upload(path, file, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: file.type || 'image/jpeg'
+      });
+      if(upErr){
+        console.error('Upload erreur:', upErr);
+        fail++;
+        continue;
+      }
+
+      // Insert table Photo (P majuscule)
+      const { error: insErr } = await sb.from('Photo').insert({
+        Artisan_id: state.user.id,
+        Client_id: state.selectedClient.id,
+        Url: path,
+        Created_at: new Date().toISOString()
+      });
+      if(insErr){
+        console.error('Insert Photo erreur:', insErr);
+        fail++;
+      }else{
+        ok++;
+      }
+    }
+
+    ui.uploadProgress.textContent = `Terminé: ${ok} envoyé(s), ${fail} échec(s).`;
+    ui.uploadBtn.disabled = false;
+    ui.fileInput.value = '';
+    // Rafraîchir la galerie du client sélectionné
+    if(state.selectedClient){ listPhotosForClient(state.selectedClient.id); }
+  }
+
+  // Init principal
+  async function initSuiviChantier(){
+    // Réinitialiser UI
+    hide(ui.anon); hide(ui.roleBadge); hide(ui.artisanTools); hide(ui.clientView);
+    setText(ui.roleLabel, '');
+    updateSelectedClientUI();
+    ui.clientResults.style.display = 'none';
+    ui.uploadProgress.textContent = '';
+    clearNode(ui.gallery);
+    hide(ui.galleryInfo);
+
+    // Session
+    const { data: { user } } = await sb.auth.getUser();
+    if(!user){
+      show(ui.anon);
+      return;
+    }
+
+    // Détecter bucket en amont (optionnel, rapide)
+    detectBucket().catch(()=>{});
+
+    // Profil / rôle
+    const me = await fetchMyProfile();
+    if(!me){
+      show(ui.anon);
+      return;
+    }
+    setText(ui.roleLabel, (state.role==='artisan' ? 'Artisan' : (state.role==='client' ? 'Client' : 'Utilisateur')));
+    show(ui.roleBadge);
+
+    if(state.role === 'artisan'){
+      show(ui.artisanTools);
+      hide(ui.clientView);
+      renderGallery([], 'Recherchez un client puis sélectionnez-le pour voir/envoyer des photos.');
+    }else if(state.role === 'client'){
+      hide(ui.artisanTools);
+      show(ui.clientView);
+      await listPhotosForClient(); // charge tout pour ce client
+    }else{
+      // rôle inconnu: accès lecture par défaut = rien
+      renderGallery([], 'Votre rôle n’est pas reconnu. Contactez l’administrateur.');
+    }
+  }
+
+  // Écouteurs artisan
+  if(ui.clientQuery){
+    ui.clientQuery.addEventListener('input', debounce((e)=> searchClients(e.target.value), 300));
+  }
+  if(ui.clearSelection){
+    ui.clearSelection.addEventListener('click', ()=>{
+      state.selectedClient = null;
+      updateSelectedClientUI();
+      ui.clientQuery.value = '';
+      ui.clientResults.style.display = 'none';
+      clearNode(ui.gallery);
+      renderGallery([], 'Sélectionnez un client pour commencer.');
     });
   }
-  loadFeed();
+  if(ui.uploadBtn){
+    ui.uploadBtn.addEventListener('click', uploadPhotos);
+  }
+
+  // Démarrage
+  initSuiviChantier();
 });
 </script>
 
-<!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro, Devis uniforme, Profil dynamique === -->
+<!-- === Bottom Nav RENOLIX - Thème Gris Foncé Pro === -->
 <style>
   :root{
     --bg-nav:#f5f5f5;         
@@ -264,7 +945,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     <span class="bn-label">Devis</span>
   </a>
 
-  <!-- Initialement Se connecter (après login => Profil) -->
   <a href="login.html" class="bn-item" id="bn-profile" data-route="profil.html" data-auth="required" aria-label="Profil">
     <span class="bn-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z"/><path d="M4 20a8 8 0 0 1 16 0v1H4Z"/></svg>
@@ -274,12 +954,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 </nav>
 
 <script>
-  // Détecte si l'utilisateur est connecté (à adapter à ton système)
+  // Détecte si l'utilisateur est connecté (existant: peut être conservé ou retiré)
   const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-
   const profileBtn = document.getElementById('bn-profile');
   const profileLabel = document.getElementById('bn-profile-label');
-
   if(isLoggedIn){
     profileLabel.textContent = 'Profil';
     profileBtn.href = 'profil.html';
